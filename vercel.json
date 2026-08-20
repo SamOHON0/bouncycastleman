@@ -1,0 +1,52 @@
+{
+  "trailingSlash": true,
+  "cleanUrls": false,
+  "redirects": [
+    {
+      "source": "/index",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/obstacle_courses",
+      "destination": "/obstacle-courses/",
+      "permanent": true
+    },
+    {
+      "source": "/bouncy_castles",
+      "destination": "/bouncy-castles/",
+      "permanent": true
+    },
+    {
+      "source": "/disco_dome",
+      "destination": "/disco-dome/",
+      "permanent": true
+    },
+    {
+      "source": "/marquees",
+      "destination": "/marquees/",
+      "permanent": true
+    },
+    {
+      "source": "/gallery",
+      "destination": "/gallery/",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/",
+      "permanent": true
+    }
+  ],
+  "headers": [
+    {
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
