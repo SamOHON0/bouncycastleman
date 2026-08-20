@@ -23,7 +23,7 @@ import data as D
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
-ASSET_V = {"css": "0", "js": "0"}
+ASSET = {"css": "/assets/styles.css", "js": "/assets/script.js"}
 
 FONTS = ("https://fonts.googleapis.com/css2?"
          "family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800"
@@ -671,13 +671,30 @@ if (yr) yr.textContent = new Date().getFullYear();
 
 
 def build_assets():
+    """Write the stylesheet and script with their content hash in the FILENAME.
+
+    Not in a query string. /assets/ is served with Cache-Control immutable for a
+    year, and a browser that cached styles.css?v=X will keep serving that file
+    for a year if the URL does not change. It bit us once already: the redesign
+    shipped against a year-cached copy of the old stylesheet. A hashed filename
+    cannot go stale, because new content means a new file.
+    """
+    adir = os.path.join(ROOT, "assets")
+    os.makedirs(adir, exist_ok=True)
+    for f in os.listdir(adir):
+        if re.fullmatch(r"(styles|script)\.[0-9a-f]{8}\.(css|js)", f):
+            os.remove(os.path.join(adir, f))
+
     css = CSS.strip() + "\n"
-    ASSET_V["css"] = hashlib.md5(css.encode("utf-8")).hexdigest()[:8]
-    write("assets/styles.css", css)
+    h = hashlib.md5(css.encode("utf-8")).hexdigest()[:8]
+    ASSET["css"] = "/assets/styles.%s.css" % h
+    write("assets/styles.%s.css" % h, css)
+
     js = JS.replace("PHONE_TEL", D.PHONE_TEL).replace("PHONE_DISPLAY", D.PHONE_DISPLAY)
     js = js.strip() + "\n"
-    ASSET_V["js"] = hashlib.md5(js.encode("utf-8")).hexdigest()[:8]
-    write("assets/script.js", js)
+    h = hashlib.md5(js.encode("utf-8")).hexdigest()[:8]
+    ASSET["js"] = "/assets/script.%s.js" % h
+    write("assets/script.%s.js" % h, js)
 
 
 # ------------------------------------------------------------- fragments ----
@@ -746,7 +763,7 @@ def head(title, desc, canon, img=None):
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="{FONTS}" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.css?v={ASSET_V["css"]}">
+<link rel="stylesheet" href="{ASSET["css"]}">
 <script>document.documentElement.className+=" js"</script>
 </head>
 <body>
@@ -893,13 +910,18 @@ def footer():
     <a class="chat-wa" href="{wa}" target="_blank" rel="noopener">{WA_SVG}Continue on WhatsApp</a>
   </div>
 </div>
-<script src="/assets/script.js?v={ASSET_V["js"]}"></script>
+<script src="{ASSET["js"]}"></script>
 </body>
 </html>
 """
 
 
 if __name__ == "__main__":
+    # pages.py does `import generate`. Without this alias Python loads this file
+    # a SECOND time under the name "generate", with its own fresh ASSET dict, so
+    # build_assets() would populate one copy while the pages were built from the
+    # other. That shipped every page pointing at a placeholder asset URL.
+    sys.modules["generate"] = sys.modules["__main__"]
     build_assets()
     import pages
     pages.main()
