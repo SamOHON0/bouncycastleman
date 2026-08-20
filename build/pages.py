@@ -100,7 +100,7 @@ def area_columns():
 # ---------------------------------------------------------------- home ------
 def build_home():
     # Bento: exactly six cells for six categories. First two run wide.
-    tiles = "".join(f"""      <a class="cat" href="/{c['slug']}/" data-reveal>
+    tiles = "".join(f"""      <a class="cat" href="/{c['slug']}/" data-cat="{c['cat']}" data-reveal>
         {shot(c['hero'], c['title'], ratio="16/9" if i < 2 else "4/3")}
         <h3>{c['title']} {ico("arrow")}</h3>
         <p>{esc(c['blurb'])}</p>
@@ -132,6 +132,7 @@ def build_home():
     html += ld(biz()) + ld(faq_ld())
     html += f"""
 <section class="hero">
+  <div class="confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
   <div class="wrap">
     <div class="hero-grid">
       <div>
@@ -242,7 +243,7 @@ def build_categories():
         html = head(f"{c['title']} Hire Tipperary | {D.NAME}",
                     esc(c["intro"])[:158], f"/{c['slug']}/", c["hero"])
         html += page_hero(f"{c['title']} hire in Tipperary", esc(c["blurb"]), c["hero"],
-                          [(None, c["title"])])
+                          [(None, c["title"])], cat=c["cat"])
         html += f"""
 <section>
   <div class="wrap">
@@ -282,7 +283,7 @@ def build_units():
                     f"/hire/{u['slug']}/", u["img"])
         html += ld(prod)
         html += page_hero(esc(u["n"]), esc(u["short"]), D.SOON,
-                          [(f"/{c['slug']}/", c["title"]), (None, esc(u["n"]))])
+                          [(f"/{c['slug']}/", c["title"]), (None, esc(u["n"]))], cat=u["cat"])
         more = ""
         if rel:
             more = f"""
@@ -296,7 +297,7 @@ def build_units():
         html += f"""
 <section>
   <div class="wrap">
-    <div class="unit">
+    <div class="unit" data-cat="{u['cat']}">
       <div>
         {shot(u['img'], u['n'], ratio="16/10", eager=True)}
         <h2>About the {esc(u['n'])}</h2>
@@ -328,7 +329,8 @@ def build_areas():
                 "Cashel, Roscrea, Templemore, Cahir and Carrick on Suir.", "/areas/")
     html += page_hero("Areas we cover",
                       "Tipperary and the surrounding areas. If your town is not listed, ring us, "
-                      "we may still reach you.", D.IMG_AREAS, [(None, "Areas")])
+                      "we may still reach you.", D.IMG_AREAS, [(None, "Areas")],
+                      cat="marquee")
     html += f"""
 <section>
   <div class="wrap">
@@ -351,7 +353,8 @@ def build_areas():
         html += page_hero(f"Bouncy castle hire in {a['town']}",
                           f"Castles, combis, obstacle courses, the disco dome and marquees, "
                           f"delivered and set up in {a['town']} and around.",
-                          D.HERO_MAIN, [("/areas/", "Areas"), (None, a["town"])])
+                          D.HERO_MAIN, [("/areas/", "Areas"), (None, a["town"])],
+                          cat="castle")
         html += f"""
 <section>
   <div class="wrap">
@@ -391,7 +394,7 @@ def build_simple():
                 "Photos of our bouncy castles, combi castles, obstacle courses, disco dome and "
                 "marquees out on the road across Tipperary.", "/gallery/")
     html += page_hero("Gallery", "Our castles and courses out on the road.",
-                      D.SOON, [(None, "Gallery")])
+                      D.SOON, [(None, "Gallery")], cat="disco")
     html += f"""
 <section>
   <div class="wrap">
@@ -408,7 +411,7 @@ def build_simple():
                 "what we hire, areas covered, insurance and how to book.", "/faqs/")
     html += ld(faq_ld())
     html += page_hero("Common questions", "What we hire, where we go, insurance and how to book.",
-                      D.SOON, [(None, "FAQs")])
+                      D.SOON, [(None, "FAQs")], cat="combi")
     html += f"""
 <section>
   <div class="wrap">
@@ -423,7 +426,7 @@ def build_simple():
                 f"Call or WhatsApp {D.PHONE_DISPLAY}, or send an enquiry. Bouncy castle, "
                 "obstacle course and marquee hire across Tipperary.", "/contact/")
     html += page_hero("Contact", f"Ring or WhatsApp {D.PHONE_DISPLAY}, or send an enquiry below.",
-                      D.SOON, [(None, "Contact")])
+                      D.SOON, [(None, "Contact")], cat="obstacle")
     html += f"""
 <section>
   <div class="wrap">{booking_strip()}</div>
@@ -436,7 +439,7 @@ def build_simple():
                 "Hire conditions for Bouncy Castle Man, including delivery and collection, "
                 "supervision and insurance.", "/hire-terms/")
     html += page_hero("Hire terms", "The conditions that apply to every hire.",
-                      D.SOON, [(None, "Hire terms")])
+                      D.SOON, [(None, "Hire terms")], cat="marquee")
     html += f"""
 <section>
   <div class="wrap">
