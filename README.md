@@ -56,20 +56,30 @@ Every section is a different layout family and none repeats.
 
 ### The mark
 
-The castle from Adam's artwork, **centred above the name**. Source in
-`build/brand/logo.png`. The generator copies it to `assets/logo.<hash>.png` at
-build time, hashed like the stylesheet because `/assets/` is served immutable
-for a year. `favicon.png` and `apple-touch-icon.png` go to the repo root, which
-carries no such header.
+The castle, **centred above the name**. Source in `build/brand/castle.svg`,
+about 1KB of paths. The generator copies it to `assets/logo.<hash>.svg` at build
+time, hashed like the stylesheet because `/assets/` is served immutable for a
+year. `favicon.png` (64) and `apple-touch-icon.png` (180) are rendered from
+`build/brand/castle-square.svg` and go to the repo root, which carries no such
+header.
 
-The character is not in the mark. In the supplied file his trousers and the
-glow behind him are one connected blob at the same brightness, proven by
+It is **drawn, not cut out of the supplied artwork**. The supplied file is a
+raster of a generated illustration: its outlines wobble, its flag is a smudge,
+and it was exported on black, so every cut left either a dark fringe or a chewed
+edge. Feathering the alpha, bleeding the artwork's own colour outward and
+smoothing the contour at 3x each improved it and none of them fixed it, because
+the ruggedness is in the linework itself and no raster pass straightens a line
+that was drawn crooked. The redraw keeps the artwork's shapes and its exact
+three colours, so it is the same mark, and being vector it is sharp at 32px and
+at 3000px and can be tinted from the palette.
+
+The character is not in the mark either way. In the supplied file his trousers
+and the glow behind him are one connected blob at the same brightness, proven by
 labelling the difference between two cuts: a single 51,000 pixel component
 spanning both. No threshold separates them, so any cut that removes the glow
-removes his legs. **Re-export the logo on a white or transparent ground rather
-than black and the whole figure will cut in one pass.**
+removes his legs.
 
-The castle is 1.53:1, so it is sized by width and the height follows. It reads
+The castle is 1.51:1, so it is sized by width and the height follows. It reads
 down to about 32px wide.
 
 The name is set as **one name, one weight, one colour**. MAN used to sit in a

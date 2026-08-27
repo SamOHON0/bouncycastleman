@@ -30,7 +30,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
 ASSET = {"css": "/assets/styles.css", "js": "/assets/script.js",
-         "logo": "/assets/logo.png"}
+         "logo": "/assets/logo.svg"}
 
 FONTS = ("https://fonts.googleapis.com/css2?"
          "family=Fredoka:wght@500;600;700"
@@ -49,15 +49,24 @@ def write(relpath, html):
 
 
 # ------------------------------------------------------------------ logo ----
-# The castle from Adam's artwork (build/brand/logo.png), centred above the name. The character is not
-# in it: in the supplied file his trousers and the glow behind him are one
-# connected blob at the same brightness, so no cut recovers his legs.
-# Re-exporting the logo on a white or transparent ground would fix that.
+# The castle, centred above the name. Source in build/brand/castle.svg.
 #
-# The castle is 1.53:1, so it is sized by WIDTH and the height follows.
+# It is DRAWN, not cut out of the supplied artwork. The supplied file is a
+# raster of a generated illustration: its outlines wobble, its flag is a smudge,
+# and it was exported on black, so every cut left either a dark fringe or a
+# chewed edge. Three passes of feathering, colour bleeding and contour smoothing
+# each improved it and none of them fixed it, because the ruggedness is in the
+# linework itself and no raster pass can straighten a line that was drawn
+# crooked.
+#
+# The redraw keeps the artwork's shapes and its exact three colours, so it is
+# the same mark, and being vector it is sharp at 32px and at 3000px, tints from
+# the palette, and weighs about 1KB.
+#
+# The castle is 1.51:1, so it is sized by WIDTH and the height follows.
 def logo_mark():
-    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="510" '
-            f'height="333" decoding="async">')
+    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="512" '
+            f'height="340" decoding="async">')
 
 
 def logo(cls="brand", href="/"):
@@ -779,16 +788,16 @@ def build_assets():
     adir = os.path.join(ROOT, "assets")
     os.makedirs(adir, exist_ok=True)
     for f in os.listdir(adir):
-        if re.fullmatch(r"(styles|script|logo)\.[0-9a-f]{8}\.(css|js|png)", f):
+        if re.fullmatch(r"(styles|script|logo)\.[0-9a-f]{8}\.(css|js|png|svg)", f):
             os.remove(os.path.join(adir, f))
 
     # Brand artwork. The logo is hashed like the stylesheet because /assets/ is
     # served immutable for a year; the icons go to the root, which is not.
     bdir = os.path.join(HERE, "brand")
-    raw = io.open(os.path.join(bdir, "logo.png"), "rb").read()
+    raw = io.open(os.path.join(bdir, "castle.svg"), "rb").read()
     h = hashlib.md5(raw).hexdigest()[:8]
-    ASSET["logo"] = "/assets/logo.%s.png" % h
-    io.open(os.path.join(adir, "logo.%s.png" % h), "wb").write(raw)
+    ASSET["logo"] = "/assets/logo.%s.svg" % h
+    io.open(os.path.join(adir, "logo.%s.svg" % h), "wb").write(raw)
     for icon in ("favicon.png", "apple-touch-icon.png"):
         io.open(os.path.join(ROOT, icon), "wb").write(
             io.open(os.path.join(bdir, icon), "rb").read())
