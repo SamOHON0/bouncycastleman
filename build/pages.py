@@ -117,7 +117,7 @@ def build_home():
       <p>Castles, combis and obstacle courses up to 55ft. Delivered, set up and collected.</p>
       <div class="mast-actions">
         <a href="/contact/" class="btn btn-accent">Get a price</a>
-        <a href="tel:{D.PHONE_TEL}" class="btn btn-ghost">{ico("phone")}{D.PHONE_DISPLAY}</a>
+        <a href="tel:{D.PHONE_TEL}" class="btn btn-line">{ico("phone")}{D.PHONE_DISPLAY}</a>
       </div>
     </div>
     <div class="mast-shot">
@@ -258,7 +258,7 @@ def build_units():
       <span class="price">{u['price']}</span>
       <p>Delivered, set up and collected across Tipperary and the surrounding areas.</p>
       <a href="tel:{D.PHONE_TEL}" class="btn btn-accent">{ico("phone")}{D.PHONE_DISPLAY}</a>
-      <a href="/contact/" class="btn btn-ink">Get a price</a>
+      <a href="/contact/" class="btn btn-line">Get a price</a>
       <a href="{wa_link()}" target="_blank" rel="noopener" class="btn btn-line">WhatsApp us</a>
     </aside>
   </div>

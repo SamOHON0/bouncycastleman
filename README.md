@@ -33,9 +33,10 @@ Rebuilt 20 Aug 2026. The cartoon "Bounce Land" house style is gone.
 
 ### Layout
 
-A **persistent left rail** rather than a top nav. It carries the mark, the six
-categories with their colour dots, the secondary pages, the phone number and
-the one CTA, and it stays put while the content column scrolls. Below 1100px it
+A **persistent left rail** rather than a top nav, on a light cream ground. It
+carries the mark, the six categories with their colour dots, the secondary
+pages, the phone number and the one CTA, and it stays put while the content
+column scrolls. Below 1100px it
 becomes a top bar with a drawer, and a **sticky action bar** pins Call and
 WhatsApp to the bottom of the screen, which is what a parent on a phone
 actually wants.
@@ -46,9 +47,9 @@ want, or open it for the full set. The arrows are an enhancement: the track
 scrolls by touch, wheel and keyboard on its own, and the arrows are hidden
 below 640px where swiping is the natural gesture.
 
-The masthead is a dark block with the headline bottom-left and the photo
-tilted and bleeding off the right edge, with the three fact cards straddling
-the seam below it. Then: a dotted timeline for how it works, a six-cell bento
+The masthead is a soft sky-blue block with the headline bottom-left and the
+photo tilted and bleeding off the right edge, with the three fact cards
+straddling the seam below it. Then: a dotted timeline for how it works, a six-cell bento
 for why us, a full-bleed teal band with towns as pills and the area checker
 inside it, staggered quote cards, a two-column FAQ, and a split contact block.
 Every section is a different layout family and none repeats.
@@ -95,6 +96,21 @@ defaulting to `var(--c)`. A custom property whose value is another `var()` is
 substituted where it is *declared*, not where it is used, so `--ct:var(--c)` on
 `:root` would resolve once against the root colour and every category would
 inherit that one value.
+
+### Light surfaces
+
+Near-black is no longer used for anything bigger than a line of text. The rail,
+the masthead, the footer and the mobile action bar are all light, and the
+weight on the page comes from the category colour bands instead: the teal areas
+band, the vermillion contact band, the amber lead cell in the bento, and each
+category's own page banner.
+
+Two knock-on rules from that change:
+
+- Category dots in the rail use `--ct`, not `--c`. Amber sits at 1.99:1 against
+  the light rail and would vanish.
+- The card tag pill is white with ink on it rather than ink with white on it,
+  so it reads over both a photograph and a saturated colour panel.
 
 ### Other decisions
 
