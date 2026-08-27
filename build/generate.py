@@ -49,17 +49,20 @@ def write(relpath, html):
 
 
 # ------------------------------------------------------------------ logo ----
-# The mark is Adam's artwork (build/brand/logo.png), a mascot on a castle. It
-# arrived on a black ground with a glow and its own wordmark; the mascot was
-# cut out to transparency so it sits on the light rail, and the supplied
-# wordmark was dropped because it read "CASTLEMAN" as one word and was set in a
-# glow that vanished at nav size. The name is set in type beside it instead.
+# The mark is the castle from Adam's artwork (build/brand/logo.png).
 #
-# It does not shrink well: below about 40px the illustration turns to mush, so
-# it renders at 48 and the favicon uses a tight crop of the face instead.
-def logo_mark(size=48):
-    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="{size}" '
-            f'height="{size}" decoding="async">')
+# The supplied file was a mascot on a castle, on a black ground with a glow
+# around it. The castle cuts out cleanly. The character does not: his trousers
+# sit at the same brightness as the glow, so any threshold that removes the
+# glow behind him also removes his legs and leaves his shoes floating. Getting
+# him back properly needs the logo re-exported on a white or transparent
+# ground rather than on black.
+#
+# The castle is a wide shape, roughly 1.85:1, so it is sized by WIDTH. Height
+# follows. It reads down to about 32px wide.
+def logo_mark(width=112):
+    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="336" '
+            f'height="181" decoding="async">')
 
 
 def logo(cls="brand", href="/"):
@@ -203,7 +206,13 @@ h3{font-size:var(--step-1);line-height:1.18}
   border-right:2px solid var(--rail-line)}
 .rail-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .rail .brand{color:var(--ink)}
-.mark{flex:none;width:48px;height:48px;object-fit:contain}
+.mark{flex:none;width:56px;height:auto}
+/* In the rail the lockup stacks: the castle is wide and the rail is narrow, so
+   side by side would not fit the name. On the mobile top bar it goes back to a
+   row, where vertical space is the scarce thing instead. */
+.rail .brand{flex-direction:column;align-items:flex-start;gap:9px}
+.rail .mark{width:112px}
+.rail .wordmark{font-size:19px}
 .rail-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-45);margin-bottom:10px}
 .rail-nav{display:flex;flex-direction:column;gap:1px}
@@ -238,6 +247,9 @@ h3{font-size:var(--step-1);line-height:1.18}
   .rail{grid-column:1;grid-row:1;position:sticky;height:auto;flex-direction:column;
     gap:0;padding:12px 20px}
   .rail-top{gap:14px}
+  .rail .brand{flex-direction:row;align-items:center;gap:11px}
+  .rail .mark{width:54px}
+  .rail .wordmark{font-size:17.5px}
   .burger{display:block}
   .rail-body{display:none;padding-top:16px}
   .rail.open .rail-body{display:block}
