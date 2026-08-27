@@ -56,29 +56,21 @@ Every section is a different layout family and none repeats.
 
 ### The mark
 
-Adam's artwork, recomposed: the castle with the character standing to its
-right, bottom aligned with a slight overlap. Source in `build/brand/logo.png`.
-The generator copies it to `assets/logo.<hash>.png` at build time, hashed like
-the stylesheet because `/assets/` is served immutable for a year.
-`favicon.png` and `apple-touch-icon.png` go to the repo root, which carries no
-such header.
+The castle from Adam's artwork, **centred above the name**. Source in
+`build/brand/logo.png`. The generator copies it to `assets/logo.<hash>.png` at
+build time, hashed like the stylesheet because `/assets/` is served immutable
+for a year. `favicon.png` and `apple-touch-icon.png` go to the repo root, which
+carries no such header.
 
-**Why he is beside the castle rather than on it.** The logo arrived on a black
-ground with a glow around everything. His trousers and that glow are one
-connected blob at the same brightness, so no cut recovers his legs: keying the
-glow out takes the legs with it and leaves his shoes floating. Standing him on
-the baseline crops him at the hoodie hem, which reads as a character behind the
-castle rather than a broken cut-out. The castle and the character were
-separated as connected components, then composed.
+The character is not in the mark. In the supplied file his trousers and the
+glow behind him are one connected blob at the same brightness, proven by
+labelling the difference between two cuts: a single 51,000 pixel component
+spanning both. No threshold separates them, so any cut that removes the glow
+removes his legs. **Re-export the logo on a white or transparent ground rather
+than black and the whole figure will cut in one pass.**
 
-Re-export the logo on a **white or transparent** ground rather than black and
-the whole figure will cut in one pass, legs included.
-
-The lockup is wide, roughly 2.26:1, so it is sized by width and the height
-follows. It reads down to about 110px wide. In the rail the lockup **stacks**,
-artwork above the name, because side by side would not leave room for the name
-in a 286px column; on the mobile top bar it returns to a row. The favicon is a
-crop of the character's face, which is the only part that survives 16px.
+The castle is 1.53:1, so it is sized by width and the height follows. It reads
+down to about 32px wide.
 
 The name is set as **one name, one weight, one colour**. MAN used to sit in a
 filled pill, which emphasised the least meaningful word in the name and made
@@ -87,31 +79,47 @@ set the name as "CASTLEMAN", one word, in a glow that vanished at nav size.
 
 ### Colour
 
-Playful as a **system** rather than decoration. Every hire category owns a
-colour, and that colour follows it everywhere: its dot in the rail, its shelf,
-its cards, its no-photo panels, its page banner. Colour is information here,
-which is why the page can carry six brights without turning into confetti.
+**The palette is sampled from the logo, not chosen.** Three values were pulled
+straight out of the artwork and everything else is built around them:
+
+| Role | Value | Where it came from |
+|---|---|---|
+| Brand blue | `#0056db` | the castle's blue panels |
+| Brand yellow | `#fec521` | the castle's pillars |
+| Ink | `#0b1a2e` | the navy the whole illustration is outlined in |
+
+Grounds are cool blue-whites rather than warm cream, so they sit under the
+blue: `--paper #f8fbff`, `--paper-2 #eaf1fd`, rail white, masthead `#dbe9ff`.
+
+**Every call to action is the logo yellow with ink on it.** No category uses
+yellow, so it never collides. A yellow fill is only 1.53:1 against the page, so
+every yellow button carries a 2px ink border, which doubles as an echo of the
+heavy outline the artwork is drawn with. `--accent-text` (`#8a6100`) is the
+same yellow taken down to a tone that survives as small text on a light ground,
+which the yellow itself cannot.
+
+The focus ring is the brand blue, not the yellow, for the same reason: a yellow
+ring is invisible against a near-white page.
+
+Every hire category still owns a colour, and that colour follows it everywhere:
+its dot in the rail, its shelf, its cards, its no-photo panels, its page
+banner. Colour is information here, not decoration.
 
 | Category | Fill | Text on it |
 |---|---|---|
-| Bouncy castles | `#2563eb` blue | white |
-| Combi castles | `#7c3aed` violet | white |
+| Bouncy castles | `#0056db` the logo blue | white |
+| Combi castles | `#6d28d9` violet | white |
 | Obstacle courses | `#047857` emerald | white |
 | Disco dome | `#c81e6a` pink | white |
-| Sumo and gladiator | `#f5a300` amber | ink |
+| Sumo and gladiator | `#c2410c` orange | white |
 | Marquees | `#0e7490` teal | white |
 
-One colour never varies: **every call to action is vermillion**, on every page,
-in every section, so "the thing you press" is learnable at a glance. Category
-colour never leaks onto a button.
+Sumo moved off amber to orange when yellow became the CTA, so no category
+duplicates the button colour.
 
-Two rules that are load bearing, do not collapse them:
-
-- `--c` is a category's colour as a **fill**. `--ct` is the same category as
-  **text on a light background**. For five of the six they are identical; amber
-  is only 2.07:1 on white so its text tone is a dark bronze `#966300`.
-- `--accent` (#f4491f) is for large display type and graphic marks only.
-  `--accent-text` (#c9330f) is for anything under 24px and for filled buttons.
+`--c` is a category as a **fill**, `--ct` the same category as **text on a
+light ground**. All six now match, but the pair is kept: the moment a light
+colour is added back they diverge again, as amber did at 2.07:1 on white.
 
 `--ct` is written out explicitly on every `[data-cat]` row rather than
 defaulting to `var(--c)`. A custom property whose value is another `var()` is
@@ -121,11 +129,11 @@ inherit that one value.
 
 ### Light surfaces
 
-Near-black is no longer used for anything bigger than a line of text. The rail,
-the masthead, the footer and the mobile action bar are all light, and the
-weight on the page comes from the category colour bands instead: the teal areas
-band, the vermillion contact band, the amber lead cell in the bento, and each
-category's own page banner.
+Navy is not used for anything bigger than a line of text except the contact
+band. The rail, the masthead, the footer and the mobile action bar are all
+light, and the weight comes from the brand colours: the blue areas band, the
+navy contact band, the yellow lead cell in the bento, and each category's own
+page banner.
 
 Two knock-on rules from that change:
 
