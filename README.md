@@ -59,9 +59,14 @@ Every section is a different layout family and none repeats.
 An arch with a pennant flying off it, replacing the flat crenellated block. The
 arch reads as a castle doorway rather than a battlement, the flag gives it a
 fairground note, and the doorway is cut out with `fill-rule evenodd` so the
-whole thing is one path. Two tone, vermillion and amber. The wordmark sets MAN
-in a filled pill beside it. Same shape does duty as the SVG favicon.
-`logo_mark()` in `generate.py`.
+whole thing is one path. Two tone, vermillion and amber. Same shape does duty
+as the SVG favicon. `logo_mark()` in `generate.py`.
+
+The wordmark is set as **one name, one weight, one colour**. MAN used to sit in
+a filled pill; it emphasised the least meaningful word in the name for no
+reason and made the lockup read as two things, a brand plus a tag. The rail is
+286px wide specifically so the full name fits beside the mark without
+clipping.
 
 ### Colour
 

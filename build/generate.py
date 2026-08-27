@@ -57,7 +57,7 @@ POLE = "M14.9 1h2.2v7h-2.2z"
 FLAG = "M17.1 1.6 26 4.1l-8.9 2.5V1.6Z"
 
 
-def logo_mark(size=36, arch="currentColor", flag=None):
+def logo_mark(size=34, arch="currentColor", flag=None):
     flag = flag or arch
     return (f'<svg class="mark" viewBox="0 0 32 32" width="{size}" height="{size}" '
             f'aria-hidden="true" focusable="false">'
@@ -67,10 +67,15 @@ def logo_mark(size=36, arch="currentColor", flag=None):
 
 
 def logo(cls="brand", href="/", arch="currentColor", flag="#f5a300"):
-    """Mark plus a one-line wordmark with MAN set in a filled pill."""
+    """Mark plus the wordmark, set as one name.
+
+    "Man" used to sit in a filled pill. It emphasised the least meaningful word
+    in the name for no reason and made the lockup read as two separate things,
+    a brand plus a tag. The name is one thing, so it is set as one thing.
+    """
     return (f'<a href="{href}" class="{cls}" aria-label="{D.NAME} home">'
             f'{logo_mark(arch=arch, flag=flag)}'
-            f'<span class="wordmark">Bouncy Castle<b>Man</b></span></a>')
+            f'<span class="wordmark">{D.NAME}</span></a>')
 
 
 FAVICON = ('data:image/svg+xml,'
@@ -165,7 +170,7 @@ ul{padding:0;list-style:none}
   --r-sm:12px;
   --r-pill:999px;
 
-  --rail:266px;
+  --rail:286px;   /* wide enough for the full wordmark beside the mark */
   --gut:clamp(20px,3vw,52px);
 
   --step-0:clamp(16px,.3vw + 15px,17.5px);
@@ -255,12 +260,10 @@ h3{font-size:var(--step-1);line-height:1.18}
 }
 
 /* ------------------------------------------------------------ the mark --- */
-.brand{display:flex;align-items:center;gap:11px;flex:none}
+.brand{display:flex;align-items:center;gap:10px;flex:none;min-width:0}
+/* One name, one weight, one colour. No word is emphasised over another. */
 .wordmark{font-family:var(--display);font-weight:600;font-size:17.5px;letter-spacing:-.02em;
-  display:flex;align-items:center;gap:7px;white-space:nowrap}
-.wordmark b{background:var(--accent-text);color:#fff;padding:3px 11px;
-  border-radius:var(--r-pill);font-size:15px;font-weight:600}
-.rail .wordmark b{background:var(--accent-text);color:#fff}
+  white-space:nowrap;line-height:1.1}
 
 /* ------------------------------------------------------------- content --- */
 .pad{padding-left:var(--gut);padding-right:var(--gut)}
