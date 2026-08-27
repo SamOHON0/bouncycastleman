@@ -58,11 +58,19 @@ def write(relpath, html):
 # him back properly needs the logo re-exported on a white or transparent
 # ground rather than on black.
 #
-# The castle is a wide shape, roughly 1.85:1, so it is sized by WIDTH. Height
-# follows. It reads down to about 32px wide.
-def logo_mark(width=112):
-    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="336" '
-            f'height="181" decoding="async">')
+# The character is composed BESIDE the castle rather than on it, bottom
+# aligned with a slight overlap, because his legs cannot be recovered: in the
+# supplied file his trousers and the glow behind him are one connected blob at
+# the same brightness. Sitting him on the baseline crops him at the hem, which
+# reads as a character standing behind the castle rather than a broken cut-out.
+# Re-exporting the logo on a white or transparent ground would let the whole
+# figure cut in one pass.
+#
+# The lockup is wide, roughly 2.26:1, so it is sized by WIDTH and the height
+# follows. It reads down to about 110px wide.
+def logo_mark():
+    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="510" '
+            f'height="226" decoding="async">')
 
 
 def logo(cls="brand", href="/"):
@@ -206,12 +214,12 @@ h3{font-size:var(--step-1);line-height:1.18}
   border-right:2px solid var(--rail-line)}
 .rail-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .rail .brand{color:var(--ink)}
-.mark{flex:none;width:56px;height:auto}
+.mark{flex:none;width:96px;height:auto}
 /* In the rail the lockup stacks: the castle is wide and the rail is narrow, so
    side by side would not fit the name. On the mobile top bar it goes back to a
    row, where vertical space is the scarce thing instead. */
 .rail .brand{flex-direction:column;align-items:flex-start;gap:9px}
-.rail .mark{width:112px}
+.rail .mark{width:170px}
 .rail .wordmark{font-size:19px}
 .rail-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-45);margin-bottom:10px}
@@ -248,7 +256,7 @@ h3{font-size:var(--step-1);line-height:1.18}
     gap:0;padding:12px 20px}
   .rail-top{gap:14px}
   .rail .brand{flex-direction:row;align-items:center;gap:11px}
-  .rail .mark{width:54px}
+  .rail .mark{width:96px}
   .rail .wordmark{font-size:17.5px}
   .burger{display:block}
   .rail-body{display:none;padding-top:16px}

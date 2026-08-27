@@ -56,24 +56,29 @@ Every section is a different layout family and none repeats.
 
 ### The mark
 
-The castle from Adam's artwork, in `build/brand/logo.png`. The generator copies
-it to `assets/logo.<hash>.png` at build time, hashed like the stylesheet
-because `/assets/` is served immutable for a year. `favicon.png` and
-`apple-touch-icon.png` go to the repo root, which carries no such header.
+Adam's artwork, recomposed: the castle with the character standing to its
+right, bottom aligned with a slight overlap. Source in `build/brand/logo.png`.
+The generator copies it to `assets/logo.<hash>.png` at build time, hashed like
+the stylesheet because `/assets/` is served immutable for a year.
+`favicon.png` and `apple-touch-icon.png` go to the repo root, which carries no
+such header.
 
-**The character is not in it, and that is a source-file problem, not a taste
-one.** The logo arrived as a mascot bouncing on a castle, on a black ground
-with a glow around everything. The castle cuts out cleanly. The character does
-not: his trousers sit at the same brightness as the glow behind him, so any
-threshold that removes the glow also removes his legs and leaves his shoes
-floating in mid air. To bring him back, re-export the logo on a **white or
-transparent** ground instead of black and the whole thing will cut in one go.
+**Why he is beside the castle rather than on it.** The logo arrived on a black
+ground with a glow around everything. His trousers and that glow are one
+connected blob at the same brightness, so no cut recovers his legs: keying the
+glow out takes the legs with it and leaves his shoes floating. Standing him on
+the baseline crops him at the hoodie hem, which reads as a character behind the
+castle rather than a broken cut-out. The castle and the character were
+separated as connected components, then composed.
 
-The castle is a wide shape, roughly 1.85:1, so it is sized by width and the
-height follows. It reads down to about 32px wide. In the rail the lockup
-**stacks**, castle above the name, because side by side would not leave room
-for the name in a 286px column; on the mobile top bar it returns to a row,
-where vertical space is the scarce thing instead.
+Re-export the logo on a **white or transparent** ground rather than black and
+the whole figure will cut in one pass, legs included.
+
+The lockup is wide, roughly 2.26:1, so it is sized by width and the height
+follows. It reads down to about 110px wide. In the rail the lockup **stacks**,
+artwork above the name, because side by side would not leave room for the name
+in a 286px column; on the mobile top bar it returns to a row. The favicon is a
+crop of the character's face, which is the only part that survives 16px.
 
 The name is set as **one name, one weight, one colour**. MAN used to sit in a
 filled pill, which emphasised the least meaningful word in the name and made
