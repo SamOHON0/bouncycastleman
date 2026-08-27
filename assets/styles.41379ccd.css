@@ -106,6 +106,7 @@ h3{font-size:var(--step-1);line-height:1.18}
   border-right:2px solid var(--rail-line)}
 .rail-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .rail .brand{color:var(--ink)}
+.mark{flex:none;width:48px;height:48px;object-fit:contain}
 .rail-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-45);margin-bottom:10px}
 .rail-nav{display:flex;flex-direction:column;gap:1px}

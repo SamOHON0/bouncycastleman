@@ -29,7 +29,8 @@ import data as D
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 
-ASSET = {"css": "/assets/styles.css", "js": "/assets/script.js"}
+ASSET = {"css": "/assets/styles.css", "js": "/assets/script.js",
+         "logo": "/assets/logo.png"}
 
 FONTS = ("https://fonts.googleapis.com/css2?"
          "family=Fredoka:wght@500;600;700"
@@ -48,25 +49,20 @@ def write(relpath, html):
 
 
 # ------------------------------------------------------------------ logo ----
-# An arch with a pennant flying off it. Replaces the flat crenellated block:
-# the arch reads as a castle doorway rather than a battlement, the flag gives
-# it a fairground note, and the two-tone lockup survives being shrunk to a
-# favicon. The doorway is cut out with fill-rule evenodd, so it is one path.
-ARCH = ("M4 30V17a12 12 0 0 1 24 0v13H4Zm9 0v-5.5a3 3 0 0 1 6 0V30h-6Z")
-POLE = "M14.9 1h2.2v7h-2.2z"
-FLAG = "M17.1 1.6 26 4.1l-8.9 2.5V1.6Z"
+# The mark is Adam's artwork (build/brand/logo.png), a mascot on a castle. It
+# arrived on a black ground with a glow and its own wordmark; the mascot was
+# cut out to transparency so it sits on the light rail, and the supplied
+# wordmark was dropped because it read "CASTLEMAN" as one word and was set in a
+# glow that vanished at nav size. The name is set in type beside it instead.
+#
+# It does not shrink well: below about 40px the illustration turns to mush, so
+# it renders at 48 and the favicon uses a tight crop of the face instead.
+def logo_mark(size=48):
+    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="{size}" '
+            f'height="{size}" decoding="async">')
 
 
-def logo_mark(size=34, arch="currentColor", flag=None):
-    flag = flag or arch
-    return (f'<svg class="mark" viewBox="0 0 32 32" width="{size}" height="{size}" '
-            f'aria-hidden="true" focusable="false">'
-            f'<path fill="{arch}" fill-rule="evenodd" d="{ARCH}"/>'
-            f'<path fill="{arch}" d="{POLE}"/>'
-            f'<path fill="{flag}" d="{FLAG}"/></svg>')
-
-
-def logo(cls="brand", href="/", arch="currentColor", flag="#f5a300"):
+def logo(cls="brand", href="/"):
     """Mark plus the wordmark, set as one name.
 
     "Man" used to sit in a filled pill. It emphasised the least meaningful word
@@ -74,19 +70,8 @@ def logo(cls="brand", href="/", arch="currentColor", flag="#f5a300"):
     a brand plus a tag. The name is one thing, so it is set as one thing.
     """
     return (f'<a href="{href}" class="{cls}" aria-label="{D.NAME} home">'
-            f'{logo_mark(arch=arch, flag=flag)}'
+            f'{logo_mark()}'
             f'<span class="wordmark">{D.NAME}</span></a>')
-
-
-FAVICON = ('data:image/svg+xml,'
-           '%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%22-2 -2 36 36%22%3E'
-           '%3Crect x=%22-2%22 y=%22-2%22 width=%2236%22 height=%2236%22 rx=%228%22 '
-           'fill=%22%23141310%22/%3E'
-           '%3Cpath fill=%22%23f4491f%22 fill-rule=%22evenodd%22 d=%22'
-           + ARCH.replace(" ", "%20") + '%22/%3E'
-           '%3Cpath fill=%22%23f4491f%22 d=%22' + POLE.replace(" ", "%20") + '%22/%3E'
-           '%3Cpath fill=%22%23f5a300%22 d=%22' + FLAG.replace(" ", "%20") + '%22/%3E'
-           '%3C/svg%3E')
 
 
 # --------------------------------------------------------------- pictures ----
@@ -218,6 +203,7 @@ h3{font-size:var(--step-1);line-height:1.18}
   border-right:2px solid var(--rail-line)}
 .rail-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .rail .brand{color:var(--ink)}
+.mark{flex:none;width:48px;height:48px;object-fit:contain}
 .rail-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-45);margin-bottom:10px}
 .rail-nav{display:flex;flex-direction:column;gap:1px}
@@ -778,8 +764,19 @@ def build_assets():
     adir = os.path.join(ROOT, "assets")
     os.makedirs(adir, exist_ok=True)
     for f in os.listdir(adir):
-        if re.fullmatch(r"(styles|script)\.[0-9a-f]{8}\.(css|js)", f):
+        if re.fullmatch(r"(styles|script|logo)\.[0-9a-f]{8}\.(css|js|png)", f):
             os.remove(os.path.join(adir, f))
+
+    # Brand artwork. The logo is hashed like the stylesheet because /assets/ is
+    # served immutable for a year; the icons go to the root, which is not.
+    bdir = os.path.join(HERE, "brand")
+    raw = io.open(os.path.join(bdir, "logo.png"), "rb").read()
+    h = hashlib.md5(raw).hexdigest()[:8]
+    ASSET["logo"] = "/assets/logo.%s.png" % h
+    io.open(os.path.join(adir, "logo.%s.png" % h), "wb").write(raw)
+    for icon in ("favicon.png", "apple-touch-icon.png"):
+        io.open(os.path.join(ROOT, icon), "wb").write(
+            io.open(os.path.join(bdir, icon), "rb").read())
 
     css = CSS.strip() + "\n"
     h = hashlib.md5(css.encode("utf-8")).hexdigest()[:8]
@@ -849,7 +846,8 @@ def head(title, desc, canon, img=None):
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#141310">
 <link rel="canonical" href="{D.SITE}{canon}">
-<link rel="icon" href="{FAVICON}">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:title" content="{title}">
 <meta property="og:description" content="{desc}">
 <meta property="og:url" content="{D.SITE}{canon}">
@@ -890,7 +888,7 @@ def rail(current=None):
     return f"""
 <nav class="rail" id="rail" aria-label="Main">
   <div class="rail-top">
-    {logo(arch="#f4491f")}
+    {logo()}
     <button class="burger" id="burger" aria-label="Menu" aria-expanded="false" aria-controls="railBody"><span></span><span></span><span></span></button>
   </div>
   <div class="rail-body" id="railBody">
@@ -1000,7 +998,7 @@ def footer():
 <footer>
   <div class="foot-top">
     <div>
-      {logo(arch="#f4491f")}
+      {logo()}
       <p>Bouncy castle, obstacle course, disco dome and marquee hire across Tipperary. Family run since {D.FOUNDED}, fully insured and certified with the Irish Inflatable Hirers Federation.</p>
       <div class="socials">
         <!-- TODO: replace [FACEBOOK-URL] with the real page -->

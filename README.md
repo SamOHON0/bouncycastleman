@@ -56,17 +56,28 @@ Every section is a different layout family and none repeats.
 
 ### The mark
 
-An arch with a pennant flying off it, replacing the flat crenellated block. The
-arch reads as a castle doorway rather than a battlement, the flag gives it a
-fairground note, and the doorway is cut out with `fill-rule evenodd` so the
-whole thing is one path. Two tone, vermillion and amber. Same shape does duty
-as the SVG favicon. `logo_mark()` in `generate.py`.
+Adam's artwork: a mascot bouncing on a castle, in `build/brand/logo.png`. The
+generator copies it to `assets/logo.<hash>.png` at build time, hashed like the
+stylesheet because `/assets/` is served immutable for a year.
 
-The wordmark is set as **one name, one weight, one colour**. MAN used to sit in
-a filled pill; it emphasised the least meaningful word in the name for no
-reason and made the lockup read as two things, a brand plus a tag. The rail is
-286px wide specifically so the full name fits beside the mark without
-clipping.
+Three things were done to the supplied file:
+
+- It arrived on a black ground with a glow. The mascot is cut out to
+  transparency so it sits on the light rail. The glow was cut at the outline
+  rather than feathered, because feathering just smears dark pixels onto a
+  light background.
+- Its own wordmark was dropped. It set the name as "CASTLEMAN", one word, in a
+  glow that disappeared at nav size. The name is set in type beside the mark
+  instead: **one name, one weight, one colour**. MAN used to sit in a filled
+  pill, which emphasised the least meaningful word in the name and made the
+  lockup read as a brand plus a tag.
+- It does not shrink. Below roughly 40px the illustration turns to mush, so it
+  renders at 48 and the favicon uses a tight crop of the face, which still
+  reads at 16px. `favicon.png` and `apple-touch-icon.png` are written to the
+  repo root, which carries no immutable header.
+
+The rail is 286px wide specifically so the full name fits beside the mark
+without clipping.
 
 ### Colour
 
