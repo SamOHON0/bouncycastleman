@@ -2,12 +2,16 @@
 """Page builders for Bouncy Castle Man. Run: python3 generate.py
 
 Layout discipline notes (these are deliberate, do not "tidy" them away):
-  - Eyebrows are rationed to one per three sections. The home page has 10
-    sections and uses 3.
-  - No section layout family repeats. Bento, filtered card grid, ruled columns,
-    sticky split, typographic column list, ruled quotes, accordion, colour band
-    are all used once each.
-  - No three-equal-cards row anywhere.
+  - The rail is emitted AFTER the content column in the DOM so the h1 is the
+    first thing in the document. Grid puts it back on the left.
+  - Eyebrows are rationed to one per three sections. The home page uses 2.
+  - No section layout family repeats: masthead, straddling fact cards, shelves,
+    dotted timeline, bento, colour band with pills, staggered quotes, two
+    column accordion, split contact. Each appears once.
+  - The bento has exactly six cells for six points, no empty cell at the end.
+  - Cards carry no data-reveal. They sit inside horizontally scrolling shelves
+    where an observer can miss one and leave it stuck at opacity 0; the shelf
+    reveals as a whole instead.
 """
 import io, json, os, sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -54,61 +58,32 @@ def faq_markup():
         f'<div class="faq-a"><p>{esc(a)}</p></div></div>' for q, a in D.FAQS)
 
 
-def filters_bar():
-    btns = ['<button class="filter-btn active" data-cat="all">Everything</button>']
-    for c in D.CATEGORIES:
-        btns.append(f'<button class="filter-btn" data-cat="{c["cat"]}">{c["title"]}</button>')
-    return '<div class="filters" id="filters">%s</div>' % "".join(btns)
-
-
-def booking_strip():
-    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
-    cats = "".join(f'<option>{c["title"]}</option>' for c in D.CATEGORIES)
+# ---------------------------------------------------------------- home ------
+def shelf(c):
+    """One category as a horizontal scroll shelf. Replaces the old tile grid
+    plus filtered card grid: the range is browsed by walking sideways through
+    the category you actually want."""
+    units = [u for u in D.UNITS if u["cat"] == c["cat"]]
+    cards = "".join(card(u) for u in units)
     return f"""
-<div class="strip">
-  <div class="strip-cell">
-    <h3>Do we come to you?</h3>
-    <p>Tipperary and the surrounding areas.</p>
-    <div class="strip-row">
-      <select id="areaSel" aria-label="Select your area">
-        <option value="">Select your area</option>{opts}
-        <option value="__other__">My area isn't listed</option>
-      </select>
-      <button class="btn btn-ink" id="areaBtn">Check</button>
+  <section class="shelf" data-shelf data-reveal data-cat="{c['cat']}" aria-label="{c['title']}">
+    <div class="shelf-head">
+      <span class="dot"></span>
+      <h3>{c['title']}</h3>
+      <a class="all" href="/{c['slug']}/">All {len(units)}</a>
+      <div class="shelf-nav">
+        <button type="button" data-dir="prev" aria-label="Scroll {c['title']} left">{ico("left")}</button>
+        <button type="button" data-dir="next" aria-label="Scroll {c['title']} right">{ico("right")}</button>
+      </div>
     </div>
-    <div id="areaOut" role="status"></div>
-  </div>
-  <div class="strip-cell">
-    <h3>Plan the day</h3>
-    <p>Pick a date and what you're after.</p>
-    <div class="strip-row">
-      <input type="date" id="bDate" aria-label="Date of event">
-      <select id="bCat" aria-label="Category"><option value="">Everything</option>{cats}</select>
-      <a class="btn btn-accent" href="/contact/">Get a price</a>
-    </div>
-  </div>
-</div>
+    <div class="track">{cards}</div>
+  </section>
 """
 
 
-def area_columns():
-    return '<div class="area-cols">%s</div>' % "".join(
-        f'<a href="/{a["slug"]}/">{a["town"]}<span>{esc(a["nearby"])}</span></a>'
-        for a in D.AREAS)
-
-
-# ---------------------------------------------------------------- home ------
 def build_home():
-    # Bento: exactly six cells for six categories. First two run wide.
-    tiles = "".join(f"""      <a class="cat" href="/{c['slug']}/" data-cat="{c['cat']}" data-reveal>
-        {shot(c['hero'], c['title'], ratio="16/9" if i < 2 else "4/3")}
-        <h3>{c['title']} {ico("arrow")}</h3>
-        <p>{esc(c['blurb'])}</p>
-      </a>
-""" for i, c in enumerate(D.CATEGORIES))
-
     steps = "".join(
-        f'<div class="step" data-reveal><div class="step-n">{i+1}</div>'
+        f'<div class="line-step" data-reveal><div class="line-n">{i+1}</div>'
         f'<h3>{t}</h3><p>{esc(p)}</p></div>'
         for i, (t, p) in enumerate(D.STEPS))
 
@@ -117,12 +92,15 @@ def build_home():
         f'<p>{esc(p)}</p></div></li>' for i, (_e, h, p) in enumerate(D.WHY))
 
     revs = "".join(
-        f'<div class="review" data-reveal><div class="stars">★★★★★</div>'
+        f'<div class="rev" data-reveal><div class="stars">★★★★★</div>'
         f'<p>{esc(t)}</p><div class="who">{w}, {loc}</div></div>'
         for t, w, loc in D.REVIEWS)
 
+    towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
+    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
     gal = "".join(f'<a href="/gallery/" data-reveal>{shot(g, "Bouncy Castle Man hire")}</a>'
                   for g in D.GALLERY[:6])
+    shelves = "".join(shelf(c) for c in D.CATEGORIES)
 
     html = head(
         "Bouncy Castle Hire Tipperary | Obstacle Courses, Combi Castles &amp; Marquees | " + D.NAME,
@@ -131,106 +109,78 @@ def build_home():
         "/", D.HERO_IMG)
     html += ld(biz()) + ld(faq_ld())
     html += f"""
-<section class="hero">
-  <div class="confetti" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
-  <div class="wrap">
-    <div class="hero-grid">
-      <div>
-        <span class="eyebrow">Family run in Tipperary since {D.FOUNDED}</span>
-        <h1>Bouncy castle hire in <em>Tipperary</em></h1>
-        <p>Castles, combis and obstacle courses up to 55ft. Delivered, set up and collected.</p>
-        <div class="hero-actions">
-          <a href="/contact/" class="btn btn-accent">Get a price</a>
-          <a href="tel:{D.PHONE_TEL}" class="btn btn-line">{ico("phone")}{D.PHONE_DISPLAY}</a>
-        </div>
-      </div>
-      <div class="hero-photo">
-        {shot(D.HERO_IMG, D.HERO_IMG_NAME, ratio="4/3.05", eager=True)}
-        <div class="hero-badge">{D.HERO_IMG_NAME}<b>{D.HERO_IMG_TAG}</b></div>
+<section class="mast">
+  <div class="mast-grid">
+    <div>
+      <span class="eyebrow">Family run in Tipperary since {D.FOUNDED}</span>
+      <h1>Bouncy castle hire across <em>Tipperary</em></h1>
+      <p>Castles, combis and obstacle courses up to 55ft. Delivered, set up and collected.</p>
+      <div class="mast-actions">
+        <a href="/contact/" class="btn btn-accent">Get a price</a>
+        <a href="tel:{D.PHONE_TEL}" class="btn btn-ghost">{ico("phone")}{D.PHONE_DISPLAY}</a>
       </div>
     </div>
-    <div class="facts">
-      <div><b>{D.FOUNDED}</b><span>Family run ever since, same phone number</span></div>
-      <div><b>{len(D.UNITS)} units</b><span>From a 12ft arch castle to a 55ft course</span></div>
-      <div><b>IIHF</b><span>Fully insured and certified</span></div>
+    <div class="mast-shot">
+      {shot(D.HERO_IMG, D.HERO_IMG_NAME, ratio="4/3.2", eager=True)}
+      <span class="mast-tag">{D.HERO_IMG_NAME}, {D.HERO_IMG_TAG}</span>
     </div>
   </div>
 </section>
+<div class="facts">
+  <div><b>{D.FOUNDED}</b><span>Family run ever since, same phone number</span></div>
+  <div><b>{len(D.UNITS)} units</b><span>From a 12ft arch castle to a 55ft course</span></div>
+  <div><b>IIHF</b><span>Fully insured and certified</span></div>
+</div>
 
-<section>
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>What we hire</h2>
-      <p>Six kinds of hire, every one delivered and set up across the county.</p>
+<div class="band band-tight">
+  <div class="sec-head" style="margin-bottom:0">
+    <h2>The range</h2>
+    <p>Six kinds of hire. Walk sideways through any shelf, or open a category for the lot.</p>
+  </div>
+</div>
+{shelves}
+
+<div class="band tint">
+  <div class="sec-head"><h2>How it works</h2></div>
+  <div class="line narrow">{steps}</div>
+</div>
+
+<div class="band">
+  <div class="sec-head"><h2>Why people ring us</h2></div>
+  <ul class="bento">{whys}</ul>
+</div>
+
+<div class="band areas-band">
+  <div class="sec-head"><h2>Where we deliver</h2>
+    <p>Tipperary and the surrounding areas. If your town is not here, ring us, we may still reach you.</p></div>
+  <div class="town-list">{towns}</div>
+  <div class="checker">
+    <h3>Check your area</h3>
+    <div class="checker-row">
+      <select id="areaSel" aria-label="Select your area">
+        <option value="">Select your area</option>{opts}
+        <option value="__other__">My area isn't listed</option>
+      </select>
+      <button class="btn btn-accent" id="areaBtn">Check</button>
     </div>
-    <div class="cats">
-{tiles}    </div>
+    <div id="areaOut" role="status"></div>
   </div>
-</section>
+</div>
 
-<section class="tint">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">The full range</span>
-      <h2>Every unit we run</h2>
-      <p>Tap any one for the sizes, the features and what it suits.</p>
-    </div>
-    {filters_bar()}
-    <div class="catalogue cropped" id="grid">
-{"".join(card(u) for u in D.UNITS)}    </div>
-    <div class="more-row"><a href="#grid" id="viewAll" class="btn btn-ink">View all {len(D.UNITS)} units</a></div>
-  </div>
-</section>
+<div class="band">
+  <div class="sec-head"><span class="eyebrow">Testimonials</span><h2>What locals say</h2></div>
+  <div class="revs">{revs}</div>
+</div>
 
-<section>
-  <div class="wrap">
-    <div class="sec-head"><h2>How it works</h2></div>
-    <div class="steps">{steps}</div>
-  </div>
-</section>
+<div class="band tint">
+  <div class="sec-head"><h2>Out on the road</h2></div>
+  <div class="gallery">{gal}</div>
+</div>
 
-<section class="tint">
-  <div class="wrap">
-    <div class="why">
-      <div class="why-head">
-        <h2>Why people ring us</h2>
-        <p class="lede" style="margin-top:16px;font-size:16.5px">Over twenty years of birthdays, communions and sports days across Tipperary.</p>
-      </div>
-      <ul class="why-list">{whys}</ul>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-head"><h2>Where we deliver</h2>
-      <p>Tipperary and the surrounding areas. If your town is not here, ring us, we may still reach you.</p></div>
-    {area_columns()}
-    <div style="margin-top:44px">{booking_strip()}</div>
-  </div>
-</section>
-
-<section class="tint">
-  <div class="wrap">
-    <div class="sec-head"><span class="eyebrow">Testimonials</span><h2>What locals say</h2></div>
-    <div class="reviews">{revs}</div>
-  </div>
-</section>
-
-<section>
-  <div class="wrap">
-    <div class="sec-head"><h2>Out on the road</h2></div>
-    <div class="gallery">{gal}</div>
-    <div class="more-row"><a href="/gallery/" class="btn btn-line">See the gallery</a></div>
-  </div>
-</section>
-
-<section class="tint">
-  <div class="wrap">
-    <div class="sec-head"><h2>Common questions</h2></div>
-    <div class="faq">{faq_markup()}</div>
-  </div>
-</section>
+<div class="band">
+  <div class="sec-head"><h2>Common questions</h2></div>
+  <div class="faq">{faq_markup()}</div>
+</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("index.html", html))
 
@@ -240,26 +190,28 @@ def build_categories():
     for c in D.CATEGORIES:
         units = [u for u in D.UNITS if u["cat"] == c["cat"]]
         items = "".join(card(u) for u in units)
+        towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
+        # "All 1 of our disco dome travel" is broken English, so singular gets
+        # its own sentence.
+        travels = (f"Our {c['title'].lower().rstrip('s')} travels to every town we cover."
+                   if len(units) == 1 else
+                   f"All {len(units)} of our {c['title'].lower()} travel to every town we cover.")
         html = head(f"{c['title']} Hire Tipperary | {D.NAME}",
                     esc(c["intro"])[:158], f"/{c['slug']}/", c["hero"])
         html += page_hero(f"{c['title']} hire in Tipperary", esc(c["blurb"]), c["hero"],
                           [(None, c["title"])], cat=c["cat"])
         html += f"""
-<section>
-  <div class="wrap">
-    <div class="prose" style="margin-bottom:40px"><p>{esc(c['intro'])}</p></div>
-    <div class="catalogue">{items}</div>
-    {safety_box()}
-  </div>
-</section>
+<div class="band" data-cat="{c['cat']}">
+  <div class="prose" style="margin-bottom:36px"><p>{esc(c['intro'])}</p></div>
+  <div class="grid" data-reveal>{items}</div>
+  {safety_box()}
+</div>
 
-<section class="tint">
-  <div class="wrap">
-    <div class="sec-head"><h2>Delivered across Tipperary</h2>
-      <p>All {len(units)} of our {c['title'].lower()} travel to every town we cover.</p></div>
-    {area_columns()}
-  </div>
-</section>
+<div class="band areas-band">
+  <div class="sec-head"><h2>Delivered across Tipperary</h2>
+    <p>{travels}</p></div>
+  <div class="town-list">{towns}</div>
+</div>
 {contact_block()}{footer()}"""
         BUILT.append(write(f"{c['slug']}/index.html", html))
 
@@ -287,64 +239,74 @@ def build_units():
         more = ""
         if rel:
             more = f"""
-<section class="tint">
-  <div class="wrap">
-    <div class="sec-head"><h2>Other {c['title'].lower()}</h2></div>
-    <div class="catalogue">{"".join(card(r) for r in rel)}</div>
-  </div>
-</section>
+<div class="band tint" data-cat="{u['cat']}">
+  <div class="sec-head"><h2>Other {c['title'].lower()}</h2></div>
+  <div class="grid" data-reveal>{"".join(card(r) for r in rel)}</div>
+</div>
 """
         html += f"""
-<section>
-  <div class="wrap">
-    <div class="unit" data-cat="{u['cat']}">
-      <div>
-        {shot(u['img'], u['n'], ratio="16/10", eager=True)}
-        <h2>About the {esc(u['n'])}</h2>
-        <div class="prose">{body}</div>
-        <dl class="specs">{specs}</dl>
-        {safety_box()}
-      </div>
-      <aside class="unit-side">
-        <span class="price">{u['price']}</span>
-        <p>Delivered, set up and collected across Tipperary and the surrounding areas.</p>
-        <a href="tel:{D.PHONE_TEL}" class="btn btn-accent">{ico("phone")}{D.PHONE_DISPLAY}</a>
-        <a href="/contact/" class="btn btn-ink">Get a price</a>
-        <a href="{wa_link()}" target="_blank" rel="noopener" class="btn btn-line">WhatsApp us</a>
-      </aside>
+<div class="band" data-cat="{u['cat']}">
+  <div class="unit">
+    <div>
+      {shot(u['img'], u['n'], ratio="16/10", eager=True)}
+      <h2>About the {esc(u['n'])}</h2>
+      <div class="prose">{body}</div>
+      <dl class="specs">{specs}</dl>
+      {safety_box()}
     </div>
+    <aside class="unit-side">
+      <span class="price">{u['price']}</span>
+      <p>Delivered, set up and collected across Tipperary and the surrounding areas.</p>
+      <a href="tel:{D.PHONE_TEL}" class="btn btn-accent">{ico("phone")}{D.PHONE_DISPLAY}</a>
+      <a href="/contact/" class="btn btn-ink">Get a price</a>
+      <a href="{wa_link()}" target="_blank" rel="noopener" class="btn btn-line">WhatsApp us</a>
+    </aside>
   </div>
-</section>
+</div>
 {more}{contact_block()}{footer()}"""
         BUILT.append(write(f"hire/{u['slug']}/index.html", html))
 
 
 # ----------------------------------------------------------- area pages -----
 def build_areas():
-    cards = "".join(
-        f'<a class="area-card" href="/{a["slug"]}/" data-reveal><h3>{a["town"]}</h3>'
-        f'<p>{a["county"]}. Also {esc(a["nearby"])}.</p></a>' for a in D.AREAS)
+    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
+    towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
+    rows = "".join(
+        f'<div class="area-row" data-reveal><h3><a href="/{a["slug"]}/">{a["town"]}</a></h3>'
+        f'<p>{a["county"]}. Also {esc(a["nearby"])}.</p></div>' for a in D.AREAS)
     html = head(f"Areas We Cover | Bouncy Castle Hire Tipperary | {D.NAME}",
                 "The towns we deliver to across Tipperary, from Clonmel and Thurles to Nenagh, "
                 "Cashel, Roscrea, Templemore, Cahir and Carrick on Suir.", "/areas/")
     html += page_hero("Areas we cover",
                       "Tipperary and the surrounding areas. If your town is not listed, ring us, "
-                      "we may still reach you.", D.IMG_AREAS, [(None, "Areas")],
-                      cat="marquee")
+                      "we may still reach you.", D.IMG_AREAS, [(None, "Areas")], cat="marquee")
     html += f"""
-<section>
-  <div class="wrap">
-    <div class="area-grid">{cards}</div>
-    <div style="margin-top:44px">{booking_strip()}</div>
+<div class="band">
+  <div class="area-rows">{rows}</div>
+</div>
+
+<div class="band areas-band">
+  <div class="sec-head"><h2>Check your area</h2></div>
+  <div class="town-list">{towns}</div>
+  <div class="checker">
+    <h3>Do we come to you?</h3>
+    <div class="checker-row">
+      <select id="areaSel" aria-label="Select your area">
+        <option value="">Select your area</option>{opts}
+        <option value="__other__">My area isn't listed</option>
+      </select>
+      <button class="btn btn-accent" id="areaBtn">Check</button>
+    </div>
+    <div id="areaOut" role="status"></div>
   </div>
-</section>
+</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("areas/index.html", html))
 
     for a in D.AREAS:
         copy = "".join(f"<p>{esc(p)}</p>" for p in a["copy"])
-        others = "".join(f'<a class="area-card" href="/{o["slug"]}/"><h3>{o["town"]}</h3>'
-                         f'<p>{o["county"]}</p></a>' for o in D.AREAS if o["slug"] != a["slug"])
+        others = "".join(f'<a href="/{o["slug"]}/">{o["town"]}</a>'
+                         for o in D.AREAS if o["slug"] != a["slug"])
         picks = "".join(card(u) for u in D.UNITS[:4])
         html = head(f"Bouncy Castle Hire {a['town']} | {D.NAME}",
                     f"Bouncy castle, combi castle and obstacle course hire in {a['town']}, "
@@ -353,35 +315,27 @@ def build_areas():
         html += page_hero(f"Bouncy castle hire in {a['town']}",
                           f"Castles, combis, obstacle courses, the disco dome and marquees, "
                           f"delivered and set up in {a['town']} and around.",
-                          D.HERO_MAIN, [("/areas/", "Areas"), (None, a["town"])],
-                          cat="castle")
+                          D.HERO_MAIN, [("/areas/", "Areas"), (None, a["town"])], cat="castle")
         html += f"""
-<section>
-  <div class="wrap">
-    <div class="prose">{copy}
-      <h2>What we bring to {a['town']}</h2>
-      <p>The full range travels: bouncy castles, combi castles with built in slides, obstacle
-      courses from a 30ft block run up to the 55ft high adrenaline units, the disco dome, sumo
-      suits, the gladiator challenge and marquees. Everything is delivered, set up and collected.</p>
-    </div>
-    {safety_box()}
+<div class="band">
+  <div class="prose">{copy}
+    <h2>What we bring to {a['town']}</h2>
+    <p>The full range travels: bouncy castles, combi castles with built in slides, obstacle
+    courses from a 30ft block run up to the 55ft high adrenaline units, the disco dome, sumo
+    suits, the gladiator challenge and marquees. Everything is delivered, set up and collected.</p>
   </div>
-</section>
+  {safety_box()}
+</div>
 
-<section class="tint">
-  <div class="wrap">
-    <div class="sec-head"><h2>What people book in {a['town']}</h2></div>
-    <div class="catalogue">{picks}</div>
-    <div class="more-row"><a href="/combi-castles/" class="btn btn-ink">See the full range</a></div>
-  </div>
-</section>
+<div class="band tint">
+  <div class="sec-head"><h2>What people book in {a['town']}</h2></div>
+  <div class="grid" data-reveal>{picks}</div>
+</div>
 
-<section>
-  <div class="wrap">
-    <div class="sec-head"><h2>Other areas</h2></div>
-    <div class="area-grid">{others}</div>
-  </div>
-</section>
+<div class="band areas-band">
+  <div class="sec-head"><h2>Other areas</h2></div>
+  <div class="town-list">{others}</div>
+</div>
 {contact_block()}{footer()}"""
         BUILT.append(write(f"{a['slug']}/index.html", html))
 
@@ -396,13 +350,11 @@ def build_simple():
     html += page_hero("Gallery", "Our castles and courses out on the road.",
                       D.SOON, [(None, "Gallery")], cat="disco")
     html += f"""
-<section>
-  <div class="wrap">
-    <div class="gallery">{gal}</div>
-    <div class="note" style="margin-top:34px">More photos going up shortly. If you have a photo of
-    one of our units at your event we would love to see it.</div>
-  </div>
-</section>
+<div class="band">
+  <div class="gallery">{gal}</div>
+  <div class="note" style="margin-top:32px">More photos going up shortly. If you have a photo of
+  one of our units at your event we would love to see it.</div>
+</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("gallery/index.html", html))
 
@@ -413,24 +365,33 @@ def build_simple():
     html += page_hero("Common questions", "What we hire, where we go, insurance and how to book.",
                       D.SOON, [(None, "FAQs")], cat="combi")
     html += f"""
-<section>
-  <div class="wrap">
-    <div class="faq">{faq_markup()}</div>
-    {safety_box()}
-  </div>
-</section>
+<div class="band">
+  <div class="faq">{faq_markup()}</div>
+  {safety_box()}
+</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("faqs/index.html", html))
 
+    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
     html = head(f"Contact | Bouncy Castle Hire Tipperary | {D.NAME}",
                 f"Call or WhatsApp {D.PHONE_DISPLAY}, or send an enquiry. Bouncy castle, "
                 "obstacle course and marquee hire across Tipperary.", "/contact/")
     html += page_hero("Contact", f"Ring or WhatsApp {D.PHONE_DISPLAY}, or send an enquiry below.",
                       D.SOON, [(None, "Contact")], cat="obstacle")
     html += f"""
-<section>
-  <div class="wrap">{booking_strip()}</div>
-</section>
+<div class="band areas-band">
+  <div class="checker" style="margin-top:0">
+    <h3>Do we come to you?</h3>
+    <div class="checker-row">
+      <select id="areaSel" aria-label="Select your area">
+        <option value="">Select your area</option>{opts}
+        <option value="__other__">My area isn't listed</option>
+      </select>
+      <button class="btn btn-accent" id="areaBtn">Check</button>
+    </div>
+    <div id="areaOut" role="status"></div>
+  </div>
+</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("contact/index.html", html))
 
@@ -441,23 +402,21 @@ def build_simple():
     html += page_hero("Hire terms", "The conditions that apply to every hire.",
                       D.SOON, [(None, "Hire terms")], cat="marquee")
     html += f"""
-<section>
-  <div class="wrap">
-    <div class="prose">
-      <h2 style="margin-top:0">Hire conditions</h2>
-      <ul style="padding-left:20px;list-style:disc">{terms}</ul>
-      <h2>Delivery and collection</h2>
-      <p>{esc(D.DELIVERY_TERMS)}</p>
-      <h2>Bookings</h2>
-      <p>Bookings are confirmed by phone on {D.PHONE_DISPLAY}. Prices depend on the unit, the date
-      and your area, and are given on enquiry.</p>
-    </div>
-    <div class="note" style="margin-top:30px"><strong>To be completed.</strong> Adam still needs to
-    supply the wording for deposits, cancellations, the weather policy, damage and the public
-    liability cover. Those sections are left out rather than guessed at, because they are
-    contractual.</div>
+<div class="band">
+  <div class="prose">
+    <h2 style="margin-top:0">Hire conditions</h2>
+    <ul style="padding-left:20px;list-style:disc">{terms}</ul>
+    <h2>Delivery and collection</h2>
+    <p>{esc(D.DELIVERY_TERMS)}</p>
+    <h2>Bookings</h2>
+    <p>Bookings are confirmed by phone on {D.PHONE_DISPLAY}. Prices depend on the unit, the date
+    and your area, and are given on enquiry.</p>
   </div>
-</section>
+  <div class="note" style="margin-top:28px"><strong>To be completed.</strong> Adam still needs to
+  supply the wording for deposits, cancellations, the weather policy, damage and the public
+  liability cover. Those sections are left out rather than guessed at, because they are
+  contractual.</div>
+</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("hire-terms/index.html", html))
 

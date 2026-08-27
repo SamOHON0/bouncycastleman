@@ -31,11 +31,43 @@ cache on `/assets/`.
 
 Rebuilt 20 Aug 2026. The cartoon "Bounce Land" house style is gone.
 
-Playful and colourful, but as a **system** rather than decoration. Every hire
-category owns a colour, and that colour follows it everywhere it appears: its
-tile on the home page, its cards in the catalogue, its no-photo panels, its
-page banner. Colour is information here, which is why the page can carry six
-brights without turning into confetti.
+### Layout
+
+A **persistent left rail** rather than a top nav. It carries the mark, the six
+categories with their colour dots, the secondary pages, the phone number and
+the one CTA, and it stays put while the content column scrolls. Below 1100px it
+becomes a top bar with a drawer, and a **sticky action bar** pins Call and
+WhatsApp to the bottom of the screen, which is what a parent on a phone
+actually wants.
+
+The **range is six horizontal shelves**, one per category, replacing the old
+tile grid plus filtered card grid. You walk sideways through the category you
+want, or open it for the full set. The arrows are an enhancement: the track
+scrolls by touch, wheel and keyboard on its own, and the arrows are hidden
+below 640px where swiping is the natural gesture.
+
+The masthead is a dark block with the headline bottom-left and the photo
+tilted and bleeding off the right edge, with the three fact cards straddling
+the seam below it. Then: a dotted timeline for how it works, a six-cell bento
+for why us, a full-bleed teal band with towns as pills and the area checker
+inside it, staggered quote cards, a two-column FAQ, and a split contact block.
+Every section is a different layout family and none repeats.
+
+### The mark
+
+An arch with a pennant flying off it, replacing the flat crenellated block. The
+arch reads as a castle doorway rather than a battlement, the flag gives it a
+fairground note, and the doorway is cut out with `fill-rule evenodd` so the
+whole thing is one path. Two tone, vermillion and amber. The wordmark sets MAN
+in a filled pill beside it. Same shape does duty as the SVG favicon.
+`logo_mark()` in `generate.py`.
+
+### Colour
+
+Playful as a **system** rather than decoration. Every hire category owns a
+colour, and that colour follows it everywhere: its dot in the rail, its shelf,
+its cards, its no-photo panels, its page banner. Colour is information here,
+which is why the page can carry six brights without turning into confetti.
 
 | Category | Fill | Text on it |
 |---|---|---|
@@ -64,23 +96,21 @@ substituted where it is *declared*, not where it is used, so `--ct:var(--c)` on
 `:root` would resolve once against the root colour and every category would
 inherit that one value.
 
-Other decisions:
+### Other decisions
 
 - **Type**: Fredoka for display, Figtree for body.
 - **Shape**: buttons and pills are fully round, cards and media are 16px,
   inputs are 12px. One rule, followed everywhere.
 - **Motion**: CSS only. Scroll reveal, hover lifts, chunky offset button
   shadows that compress on press. Reveal is gated behind a `.js` class so a
-  script failure can never hide content.
-- **Logo**: wordmark plus a castle mark (crenellated top, arch cut out), single
-  path, one colour, also the SVG favicon. `logo_mark()` in `generate.py`.
+  script failure can never hide content, and cards carry no reveal of their own
+  because they live inside horizontally scrolling shelves.
 - **No-photo panels**: units without a photo render their name set large on
   their own category colour. Set `img=` on the unit in `data.py` and the panel
   swaps itself out for the photo.
-
-Layout rules that are deliberate: eyebrows are rationed to one per three
-sections, no section layout family repeats on a page, and there is no
-three-equal-cards row anywhere. `pages.py` has a note at the top.
+- The chatbot widget is gone. The rail carries the phone number, WhatsApp and
+  the CTA at all times, and mobile has the action bar, so the bubble was doing
+  nothing the layout was not already doing better.
 
 ## What is here
 
@@ -126,12 +156,13 @@ Built and rendered in headless Chromium on 20 Aug 2026.
 
 - 44 pages, 0 broken internal links, 0 duplicate titles, descriptions or
   canonicals, one h1 per page, no unclosed tags, no description over 170 chars
-- 17 pages swept across 13 breakpoints from 320px to 1440px: no horizontal
-  overflow, no nav wrapping to a second line, no button label wrapping, no JS
-  console errors
+- 16 pages swept across 15 widths from 320px to 1600px, testing real sideways
+  scroll rather than reported scrollWidth: zero sideways scroll anywhere
 - Every rendered text node checked against its computed background across all
-  six category colours: zero WCAG AA contrast failures
-- Hero headline holds to two lines at every desktop width
-- Catalogue crop, View all, category filters, area checker, FAQ accordion and
-  chatbot all confirmed working
+  six category colours and the dark rail, drawer open and closed: zero WCAG AA
+  contrast failures
+- Masthead headline holds to two lines at every desktop width
+- Bento fills every row at all three breakpoints, no empty cell
+- Shelf arrows, disabled states, rail drawer, area checker and FAQ accordion
+  all confirmed working; every card ends at opacity 1 after a full scroll
 - Zero em-dashes or en-dashes anywhere in the output
