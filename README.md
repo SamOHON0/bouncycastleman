@@ -76,6 +76,58 @@ for why us, a full-bleed teal band with towns as pills and the area checker
 inside it, staggered quote cards, a two-column FAQ, and a split contact block.
 Every section is a different layout family and none repeats.
 
+### The date picker
+
+"Pick your date" sits between the headline and the photo in the hero.
+`date_picker()` in generate.py, grid rendered by the JS block.
+
+**It is not an availability calendar and must never look like one.** No day is
+ever shown as free or booked, because there is no booking data behind this site
+and the deal is enquiry forms with no PartyOps. What it does is remove a step:
+the customer picks a day, lands on `/contact/?d=YYYY-MM-DD` with the date field
+already filled, and the note under it says plainly that nothing is booked until
+Adam comes back to them.
+
+Past dates are `#64748b` at 4.76:1, not `--line-strong` at 1.62:1. WCAG exempts
+disabled controls from contrast, but a date grid is read as a whole: you find
+next Saturday by scanning past the days that are gone, and at 1.62:1 they were
+effectively invisible.
+
+Without JS the `.js` gate swaps the grid for a native date input, which does the
+same job, and the button is a plain link to `/contact/` either way.
+
+### The hero slideshow
+
+Six of the eight usable photos rotate in the hero frame: a castle, a combi, two
+courses, the dome and a marquee, all inside the first screen. One photo was
+carrying the whole hero and the range read as thinner than it is. The marquee is
+in the set on purpose, since Adam said that side of the business was being lost.
+
+The first slide is **eager and already `.on` in the markup**, so the hero shows a
+photo whether or not the script runs. A slideshow that needs JS to show its first
+image is a blank box when the script fails. Crossfade pauses on hover, stops
+entirely for `prefers-reduced-motion`, and does not run while the hero is off
+screen.
+
+The caption is anchored to `.shot-frame`, not to `.mast-shot`. `.mast-shot` also
+contains the dots now, and a caption pinned to its bottom edge sat on top of them.
+
+### Hero layout
+
+Three columns (headline, picker, photo) above **1400px**, not 1280: at 1366 the
+three way split leaves the headline about 346px and it takes a third line, and
+the rule that it never runs past two lines on desktop is older than the picker
+and wins. 1000 to 1400 is two columns with the picker under the buttons and a
+taller photo beside them. Below 1000 everything stacks, text first.
+
+The photo is portrait (4/4.9) in the three column hero. Beside a date card that
+is naturally tall, a landscape photo left a lot of empty sky above it and read as
+an afterthought.
+
+`.mast p` sets `--step-1` on everything in the hero, so anything small that lives
+in there (the picker's note) has to out-specify it or it renders at
+headline-adjacent size.
+
 ### Marquees
 
 Adam, 27 Aug: *"Our marquee hire side of the business is being lost with the

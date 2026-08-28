@@ -22,6 +22,7 @@ esc, write, head, footer = G.esc, G.write, G.head, G.footer
 page_hero, card, safety_box, contact_block = (
     G.page_hero, G.card, G.safety_box, G.contact_block)
 marquee_block, signpost = G.marquee_block, G.signpost
+date_picker, hero_slides = G.date_picker, G.hero_slides
 shot, ico, wa_link = G.shot, G.ico, G.wa_link
 
 BUILT = []
@@ -127,9 +128,9 @@ def build_home():
         <a href="tel:{D.PHONE_TEL}" class="btn btn-line">{ico("phone")}{D.PHONE_DISPLAY}</a>
       </div>
     </div>
+    {date_picker()}
     <div class="mast-shot">
-      {shot(D.HERO_IMG, D.HERO_IMG_NAME, ratio=None, eager=True)}
-      <span class="mast-tag">{D.HERO_IMG_NAME}, {D.HERO_IMG_TAG}</span>
+      {hero_slides()}
     </div>
   </div>
 </section>

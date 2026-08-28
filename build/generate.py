@@ -363,19 +363,31 @@ h3{font-size:var(--step-1);line-height:1.18}
     url("__ART_BUNTING__") repeat-x left -6px top -2px,
     url("__ART_WAVE__") repeat-x left bottom,
     var(--sky)}
-.mast-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
-  gap:clamp(24px,3.5vw,54px);align-items:end;position:relative;z-index:2}
+/* Three columns above 1280: headline, date picker, photo. The picker is a fixed
+   300px because a date grid has a floor below which it stops being tappable;
+   the headline and the photo share what is left. */
+.mast-grid{display:grid;
+  grid-template-columns:minmax(0,1.05fr) 272px minmax(0,.98fr);
+  gap:clamp(18px,2.1vw,34px);align-items:end;position:relative;z-index:2}
 /* The masthead headline is capped below the global display size: the left
    column is narrow because the rail takes 266px, and the hard rule is that
    the headline never runs past two lines on desktop. */
-.mast h1{font-size:clamp(33px,3vw + 14px,52px);max-width:19ch;text-wrap:balance}
+/* Smaller than it was at two columns. Three columns leave the headline about
+   370px at 1440, and the hard rule is still that it never runs past two lines. */
+/* No ch cap in the three column hero: the column itself is the measure, and a
+   14ch cap was forcing a third line the column had room to avoid. */
+.mast h1{font-size:clamp(30px,1.7vw + 11px,38px);text-wrap:balance}
 .mast h1 em{font-style:normal;color:var(--c-castle)}
 .mast p{margin-top:18px;font-size:var(--step-1);color:var(--ink-70);max-width:46ch;
   font-weight:500}
 .mast-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
 .mast-shot{position:relative}
-.mast-shot .pic{--ratio:4/3.2;border:3px solid var(--ink);transform:rotate(-1.6deg);
-  box-shadow:12px 12px 0 var(--c-castle)}
+.shot-frame{position:relative}
+/* Portrait in the three column hero. Beside a date card that is naturally tall,
+   a landscape photo left a lot of empty sky above it and read as an
+   afterthought. */
+.mast-shot .pic{--ratio:4/4.9;border:3px solid var(--ink);transform:rotate(-1.6deg);
+  box-shadow:12px 12px 0 var(--c-castle);background:var(--paper-2)}
 /* Set here, not inline on the element, so the stacked breakpoint can reshape it. */
 .mast-tag{position:absolute;left:-10px;bottom:-14px;background:var(--accent);color:var(--ink);
   padding:10px 18px;border-radius:var(--r-pill);font-family:var(--display);font-weight:600;
@@ -393,8 +405,25 @@ h3{font-size:var(--step-1);line-height:1.18}
    448px tall image between the top bar and the h1 and pushed the headline and
    both buttons below the fold on every phone and small laptop. Below the text
    it also gets to be wider and shallower, which suits a single column. */
-@media(max-width:1360px){.mast-grid{grid-template-columns:1fr}
-  .mast-shot{max-width:640px;margin-top:10px}
+/* Below 1280 there is not room for three. The picker goes under the buttons
+   beside the photo, which keeps it above the fold, and below 1000 everything
+   stacks with the text leading. */
+/* 1400, not 1280. At 1366 the three column split leaves the headline about
+   346px and it takes a third line; the rule that it never runs past two lines
+   on desktop is older than the date picker and it wins. */
+@media(max-width:1400px){
+  .mast-grid{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
+  /* Two columns now carry the picker under the buttons, so the left column is
+     narrower than it was and 52px ran the headline to three lines. */
+  .mast h1{font-size:clamp(33px,2.5vw + 10px,45px);max-width:19ch}
+  .mast p{max-width:46ch}
+  .dpick{grid-column:1;max-width:320px;margin-top:26px;align-self:start}
+  .mast-shot{grid-column:2;grid-row:1 / span 2}
+  .mast-shot .pic{--ratio:4/4.6}}
+@media(max-width:1000px){
+  .mast-grid{grid-template-columns:1fr}
+  .dpick{grid-column:1;max-width:340px}
+  .mast-shot{grid-column:1;grid-row:auto;max-width:640px;margin-top:10px}
   .mast-shot .pic{--ratio:4/2.5}}
 
 /* Facts sit across the seam between the masthead and the page. */
@@ -409,6 +438,68 @@ h3{font-size:var(--step-1);line-height:1.18}
   color:var(--fc);line-height:1.1;margin-bottom:2px}
 .facts span{color:var(--ink-70);font-size:14.5px;font-weight:500}
 @media(max-width:760px){.facts{grid-template-columns:1fr;margin-top:-26px}}
+
+/* --------------------------------------------------------- hero slides --- */
+.slides{position:relative}
+.slides .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
+  opacity:0;transition:opacity .7s ease}
+.slides .slide.on{opacity:1}
+/* No JS: the first slide is already .on and already loaded, so the hero shows a
+   photo whatever happens to the script. */
+.slide-dots{display:none;gap:7px;justify-content:center;margin-top:26px}
+.js .slide-dots{display:flex}
+.slide-dots .dot{width:9px;height:9px;padding:0;border-radius:50%;cursor:pointer;
+  border:2px solid var(--ink);background:transparent;transition:background .16s}
+.slide-dots .dot.on{background:var(--ink)}
+@media(prefers-reduced-motion:reduce){.slides .slide{transition:none}}
+
+/* ---------------------------------------------------------- date pick --- */
+/* Sits between the headline and the photo in the hero. Same card language as
+   everything else: white, 3px ink border, chunky offset shadow.
+   Deliberately NOT an availability calendar. No day is ever shown as free or
+   booked, because we have no booking data and inventing one would be a promise
+   Adam has not made. It picks a date and carries it into the enquiry. */
+.dpick{background:#fff;border:3px solid var(--ink);border-radius:var(--r);
+  padding:16px 16px 15px;box-shadow:8px 8px 0 var(--accent);align-self:end;
+  width:100%;max-width:272px}
+.dp-label{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--ink-45);margin-bottom:12px}
+.dp-head{display:flex;align-items:center;justify-content:space-between;gap:6px;
+  margin-bottom:10px}
+.dp-month{font-family:var(--display);font-weight:600;font-size:16.5px;
+  text-align:center;flex:1;min-width:0}
+.dp-nav{width:30px;height:30px;flex:none;border:2px solid var(--line-strong);
+  border-radius:50%;background:#fff;cursor:pointer;font-size:17px;line-height:1;
+  color:var(--ink);transition:background .14s,border-color .14s}
+.dp-nav:hover:not(:disabled){background:var(--accent);border-color:var(--ink)}
+.dp-nav:disabled{opacity:.32;cursor:not-allowed}
+.dp-dow,.dp-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px}
+.dp-dow{margin-bottom:4px}
+.dp-dow span{text-align:center;font-size:11px;font-weight:800;color:var(--ink-45)}
+.dp-grid{display:none}
+.js .dp-grid{display:grid}
+.dp-grid button{aspect-ratio:1;border:0;background:none;border-radius:8px;
+  font-size:13.5px;font-weight:600;color:var(--ink);cursor:pointer;padding:0;
+  transition:background .12s,color .12s}
+.dp-grid button:hover:not(:disabled){background:var(--paper-2)}
+/* Past dates. WCAG exempts disabled controls from contrast, but a date grid is
+   read as a whole: you find next Saturday by scanning past the days that are
+   gone. #b9cdeb measured 1.62:1 and was effectively invisible. #64748b is
+   4.76:1, still obviously muted against the ink of a live day. */
+.dp-grid button:disabled{color:#64748b;opacity:.75;cursor:default}
+.dp-grid button.today{box-shadow:inset 0 0 0 2px var(--line-strong)}
+.dp-grid button.on{background:var(--c-castle);color:#fff}
+.dp-grid span{aspect-ratio:1}
+/* No JS: a native date input does the same job. */
+.dp-fallback{display:block;font-size:13px;font-weight:700;color:var(--ink-70)}
+.dp-fallback input{width:100%;margin-top:6px;padding:11px 12px;
+  border:2px solid var(--line-strong);border-radius:var(--r-sm);font-size:15px}
+.js .dp-fallback{display:none}
+.dp-go{width:100%;margin-top:14px}
+/* .mast p sets step-1 on everything in the hero, and this lives in the hero, so
+   it has to out-specify that or the note renders at headline-adjacent size. */
+.mast .dp-note,.dp-note{margin-top:10px;font-size:12.5px;line-height:1.45;
+  color:var(--ink-45);font-weight:500;max-width:none}
 
 /* -------------------------------------------------------------- picture -- */
 .pic{display:block;position:relative;aspect-ratio:var(--ratio,4/3);overflow:hidden;
@@ -887,6 +978,99 @@ document.querySelectorAll('[data-shelf]').forEach(shelf => {
 });
 
 /* AREA CHECKER */
+/* HERO SLIDESHOW. Crossfade, pause on hover, stop entirely for anyone who has
+   asked for reduced motion. The first slide is already visible from the markup,
+   so none of this is load bearing. */
+const slidesEl = document.getElementById('heroSlides');
+if (slidesEl) {
+  const slides = [...slidesEl.querySelectorAll('.slide')];
+  const dots = [...document.querySelectorAll('#heroDots .dot')];
+  const cap = document.querySelector('.mast-tag');
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let i = 0, timer = null;
+
+  function show(n) {
+    i = (n + slides.length) % slides.length;
+    slides.forEach((s, k) => s.classList.toggle('on', k === i));
+    dots.forEach((d, k) => d.classList.toggle('on', k === i));
+    if (cap) cap.textContent = slides[i].dataset.cap;
+  }
+  function start() { if (!still && !timer) timer = setInterval(() => show(i + 1), 5000); }
+  function stop() { clearInterval(timer); timer = null; }
+
+  dots.forEach((d, k) => d.addEventListener('click', () => { show(k); stop(); }));
+  slidesEl.addEventListener('mouseenter', stop);
+  slidesEl.addEventListener('mouseleave', start);
+  /* Nothing animates while the hero is off screen. */
+  new IntersectionObserver(es => es[0].isIntersecting ? start() : stop(),
+                           { threshold: 0.2 }).observe(slidesEl);
+}
+
+/* DATE PICKER (hero) and the date it hands to the contact form.
+   Not an availability calendar: no day is ever marked free or booked, because
+   there is no booking data behind this site. It picks a date, puts it in the
+   link to the contact page, and the contact page fills the field. */
+const dpGrid = document.getElementById('dpGrid');
+if (dpGrid) {
+  const MONTHS = ['January','February','March','April','May','June','July',
+                  'August','September','October','November','December'];
+  const monthEl = document.getElementById('dpMonth');
+  const goEl = document.getElementById('dpGo');
+  const prevEl = document.getElementById('dpPrev');
+  const nextEl = document.getElementById('dpNext');
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  let view = new Date(today.getFullYear(), today.getMonth(), 1);
+  let picked = null;
+
+  const iso = d => d.getFullYear() + '-' +
+    String(d.getMonth() + 1).padStart(2, '0') + '-' +
+    String(d.getDate()).padStart(2, '0');
+
+  function render() {
+    monthEl.textContent = MONTHS[view.getMonth()] + ' ' + view.getFullYear();
+    prevEl.disabled = view.getFullYear() === today.getFullYear() &&
+                      view.getMonth() === today.getMonth();
+    dpGrid.textContent = '';
+    /* Monday first: getDay() is 0 for Sunday, so shift it. */
+    const lead = (new Date(view.getFullYear(), view.getMonth(), 1).getDay() + 6) % 7;
+    for (let i = 0; i < lead; i++) dpGrid.appendChild(document.createElement('span'));
+    const days = new Date(view.getFullYear(), view.getMonth() + 1, 0).getDate();
+    for (let d = 1; d <= days; d++) {
+      const date = new Date(view.getFullYear(), view.getMonth(), d);
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = d;
+      if (date < today) { b.disabled = true; }
+      if (date.getTime() === today.getTime()) b.classList.add('today');
+      if (picked && date.getTime() === picked.getTime()) {
+        b.classList.add('on'); b.setAttribute('aria-pressed', 'true');
+      }
+      b.addEventListener('click', () => { picked = date; render(); });
+      dpGrid.appendChild(b);
+    }
+    goEl.href = picked ? '/contact/?d=' + iso(picked) : '/contact/';
+    goEl.textContent = picked
+      ? 'Get a price for ' + picked.getDate() + ' ' + MONTHS[picked.getMonth()].slice(0, 3)
+      : 'Get a price';
+  }
+  prevEl.addEventListener('click', () => {
+    view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render();
+  });
+  nextEl.addEventListener('click', () => {
+    view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render();
+  });
+  render();
+}
+
+/* The contact form picks the date up out of the URL. */
+const dField = document.getElementById('d');
+if (dField) {
+  const q = new URLSearchParams(location.search).get('d');
+  if (q && /^\d{4}-\d{2}-\d{2}$/.test(q)) {
+    dField.value = q;
+    dField.closest('form').scrollIntoView({ block: 'center' });
+  }
+}
+
 const areaBtn = document.getElementById('areaBtn');
 if (areaBtn) {
   areaBtn.addEventListener('click', () => {
@@ -1148,6 +1332,69 @@ def signpost(copy, label="Also from us", href="/marquees/", link="See marquee hi
     """
     return (f'<div class="signpost"><span class="sp-l">{esc(label)}</span>'
             f'<p>{esc(copy)}</p><a href="{href}">{esc(link)}</a></div>')
+
+
+def hero_slides():
+    """The hero photo, as a slideshow.
+
+    Eight usable images exist and one of them was carrying the whole hero, so
+    the range read as thinner than it is. Six rotate here: a castle, a combi,
+    two courses, the dome and a marquee, all inside the first screen. The
+    marquee is in the set on purpose, since Adam said that side of the business
+    was being lost.
+
+    The first slide is eager and visible with no JS at all; the rest are lazy
+    and only fade in if the script runs. A slideshow that needs JS to show its
+    FIRST image is a blank box when the script fails.
+    """
+    out = []
+    for i, (src, name, tag) in enumerate(D.HERO_SLIDES):
+        cls = "slide on" if i == 0 else "slide"
+        load = "eager" if i == 0 else "lazy"
+        out.append(f'<img class="{cls}" src="{src}" alt="{esc(name)}" loading="{load}" '
+                   f'data-cap="{esc(name)}, {esc(tag)}">')
+    dots = "".join(
+        f'<button type="button" class="dot{" on" if i == 0 else ""}" '
+        f'aria-label="Photo {i + 1}"></button>' for i in range(len(D.HERO_SLIDES)))
+    # The caption is anchored to the FRAME, not to .mast-shot. .mast-shot now
+    # also contains the dots, so a tag pinned to its bottom edge sat on top of
+    # them and they were invisible.
+    return (f'<div class="shot-frame">'
+            f'<span class="pic slides" id="heroSlides">{"".join(out)}</span>'
+            f'<span class="mast-tag">{esc(D.HERO_IMG_NAME)}, {esc(D.HERO_IMG_TAG)}</span>'
+            f'</div>'
+            f'<div class="slide-dots" id="heroDots">{dots}</div>')
+
+
+def date_picker():
+    """"Pick your date" in the hero. It carries the date into the enquiry.
+
+    It is NOT an availability calendar and must never look like one. We have no
+    booking data, so a grid showing free and booked days would be invented, and
+    the deal is enquiry forms with no PartyOps behind them. What this does is
+    remove a step: the customer picks the day here, lands on the contact form
+    with it already filled, and the note says plainly that nothing is booked
+    until Adam comes back to them.
+
+    The grid is JS. Without JS the .js gate leaves a native date input in its
+    place, which does the same job, and the button is a plain link either way.
+    """
+    return f"""
+<div class="dpick">
+  <span class="dp-label">Pick your date</span>
+  <div class="dp-head">
+    <button type="button" class="dp-nav" id="dpPrev" aria-label="Previous month">&#8249;</button>
+    <span class="dp-month" id="dpMonth" aria-live="polite">&nbsp;</span>
+    <button type="button" class="dp-nav" id="dpNext" aria-label="Next month">&#8250;</button>
+  </div>
+  <div class="dp-dow" aria-hidden="true"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div>
+  <div class="dp-grid" id="dpGrid"></div>
+  <label class="dp-fallback">Date of your party
+    <input type="date" id="dpInput"></label>
+  <a href="/contact/" class="btn btn-accent dp-go" id="dpGo">Get a price</a>
+  <p class="dp-note">We come straight back with a price. Nothing is booked until we talk.</p>
+</div>
+"""
 
 
 def marquee_block(heading, lede, eyebrow=None):

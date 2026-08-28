@@ -49,9 +49,24 @@ IMG_CASTLE_B = _S + "uploads/bouncy_castle_2.jpg"
 SOON = "__SOON__"
 
 HERO_MAIN = IMG_LIZARD
-HERO_IMG = IMG_LIZARD
-HERO_IMG_NAME = "Red Lizard Obstacle"
-HERO_IMG_TAG = "50ft"
+
+# The hero photo is a SLIDESHOW. There are only eight usable images on the old
+# site and one of them was carrying the whole hero, so the range looked thinner
+# than it is. Rotating six of them shows a castle, a combi, two courses, the
+# dome and a marquee inside the first screen, which is the actual pitch. The
+# marquee is in here on purpose: Adam said that side of the business was being
+# lost. Replace the lot the day he sends real photos.
+HERO_SLIDES = [
+    (IMG_LIZARD,     "Red Lizard Obstacle", "50ft"),
+    (IMG_CASTLE_C3,  "Large Combi Castle",  "19x19ft"),
+    (IMG_GREENGOLD,  "Obstacle Course",     "Green and gold"),
+    (IMG_MARQUEE,    "Marquee",             "50ft x 20ft"),
+    (IMG_DISCO,      "Disco Dome",          "Lights and sound"),
+    (IMG_CASTLE_A,   "Bouncy Castle",       "Rain cover included"),
+]
+HERO_IMG = HERO_SLIDES[0][0]
+HERO_IMG_NAME = HERO_SLIDES[0][1]
+HERO_IMG_TAG = HERO_SLIDES[0][2]
 IMG_AREAS = IMG_GREENGOLD
 
 DELIVERY_TERMS = ("Delivery, set up and collection are included across Tipperary and the "
