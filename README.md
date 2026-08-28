@@ -95,6 +95,17 @@ does not need them ("sized to your numbers") rather than guessing at a figure.
 Add them to `MARQUEE_EXTRAS` and the unit specs when he comes back and the page
 reads a good deal stronger.
 
+A **signpost** carries marquees to the rest of the site: a one line cross link
+on the other five category pages, the 22 other unit pages and all 9 town pages,
+36 in total. `signpost()` in `generate.py`. A block on two pages does not fix
+invisibility if a customer lands on "bouncy castle hire clonmel" and never sees
+it, and for a local hire business a town page or a single unit page is where
+they land far more often than the home page. It is one line with a rule and an
+arrow rather than a card, so it signposts without competing with the page it
+sits on, and the copy changes by context so it does not read as the same banner
+stamped everywhere. Below 620px the label moves onto its own line, because
+beside the copy it pinched the text to half width and ran it to seven lines.
+
 Tables and chairs are a **separate hire line** with their own unit page at
 `/hire/tables-and-chairs/`, because he hires them without a marquee and the old
 site never said so. They live in the marquee category rather than becoming a

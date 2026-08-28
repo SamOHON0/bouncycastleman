@@ -21,7 +21,7 @@ import generate as G
 esc, write, head, footer = G.esc, G.write, G.head, G.footer
 page_hero, card, safety_box, contact_block = (
     G.page_hero, G.card, G.safety_box, G.contact_block)
-marquee_block = G.marquee_block
+marquee_block, signpost = G.marquee_block, G.signpost
 shot, ico, wa_link = G.shot, G.ico, G.wa_link
 
 BUILT = []
@@ -216,6 +216,9 @@ def build_categories():
         # Marquees lead with the fit-out block. The category is two hire lines
         # rather than a wall of units, so a card grid on its own says almost
         # nothing about what you actually get.
+        sign = "" if c["cat"] == "marquee" else signpost(
+            "We hire marquees as well, in a range of sizes, with flooring, tables, chairs, "
+            "lighting and heating. Tables and chairs on their own too.")
         lead = ""
         if c["cat"] == "marquee":
             lead = ('<div class="band" style="padding-bottom:0">'
@@ -229,6 +232,7 @@ def build_categories():
   <div class="prose" style="margin-bottom:36px"><p>{esc(c['intro'])}</p></div>
   <div class="grid" data-reveal>{items}</div>
   {safety_box()}
+  {sign}
 </div>
 
 <div class="band areas-band">
@@ -249,6 +253,10 @@ def build_units():
                         for k, v in u["specs"])
         body = "".join(f"<p>{esc(p)}</p>" for p in u["body"])
         rel = [x for x in D.UNITS if x["cat"] == u["cat"] and x["slug"] != u["slug"]][:4]
+        # Marquee units already sit on the marquee side of the site.
+        sign = "" if u["cat"] == "marquee" else signpost(
+            "Doing a communion, a confirmation or a party that needs cover as well? We hire "
+            "marquees, and tables and chairs on their own.")
         prod = {"@context": "https://schema.org", "@type": "Product", "name": u["n"],
                 "description": u["short"], "brand": {"@type": "Brand", "name": D.NAME},
                 "offers": {"@type": "Offer", "availability": "https://schema.org/InStock",
@@ -277,6 +285,7 @@ def build_units():
       <div class="prose">{body}</div>
       <dl class="specs">{specs}</dl>
       {safety_box()}
+      {sign}
     </div>
     <aside class="unit-side">
       <span class="price">{u['price']}</span>
@@ -349,6 +358,10 @@ def build_areas():
     suits, the gladiator challenge and marquees. Everything is delivered, set up and collected.</p>
   </div>
   {safety_box()}
+  {signpost(
+      f"Marquees come to {a['town']} too, in a range of sizes, with flooring, tables, chairs, "
+      f"lighting and heating. Tables and chairs on their own as well.",
+      link="See marquee hire")}
 </div>
 
 <div class="band tint">
