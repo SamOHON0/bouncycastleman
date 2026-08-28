@@ -21,6 +21,7 @@ import generate as G
 esc, write, head, footer = G.esc, G.write, G.head, G.footer
 page_hero, card, safety_box, contact_block = (
     G.page_hero, G.card, G.safety_box, G.contact_block)
+marquee_block = G.marquee_block
 shot, ico, wa_link = G.shot, G.ico, G.wa_link
 
 BUILT = []
@@ -121,7 +122,7 @@ def build_home():
       </div>
     </div>
     <div class="mast-shot">
-      {shot(D.HERO_IMG, D.HERO_IMG_NAME, ratio="4/3.2", eager=True)}
+      {shot(D.HERO_IMG, D.HERO_IMG_NAME, ratio=None, eager=True)}
       <span class="mast-tag">{D.HERO_IMG_NAME}, {D.HERO_IMG_TAG}</span>
     </div>
   </div>
@@ -139,6 +140,11 @@ def build_home():
   </div>
 </div>
 {shelves}
+
+<div class="band">{marquee_block(
+    "Marquees, floored, furnished, lit and heated",
+    "A marquee in the size your numbers need, on its own or fitted out. Communions, "
+    "confirmations, corporate days and family parties, in any season.")}</div>
 
 <div class="band tint">
   <div class="sec-head"><h2>How it works</h2></div>
@@ -193,14 +199,32 @@ def build_categories():
         towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
         # "All 1 of our disco dome travel" is broken English, so singular gets
         # its own sentence.
-        travels = (f"Our {c['title'].lower().rstrip('s')} travels to every town we cover."
-                   if len(units) == 1 else
-                   f"All {len(units)} of our {c['title'].lower()} travel to every town we cover.")
+        # Marquees is the one category whose units are not all the same noun:
+        # "All 2 of our marquees travel" would be counting the chairs as a
+        # marquee. It gets its own sentence.
+        if c["cat"] == "marquee":
+            travels = "Marquees, tables and chairs travel to every town we cover."
+        elif len(units) == 1:
+            travels = f"Our {c['title'].lower().rstrip('s')} travels to every town we cover."
+        else:
+            travels = (f"All {len(units)} of our {c['title'].lower()} travel to every town "
+                       f"we cover.")
         html = head(f"{c['title']} Hire Tipperary | {D.NAME}",
                     esc(c["intro"])[:158], f"/{c['slug']}/", c["hero"])
         html += page_hero(f"{c['title']} hire in Tipperary", esc(c["blurb"]), c["hero"],
                           [(None, c["title"])], cat=c["cat"])
-        html += f"""
+        # Marquees lead with the fit-out block. The category is two hire lines
+        # rather than a wall of units, so a card grid on its own says almost
+        # nothing about what you actually get.
+        lead = ""
+        if c["cat"] == "marquee":
+            lead = ('<div class="band" style="padding-bottom:0">'
+                    + marquee_block("What a marquee from us looks like",
+                                    "Sized to your numbers, in all seasons, delivered, put up "
+                                    "and taken down again. Fit it out with as much or as "
+                                    "little as you need.")
+                    + "</div>")
+        html += lead + f"""
 <div class="band" data-cat="{c['cat']}">
   <div class="prose" style="margin-bottom:36px"><p>{esc(c['intro'])}</p></div>
   <div class="grid" data-reveal>{items}</div>

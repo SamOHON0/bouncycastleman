@@ -98,10 +98,12 @@ CATEGORIES = [
                "office events across Tipperary."),
     dict(slug="marquees", cat="marquee", k="k6", title="Marquees",
          hero=IMG_MARQUEE,
-         blurb="All season marquees for parties, communions and corporate days.",
-         intro="We hire marquees across Tipperary and the surrounding areas. They can be used "
-               "in all seasons and for all events, from communions and confirmations to "
-               "corporate days and family parties."),
+         blurb="Marquees in a range of sizes, with flooring, furniture, lighting and heat.",
+         intro="We hire marquees in a range of sizes across Tipperary and the surrounding "
+               "areas, in all seasons and for all events, from communions and confirmations "
+               "to corporate days and family parties. A marquee can go out on its own or "
+               "fitted out with flooring, tables, chairs, lighting and heaters, and we hire "
+               "tables and chairs on their own as well."),
 ]
 
 # ------------------------------------------------------------------ units ----
@@ -282,13 +284,46 @@ UNITS = [
 
     # ---- marquees ----
     _u("marquee-hire", "Marquee Hire", "marquee", "All seasons",
-       "Marquees for communions, confirmations, corporate days and family parties.",
-       ["We hire marquees across Tipperary and the surrounding areas, and they can be used in "
-        "all seasons and for all events.",
+       "Marquees in a range of sizes, with flooring, furniture, lighting and heating.",
+       ["We hire marquees in a range of sizes across Tipperary and the surrounding areas, and "
+        "they can be used in all seasons and for all events.",
+        "A marquee can go out on its own or fitted out: flooring through it, tables and chairs "
+        "set out for your numbers, lighting for the evening and heaters so the weather is not "
+        "the deciding factor.",
         "Communions, confirmations, corporate days, birthdays and family parties. Ring Adam "
         "with your date and the numbers you are expecting and we will size it for you."],
-       [("Sizes", "Including 50ft x 20ft"), ("Season", "All seasons"),
-        ("Suits", "Communions, confirmations, corporate, parties")], img=IMG_MARQUEE),
+       [("Sizes", "A range, sized to your numbers"), ("Flooring", "Available"),
+        ("Tables and chairs", "Available"), ("Lighting", "Available"),
+        ("Heating", "Available"), ("Season", "All seasons")], img=IMG_MARQUEE),
+    # Furniture on its own. Adam: "We also hire tables and chairs separately from
+    # the marquees." It sits in the marquee category rather than becoming a
+    # seventh one: it is the same side of the business, and six categories is
+    # load bearing across the rail, the shelves and the copy.
+    _u("tables-and-chairs", "Tables & Chairs", "marquee", "Separate hire",
+       "Tables and chairs hired on their own, with or without a marquee.",
+       ["We hire tables and chairs on their own, not only as part of a marquee. If you have "
+        "the room already, at home, in a hall or in a shed, and you just need to seat people, "
+        "this is the one to ring about.",
+        "Tell us how many you are expecting and we will work out the tables and chairs you "
+        "need. Delivered, set out and collected the same as everything else we hire."],
+       [("Hire", "On their own or with a marquee"),
+        ("Numbers", "Sized to your guest list"),
+        ("Delivery", "Delivered, set out and collected")]),
+]
+
+# ------------------------------------------------------- marquee extras ----
+# What a marquee can be fitted out with. Straight from Adam, 27 Aug 2026:
+# "we hire various sizes that can home with floors , tables , chairs , lights
+# and heaters", plus tables and chairs hired separately from the marquees.
+# TODO: Adam has NOT given the actual marquee sizes, capacities or prices. The
+# page is deliberately written so it does not need them, but add them here as
+# soon as he comes back and the sizes will read a lot stronger than "a range".
+MARQUEE_EXTRAS = [
+    ("Flooring", "A solid floor laid through the marquee, so wet ground is not the end of it."),
+    ("Tables", "Enough tables for your numbers, set out before you arrive."),
+    ("Chairs", "Seating to match the tables."),
+    ("Lighting", "Lit inside for evening events."),
+    ("Heating", "Heaters, so the marquee works in any season."),
 ]
 
 # ------------------------------------------------------------------ areas ----

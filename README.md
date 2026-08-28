@@ -15,7 +15,7 @@ python3 generate.py
 ```
 
 No npm, no dependencies, Python 3 only. Safe to re-run, it only overwrites
-files it generates. Writes 44 pages plus `assets/`, `sitemap.xml`,
+files it generates. Writes 45 pages plus `assets/`, `sitemap.xml`,
 `robots.txt` and `vercel.json` to the repo root.
 
 Preview locally with `python3 -m http.server 8000`.
@@ -49,10 +49,61 @@ below 640px where swiping is the natural gesture.
 
 The masthead is a soft sky-blue block with the headline bottom-left and the
 photo tilted and bleeding off the right edge, with the three fact cards
-straddling the seam below it. Then: a dotted timeline for how it works, a six-cell bento
+straddling the seam below it. The block is **drawn in the mark's language**
+rather than decorated: bunting along the top in the six category colours in
+order, and the seam cut as a wave carrying the same heavy ink line the castle is
+outlined in. Both are flat fills with a 3 to 3.5px ink stroke, which is the one
+rule the mark follows, so the hero reads as the same hand that drew the logo.
+Art in `build/brand/bunting.svg` and `wave.svg`, hashed into `/assets/` like
+everything else. `wave.svg` carries `--paper` as a literal `#f8fbff`: change
+`--paper` and the wave has to change with it.
+
+A cloud was drawn and cut. Everywhere it fit it sat half behind the photo frame
+and read as a smudge, and the hero already carries bunting, a tilted frame and
+the straddling cards. `build/brand/cloud.svg` is kept for a section with room
+for it.
+
+Stacked, below 1360px, the **text leads**. The photo used to be ordered above it,
+which put a 448px tall image between the top bar and the h1 and pushed the
+headline and both buttons below the fold on every phone and small laptop. Below
+the text it is also wider and shallower, which suits one column. It reshapes at
+that breakpoint, so its ratio comes from the stylesheet: `shot()` takes
+`ratio=None` to omit the inline style, because an inline style beats a media
+query.
+
+Then: a dotted timeline for how it works, a six-cell bento
 for why us, a full-bleed teal band with towns as pills and the area checker
 inside it, staggered quote cards, a two-column FAQ, and a split contact block.
 Every section is a different layout family and none repeats.
+
+### Marquees
+
+Adam, 27 Aug: *"Our marquee hire side of the business is being lost with the
+current website."* One card in one shelf was never going to fix that, so
+marquees carry a **spotlight block** on the home page and at the top of
+`/marquees/`. `marquee_block()` in `generate.py`, content in `MARQUEE_EXTRAS`
+in `data.py`.
+
+It is its own layout family, not a reuse: a single bordered panel with a solid
+colour header strip and the fit-out running as a row of tiles underneath. The
+areas band is full-bleed colour with pills, the bento is six cells, the contact
+block is a split. This is none of those.
+
+**No marquee size is quoted anywhere.** Adam said "various sizes" and has not
+given the actual dimensions, capacities or prices. The copy is written so it
+does not need them ("sized to your numbers") rather than guessing at a figure.
+Add them to `MARQUEE_EXTRAS` and the unit specs when he comes back and the page
+reads a good deal stronger.
+
+Tables and chairs are a **separate hire line** with their own unit page at
+`/hire/tables-and-chairs/`, because he hires them without a marquee and the old
+site never said so. They live in the marquee category rather than becoming a
+seventh one: same side of the business, and six categories is load bearing
+across the rail, the shelves and the copy. Two knock-ons: the block carries an
+explicit "only need the seating?" line so the furniture is not buried in a
+sentence about marquees, and the marquee category gets its own "travels to"
+sentence, since "All 2 of our marquees travel" would be counting the chairs as
+a marquee.
 
 ### The mark
 
@@ -170,7 +221,7 @@ Two knock-on rules from that change:
 
 ## What is here
 
-- Home, 6 category pages, 23 unit pages, an areas index, 9 town pages,
+- Home, 6 category pages, 24 unit pages, an areas index, 9 town pages,
   gallery, FAQs, contact, hire terms
 - JSON-LD: EntertainmentBusiness and FAQPage on the home page, Product on
   every unit page
@@ -195,11 +246,16 @@ Everything below is blocked on Adam. All of it is marked `TODO` in
 5. **Facebook.** `FACEBOOK` is `[FACEBOOK-URL]`.
 6. **Reviews.** The three on the home page are placeholders, marked as such in
    `data.py`. Replace before go-live.
-7. **Areas.** The 9 towns are the ones from the demo pitch, not confirmed by
-   Adam. Add or drop in `AREAS`.
+7. **Areas.** CONFIRMED by Adam 27 Aug: all of Tipperary, and he has also
+   delivered to Kilkenny, Waterford, Laois, Offaly and other neighbouring
+   counties, but not regularly. The 9 towns stand. The second tier is not on
+   the site yet and needs wording that does not promise a regular service.
 8. **Prices.** Every unit says "Call for price" because the old site published
    none. Set `price=` per unit if Adam wants figures shown.
-9. **Hire terms.** Deposits, cancellations, weather policy, damage and public
+9. **Marquee sizes.** Adam said "various sizes" but gave none. `/marquees/`
+   is written so it does not need them, but the page is stronger with them.
+   Also unknown: whether the tables and chairs have a minimum order.
+10. **Hire terms.** Deposits, cancellations, weather policy, damage and public
    liability wording are deliberately left blank on `/hire-terms/` rather
    than guessed at, because they are contractual.
 
@@ -210,8 +266,8 @@ change when you send him the preview link.
 
 Built and rendered in headless Chromium on 20 Aug 2026.
 
-- 44 pages, 0 broken internal links, 0 duplicate titles, descriptions or
-  canonicals, one h1 per page, no unclosed tags, no description over 170 chars
+- 45 pages, 0 broken internal links, 0 duplicate titles, descriptions or
+  canonicals, one h1 per page, no description over 170 chars
 - 16 pages swept across 15 widths from 320px to 1600px, testing real sideways
   scroll rather than reported scrollWidth: zero sideways scroll anywhere
 - Every rendered text node checked against its computed background across all

@@ -92,11 +92,15 @@ def shot(src, alt, ratio="4/3", eager=False, tag=None):
     photos arrive and this swaps itself out.
     """
     t = f'<span class="card-tag">{esc(tag)}</span>' if tag else ""
+    # ratio=None leaves the aspect ratio to the stylesheet. An inline style beats
+    # a media query, so anything that has to reshape at a breakpoint (the
+    # masthead photo does) must not carry its ratio inline.
+    r = f' style="--ratio:{ratio}"' if ratio else ""
     if src == D.SOON:
-        return (f'<span class="pic pic-panel" style="--ratio:{ratio}" role="img" '
+        return (f'<span class="pic pic-panel"{r} role="img" '
                 f'aria-label="{esc(alt)}">{t}<span class="panel-name">{esc(alt)}</span></span>')
     load = "eager" if eager else "lazy"
-    return (f'<span class="pic" style="--ratio:{ratio}">{t}'
+    return (f'<span class="pic"{r}>{t}'
             f'<img src="{src}" alt="{esc(alt)}" loading="{load}"></span>')
 
 
@@ -313,9 +317,24 @@ h3{font-size:var(--step-1);line-height:1.18}
 
 /* -------------------------------------------------------------- masthead -- */
 /* Not a centred hero. A wide colour block with the headline bottom-left and
-   the photo bleeding off the right edge, then the facts sitting on the seam. */
-.mast{background:var(--sky);color:var(--ink);position:relative;overflow:hidden;
-  padding:clamp(40px,4.6vw,72px) var(--gut) clamp(74px,7vw,110px)}
+   the photo bleeding off the right edge, then the facts sitting on the seam.
+
+   The sky block is DRAWN in the mark's language rather than decorated with
+   gradients: bunting along the top, outlined clouds behind, and the seam cut as
+   a wave with the same heavy ink line the castle is outlined in. All four
+   pieces are flat fills with a 3 to 5px ink stroke, which is the one rule the
+   mark follows, so the hero reads as the same hand.
+   The bunting is the six category colours in order, so even the decoration is
+   the palette doing its job.
+   Art lives in build/brand/*.svg and is hashed into /assets/ like everything
+   else. wave.svg carries --paper as a literal fill (#f8fbff): change --paper
+   and the wave has to change with it. */
+.mast{color:var(--ink);position:relative;overflow:hidden;
+  padding:clamp(58px,5.4vw,84px) var(--gut) clamp(104px,8.4vw,140px);
+  background:
+    url("__ART_BUNTING__") repeat-x left -6px top -2px,
+    url("__ART_WAVE__") repeat-x left bottom,
+    var(--sky)}
 .mast-grid{display:grid;grid-template-columns:minmax(0,1.12fr) minmax(0,.88fr);
   gap:clamp(24px,3.5vw,54px);align-items:end;position:relative;z-index:2}
 /* The masthead headline is capped below the global display size: the left
@@ -329,21 +348,30 @@ h3{font-size:var(--step-1);line-height:1.18}
 .mast-shot{position:relative}
 .mast-shot .pic{--ratio:4/3.2;border:3px solid var(--ink);transform:rotate(-1.6deg);
   box-shadow:12px 12px 0 var(--c-castle)}
+/* Set here, not inline on the element, so the stacked breakpoint can reshape it. */
 .mast-tag{position:absolute;left:-10px;bottom:-14px;background:var(--accent);color:var(--ink);
   padding:10px 18px;border-radius:var(--r-pill);font-family:var(--display);font-weight:600;
   font-size:14.5px;transform:rotate(-3deg)}
-.mast::before{content:"";position:absolute;width:420px;height:420px;border-radius:50%;
-  right:-150px;top:-190px;background:var(--c-combi);opacity:.16}
-.mast::after{content:"";position:absolute;width:190px;height:190px;border-radius:50%;
-  left:-80px;bottom:-70px;background:var(--accent);opacity:.45}
+/* Clouds, drawn and outlined rather than blurred blobs. Held back to .55 so
+   they sit behind the headline instead of competing with it, and hidden on
+   narrow screens where there is no room to be scenery. */
+/* No cloud. It was tried and cut: everywhere it fit it sat half behind the
+   photo frame and read as a smudge, and the hero already carries bunting, a
+   tilted frame and the straddling cards. build/brand/cloud.svg is kept for a
+   section that has room for it. */
 /* The rail keeps 266px, so between 1100 and 1360 the masthead's left column
    is too narrow to hold the headline to two lines. Stack it instead. */
+/* Stacked, the TEXT leads. The photo used to be ordered above it, which put a
+   448px tall image between the top bar and the h1 and pushed the headline and
+   both buttons below the fold on every phone and small laptop. Below the text
+   it also gets to be wider and shallower, which suits a single column. */
 @media(max-width:1360px){.mast-grid{grid-template-columns:1fr}
-  .mast-shot{order:-1;margin-bottom:10px;max-width:560px}}
+  .mast-shot{max-width:640px;margin-top:10px}
+  .mast-shot .pic{--ratio:4/2.5}}
 
 /* Facts sit across the seam between the masthead and the page. */
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
-  margin:-58px var(--gut) 0;position:relative;z-index:3}
+  margin:-38px var(--gut) 0;position:relative;z-index:3}
 .facts div{background:#fff;border:2px solid var(--line);border-radius:var(--r);
   padding:20px 22px;box-shadow:0 8px 0 -2px rgba(20,19,16,.07)}
 .facts div:nth-child(1){--fc:var(--c-castle)}
@@ -352,7 +380,7 @@ h3{font-size:var(--step-1);line-height:1.18}
 .facts b{display:block;font-family:var(--display);font-weight:600;font-size:var(--step-2);
   color:var(--fc);line-height:1.1;margin-bottom:2px}
 .facts span{color:var(--ink-70);font-size:14.5px;font-weight:500}
-@media(max-width:760px){.facts{grid-template-columns:1fr;margin-top:-40px}}
+@media(max-width:760px){.facts{grid-template-columns:1fr;margin-top:-26px}}
 
 /* -------------------------------------------------------------- picture -- */
 .pic{display:block;position:relative;aspect-ratio:var(--ratio,4/3);overflow:hidden;
@@ -535,6 +563,48 @@ h3{font-size:var(--step-1);line-height:1.18}
 .faq-a{max-height:0;overflow:hidden;transition:max-height .3s ease}
 .faq-a p{padding:0 22px 20px;color:var(--ink-70);font-weight:450}
 @media(max-width:820px){.faq{grid-template-columns:1fr}}
+
+/* ------------------------------------------------------------- marquee --- */
+/* Adam, 27 Aug: "Our marquee hire side of the business is being lost with the
+   current website." One card in one shelf was never going to fix that, so
+   marquees get their own block on the home page and at the top of their
+   category page.
+
+   Its own layout family, not a reuse: a single bordered panel with a solid
+   colour header strip and the fit-out running as a row of tiles underneath.
+   The areas band is full-bleed colour with pills, the bento is six cells, the
+   contact block is a split. This is none of those.
+
+   No sizes are quoted anywhere in it. Adam has not given them, and the copy is
+   written so it does not need them rather than guessing at a number. */
+.marq{border:3px solid var(--ink);border-radius:var(--r);overflow:hidden;
+  background:#fff;box-shadow:10px 10px 0 var(--c-marquee)}
+.marq-head{background:var(--c-marquee);color:#fff;padding:clamp(26px,3vw,40px)}
+.marq-head h2{max-width:20ch}
+/* #d6eef4 measured 4.44:1 on the teal, just under AA. #e0f3f8 is 4.68:1. */
+.marq-head .lede{margin-top:14px;color:#e0f3f8;font-size:var(--step-1);
+  font-weight:500;max-width:56ch}
+.marq-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.marq-body{padding:clamp(24px,2.6vw,34px)}
+.marq-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--ink-45);margin-bottom:16px}
+.marq-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.marq-grid li{border:2px solid var(--line);border-radius:var(--r-sm);
+  padding:16px 16px 18px;min-width:0}
+.marq-grid b{display:block;font-family:var(--display);font-weight:600;
+  font-size:17.5px;color:var(--c-marquee);margin-bottom:5px}
+.marq-grid span{font-size:14.5px;color:var(--ink-70);font-weight:450;
+  overflow-wrap:break-word}
+/* Furniture on its own is a real hire line, not a footnote to the marquee. */
+.marq-also{margin-top:16px;border:2px dashed var(--line-strong);border-radius:var(--r-sm);
+  padding:16px 20px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;
+  font-weight:500;color:var(--ink-70);font-size:15.5px}
+.marq-also a{font-weight:800;color:var(--c-marquee);text-decoration:underline;
+  text-underline-offset:3px}
+@media(max-width:1100px){.marq-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:640px){.marq-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .marq{box-shadow:6px 6px 0 var(--c-marquee)}}
+@media(max-width:380px){.marq-grid{grid-template-columns:1fr}}
 
 /* ------------------------------------------------------------- notices --- */
 .note{background:#fff6db;border:2px solid #f2e2ac;border-radius:var(--r);padding:20px 24px;
@@ -788,21 +858,32 @@ def build_assets():
     adir = os.path.join(ROOT, "assets")
     os.makedirs(adir, exist_ok=True)
     for f in os.listdir(adir):
-        if re.fullmatch(r"(styles|script|logo)\.[0-9a-f]{8}\.(css|js|png|svg)", f):
+        if re.fullmatch(r"(styles|script|logo|bunting|wave|cloud)"
+                        r"\.[0-9a-f]{8}\.(css|js|png|svg)", f):
             os.remove(os.path.join(adir, f))
 
-    # Brand artwork. The logo is hashed like the stylesheet because /assets/ is
-    # served immutable for a year; the icons go to the root, which is not.
+    # Brand artwork. Hashed like the stylesheet because /assets/ is served
+    # immutable for a year; the icons go to the root, which is not.
     bdir = os.path.join(HERE, "brand")
-    raw = io.open(os.path.join(bdir, "castle.svg"), "rb").read()
-    h = hashlib.md5(raw).hexdigest()[:8]
-    ASSET["logo"] = "/assets/logo.%s.svg" % h
-    io.open(os.path.join(adir, "logo.%s.svg" % h), "wb").write(raw)
+
+    def art(src, name):
+        raw = io.open(os.path.join(bdir, src), "rb").read()
+        h = hashlib.md5(raw).hexdigest()[:8]
+        url = "/assets/%s.%s.svg" % (name, h)
+        io.open(os.path.join(adir, "%s.%s.svg" % (name, h)), "wb").write(raw)
+        return url
+
+    ASSET["logo"] = art("castle.svg", "logo")
     for icon in ("favicon.png", "apple-touch-icon.png"):
         io.open(os.path.join(ROOT, icon), "wb").write(
             io.open(os.path.join(bdir, icon), "rb").read())
 
+    # The masthead art is referenced from the stylesheet, so it has to be
+    # substituted BEFORE the CSS is hashed or the hash will not track the art.
     css = CSS.strip() + "\n"
+    for token, src, name in (("__ART_BUNTING__", "bunting.svg", "bunting"),
+                             ("__ART_WAVE__", "wave.svg", "wave")):
+        css = css.replace(token, art(src, name))
     h = hashlib.md5(css.encode("utf-8")).hexdigest()[:8]
     ASSET["css"] = "/assets/styles.%s.css" % h
     write("assets/styles.%s.css" % h, css)
@@ -977,6 +1058,38 @@ def card(u):
         <p>{esc(u['short'])}</p>
         <div class="card-foot"><span class="price">{u['price']}</span><span class="card-cta">View</span></div>
       </a>
+"""
+
+
+def marquee_block(heading, lede):
+    """The marquee spotlight. Used on the home page and the marquee category page.
+
+    Adam told us the marquee side of the business was being lost on the old
+    site. This block is the answer to that: the fit-out spelled out, and the
+    furniture-only hire given its own line rather than being buried in a
+    sentence about marquees.
+    """
+    tiles = "".join(f"<li><b>{esc(n)}</b><span>{esc(d)}</span></li>"
+                    for n, d in D.MARQUEE_EXTRAS)
+    return f"""
+<div class="marq" data-cat="marquee">
+  <div class="marq-head">
+    <h2>{heading}</h2>
+    <p class="lede">{esc(lede)}</p>
+    <div class="marq-actions">
+      <a href="/contact/" class="btn btn-accent">Get a marquee price</a>
+      <a href="tel:{D.PHONE_TEL}" class="btn btn-ghost">{ico("phone")}{D.PHONE_DISPLAY}</a>
+    </div>
+  </div>
+  <div class="marq-body">
+    <div class="marq-label">Fit it out with</div>
+    <ul class="marq-grid">{tiles}</ul>
+    <div class="marq-also">
+      <span>Only need the seating?</span>
+      <a href="/hire/tables-and-chairs/">We hire tables and chairs on their own</a>
+    </div>
+  </div>
+</div>
 """
 
 
