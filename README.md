@@ -89,11 +89,74 @@ colour header strip and the fit-out running as a row of tiles underneath. The
 areas band is full-bleed colour with pills, the bento is six cells, the contact
 block is a split. This is none of those.
 
-**No marquee size is quoted anywhere.** Adam said "various sizes" and has not
-given the actual dimensions, capacities or prices. The copy is written so it
-does not need them ("sized to your numbers") rather than guessing at a figure.
-Add them to `MARQUEE_EXTRAS` and the unit specs when he comes back and the page
-reads a good deal stronger.
+**No marquee dimension is quoted anywhere.** Adam said "various sizes" and gave
+none. The capacity that IS stated, 20 to 100 people, is sourced: it is their own
+published figure from premiermarqueehire.com. Actual dimensions still need to
+come from Adam; add them to `MARQUEE_EXTRAS` and the unit specs when they do.
+
+**The marquee side has its own website.** `premiermarqueehire.com`, Thurles,
+established 2010, same phone number, and it calls bouncycastleman.com "Our Main
+Website" while the old marquee page links out to it. That is a large part of why
+the marquee side is "being lost": it lives on a different domain. It also
+carries two things not on this site at all: **mobile bars**, and a wider service
+area for marquees (Tipperary, Limerick, Kilkenny, Laois) than for castles. Worth
+asking Adam whether to fold it in and redirect the domain.
+
+`MARQUEE_EXTRAS` is **names only**: Flooring, Tables, Chairs, Lighting,
+Heating. Those five are Adam's own words and are confirmed twice over (his
+email, and premiermarqueehire.com's "Marquees, Tables, Chairs, Flooring
+Heating"). Each one used to carry a line of description underneath and every one
+of those lines was ours: whether the floor is timber, whether the tables are set
+out before you arrive, what the lighting actually is. None of it was sourced, so
+it is gone. Add real detail here only when Adam gives it.
+
+### Claims
+
+**Nothing on this site states a fact Adam has not published somewhere.** Do not
+add one. Sales copy invented for a client is how a site ends up promising
+something the client does not do.
+
+Sourced and safe to repeat:
+
+| Claim | Source |
+|---|---|
+| Established 2001, family run, 20+ years | bouncycastleman.com |
+| Fully insured, IIHF certified | bouncycastleman.com |
+| Tipperary and surrounding areas | bouncycastleman.com |
+| Rain covers | their own castle listings name them per unit, and 19 of 19 castles, combis and courses in `UNITS` carry a rain cover spec, so "every castle and course" holds |
+| Based in Thurles | premiermarqueehire.com |
+| Marquees for 20 to 100 people | premiermarqueehire.com |
+| Flooring, tables, chairs, lighting, heating | Adam's email, and premiermarqueehire.com |
+| Tables and chairs hired separately | Adam's email |
+| Unit counts and sizes | their own catalogue |
+
+Rewritten 28 Aug because they were ours, not theirs. Comparative claims about
+competitors and claims about what sells best are the two kinds to watch for:
+
+- "Tipperary's biggest selection" became "Twenty three units in the range", which
+  is a count of their own catalogue rather than a claim about anyone else
+- "the largest selection of obstacle courses in Tipperary" became "Ten obstacle
+  courses in the range"
+- combis being "the most popular thing we hire" became a description of the
+  range: seven of them, 15ft to 19ft
+- "the unit most people ring us for" became "the biggest combi in the range"
+- "Clonmel is one of our busiest towns", "are all regular work for us here",
+  "Communions and confirmations are the busiest dates here", "on our regular
+  run", "a favourite with smaller children", "a regular at school sports days":
+  all rewritten as description rather than as claims about their trade
+- "Family run ever since, same phone number" and "The same family, the same phone
+  number" lost the phone clause. Their site says nothing about the number
+
+The unit count on the home page excludes the tables and chairs line (`HIRE_UNITS`
+in pages.py). It is a hire line but it is not a unit, and counting it would put a
+number on the page that does not match what a customer sees in the shelves.
+
+On the home page the block sits inside a full-bleed tinted band with rules top
+and bottom in the marquee colour, and an eyebrow reading "The other side of the
+business". Floating on the paper between the shelves and "How it works" it read
+as one more card in the flow, which is exactly the problem Adam was describing.
+The band changes the ground colour, so the page visibly stops doing castles and
+starts doing marquees.
 
 A **signpost** carries marquees to the rest of the site: a one line cross link
 on the other five category pages, the 22 other unit pages and all 9 town pages,

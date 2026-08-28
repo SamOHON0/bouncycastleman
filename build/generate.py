@@ -577,6 +577,18 @@ h3{font-size:var(--step-1);line-height:1.18}
 
    No sizes are quoted anywhere in it. Adam has not given them, and the copy is
    written so it does not need them rather than guessing at a number. */
+/* On the home page the block sits inside a full-bleed tinted band. Floating on
+   the paper between the shelves and "How it works" it read as one more card in
+   the flow, which is exactly the problem Adam was describing. The band changes
+   the ground colour, so the page visibly stops doing castles and starts doing
+   marquees. Rules top and bottom in the marquee colour rather than ink, so it
+   reads as a section of this site and not a pasted in advert. */
+.marq-band{background:#e8f4f7;border-top:4px solid var(--c-marquee);
+  border-bottom:4px solid var(--c-marquee)}
+.marq-band .marq{box-shadow:10px 10px 0 rgba(14,116,144,.28)}
+.marq-eyebrow{display:inline-block;font-size:12.5px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--c-marquee);
+  background:#fff;border-radius:var(--r-pill);padding:7px 15px;margin-bottom:14px}
 .marq{border:3px solid var(--ink);border-radius:var(--r);overflow:hidden;
   background:#fff;box-shadow:10px 10px 0 var(--c-marquee)}
 .marq-head{background:var(--c-marquee);color:#fff;padding:clamp(26px,3vw,40px)}
@@ -588,12 +600,15 @@ h3{font-size:var(--step-1);line-height:1.18}
 .marq-body{padding:clamp(24px,2.6vw,34px)}
 .marq-label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;
   color:var(--ink-45);margin-bottom:16px}
+/* Names, not sales copy. Each item carried a line of description underneath and
+   every one of those lines was invented: whether the floor is timber, whether
+   the tables are set out before you arrive, what the lighting is. Adam gave us
+   five words and those five words are the content. Set them large so the row
+   still carries the block. */
 .marq-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
 .marq-grid li{border:2px solid var(--line);border-radius:var(--r-sm);
-  padding:16px 16px 18px;min-width:0}
-.marq-grid b{display:block;font-family:var(--display);font-weight:600;
-  font-size:17.5px;color:var(--c-marquee);margin-bottom:5px}
-.marq-grid span{font-size:14.5px;color:var(--ink-70);font-weight:450;
+  padding:22px 18px;min-width:0;font-family:var(--display);font-weight:600;
+  font-size:var(--step-1);color:var(--c-marquee);text-align:center;
   overflow-wrap:break-word}
 /* Furniture on its own is a real hire line, not a footnote to the marquee. */
 .marq-also{margin-top:16px;border:2px dashed var(--line-strong);border-radius:var(--r-sm);
@@ -1101,7 +1116,7 @@ def signpost(copy, label="Also from us", href="/marquees/", link="See marquee hi
             f'<p>{esc(copy)}</p><a href="{href}">{esc(link)}</a></div>')
 
 
-def marquee_block(heading, lede):
+def marquee_block(heading, lede, eyebrow=None):
     """The marquee spotlight. Used on the home page and the marquee category page.
 
     Adam told us the marquee side of the business was being lost on the old
@@ -1109,11 +1124,13 @@ def marquee_block(heading, lede):
     furniture-only hire given its own line rather than being buried in a
     sentence about marquees.
     """
-    tiles = "".join(f"<li><b>{esc(n)}</b><span>{esc(d)}</span></li>"
-                    for n, d in D.MARQUEE_EXTRAS)
+    # Names only. Everything we had written under them was invented, so it went.
+    tiles = "".join(f"<li>{esc(n)}</li>" for n in D.MARQUEE_EXTRAS)
+    eb = f'<span class="marq-eyebrow">{esc(eyebrow)}</span>' if eyebrow else ""
     return f"""
 <div class="marq" data-cat="marquee">
   <div class="marq-head">
+    {eb}
     <h2>{heading}</h2>
     <p class="lede">{esc(lede)}</p>
     <div class="marq-actions">

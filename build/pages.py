@@ -82,6 +82,12 @@ def shelf(c):
 """
 
 
+# The count on the home page is castles, courses, dome and marquees. Tables and
+# chairs is a hire line but it is not a "unit", and counting it would put a
+# number on the page that does not match what a customer sees in the shelves.
+HIRE_UNITS = len([u for u in D.UNITS if u["slug"] != "tables-and-chairs"])
+
+
 def build_home():
     steps = "".join(
         f'<div class="line-step" data-reveal><div class="line-n">{i+1}</div>'
@@ -128,8 +134,8 @@ def build_home():
   </div>
 </section>
 <div class="facts">
-  <div><b>{D.FOUNDED}</b><span>Family run ever since, same phone number</span></div>
-  <div><b>{len(D.UNITS)} units</b><span>From a 12ft arch castle to a 55ft course</span></div>
+  <div><b>{D.FOUNDED}</b><span>Family run ever since, over twenty years at it</span></div>
+  <div><b>{HIRE_UNITS} units</b><span>From a 12ft arch castle to a 55ft course</span></div>
   <div><b>IIHF</b><span>Fully insured and certified</span></div>
 </div>
 
@@ -141,10 +147,11 @@ def build_home():
 </div>
 {shelves}
 
-<div class="band">{marquee_block(
+<div class="band marq-band">{marquee_block(
     "Marquees, floored, furnished, lit and heated",
-    "A marquee in the size your numbers need, on its own or fitted out. Communions, "
-    "confirmations, corporate days and family parties, in any season.")}</div>
+    "A marquee for anywhere from 20 to 100 people, on its own or fitted out. Communions, "
+    "confirmations, corporate days and family parties, in any season.",
+    eyebrow="The other side of the business")}</div>
 
 <div class="band tint">
   <div class="sec-head"><h2>How it works</h2></div>
@@ -223,7 +230,7 @@ def build_categories():
         if c["cat"] == "marquee":
             lead = ('<div class="band" style="padding-bottom:0">'
                     + marquee_block("What a marquee from us looks like",
-                                    "Sized to your numbers, in all seasons, delivered, put up "
+                                    "For 20 to 100 people, in all seasons, delivered, put up "
                                     "and taken down again. Fit it out with as much or as "
                                     "little as you need.")
                     + "</div>")

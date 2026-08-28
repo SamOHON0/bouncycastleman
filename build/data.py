@@ -76,14 +76,14 @@ CATEGORIES = [
          hero=IMG_CASTLE_C3,
          blurb="Bounce area and a built in slide, most with a basketball ring.",
          intro="Combi castles give you a full bouncing area and a slide in the one unit, and "
-               "most have a basketball ring inside. They are the most popular thing we hire, "
-               "so book early for weekends in communion and confirmation season."),
+               "most have a basketball ring inside. Seven of them in the range, from 15ft up "
+               "to 19ft, every one with a full rain cover."),
     dict(slug="obstacle-courses", cat="obstacle", k="k3", title="Obstacle Courses",
          hero=IMG_GREENGOLD,
          blurb="30ft up to 55ft, with rock climbs, tunnels and slides.",
-         intro="We run the largest selection of obstacle courses in Tipperary, from a 30ft "
-               "block run for younger children up to the 55ft high adrenaline units with "
-               "double rock climbs and extra high slides. Every course has a full rain cover."),
+         intro="Ten obstacle courses in the range, from a 30ft block run for younger children "
+               "up to the 55ft high adrenaline units with double rock climbs and extra high "
+               "slides. Every course has a full rain cover."),
     dict(slug="disco-dome", cat="disco", k="k4", title="Disco Dome",
          hero=IMG_DISCO,
          blurb="Enclosed dome with disco lighting and a full sound system.",
@@ -94,8 +94,8 @@ CATEGORIES = [
          hero=IMG_BANNER,
          blurb="Sumo suits and the gladiator challenge for older groups.",
          intro="Sumo suits and the gladiator challenge are our two units for teenagers, adults "
-               "and corporate days. They are a regular at school sports days, fun days and "
-               "office events across Tipperary."),
+               "and corporate days. They suit school sports days, fun days and office events "
+               "across Tipperary."),
     dict(slug="marquees", cat="marquee", k="k6", title="Marquees",
          hero=IMG_MARQUEE,
          blurb="Marquees in a range of sizes, with flooring, furniture, lighting and heat.",
@@ -116,9 +116,9 @@ UNITS = [
     # ---- combi castles ----
     _u("large-combi-castle", "Large Combi Castle 19 x 19ft", "combi", "19x19ft",
        "Our biggest combi, with a built in slide, basketball ring and full rain cover.",
-       ["The large combi is the unit most people ring us for. At 19ft by 19ft it gives a big "
-        "bouncing area alongside the slide, so a group of children can use both at once "
-        "without queueing.",
+       ["At 19ft by 19ft this is the biggest combi in the range. It gives a full bouncing "
+        "area alongside the slide, so a group of children can use both at once without "
+        "queueing.",
         "It comes with a basketball ring inside and a full rain cover, and we deliver, set it "
         "up and collect it again across Tipperary."],
        [("Size", "19ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
@@ -132,8 +132,8 @@ UNITS = [
         ("Rain cover", "Full cover included")]),
     _u("cocomelon-castle", "Cocomelon Castle 17 x 19ft", "combi", "17x19ft",
        "Cocomelon themed unit with a large bounce area, slide and rain cover.",
-       ["The Cocomelon castle is a favourite with smaller children. It has a large bouncing "
-        "area with the slide built into the same unit.",
+       ["The Cocomelon castle suits smaller children. It has a large bouncing area with the "
+        "slide built into the same unit.",
         "Rain cover included as standard."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"),
         ("Rain cover", "Full cover included")]),
@@ -271,8 +271,8 @@ UNITS = [
     _u("sumo-suits", "Sumo Suits", "sumo", "Groups",
        "Padded sumo suits for teenagers, adults and corporate days.",
        ["A set of padded sumo suits with the mat, for teenagers, adults and corporate events.",
-        "A regular at school sports days, fun days and office events. Ring Adam for numbers "
-        "and availability."],
+        "Suits school sports days, fun days and office events. Ring Adam for numbers and "
+        "availability."],
        [("Suits", "Teenagers, adults, corporate"), ("Supervision", "Adult supervision required")]),
     _u("gladiator-challenge", "Gladiator Challenge", "sumo", "Head to head",
        "Head to head gladiator duel platform for older groups and corporate days.",
@@ -285,14 +285,15 @@ UNITS = [
     # ---- marquees ----
     _u("marquee-hire", "Marquee Hire", "marquee", "All seasons",
        "Marquees in a range of sizes, with flooring, furniture, lighting and heating.",
-       ["We hire marquees in a range of sizes across Tipperary and the surrounding areas, and "
-        "they can be used in all seasons and for all events.",
-        "A marquee can go out on its own or fitted out: flooring through it, tables and chairs "
-        "set out for your numbers, lighting for the evening and heaters so the weather is not "
-        "the deciding factor.",
+       ["We hire marquees in a range of sizes across Tipperary and the surrounding areas, for "
+        "anywhere from 20 to 100 people, and they can be used in all seasons and for all "
+        "events.",
+        "A marquee can go out on its own, or with flooring, tables, chairs, lighting and "
+        "heating.",
         "Communions, confirmations, corporate days, birthdays and family parties. Ring Adam "
         "with your date and the numbers you are expecting and we will size it for you."],
-       [("Sizes", "A range, sized to your numbers"), ("Flooring", "Available"),
+       [("Sizes", "A range, sized to your numbers"), ("Numbers", "20 to 100 people"),
+        ("Flooring", "Available"),
         ("Tables and chairs", "Available"), ("Lighting", "Available"),
         ("Heating", "Available"), ("Season", "All seasons")], img=IMG_MARQUEE),
     # Furniture on its own. Adam: "We also hire tables and chairs separately from
@@ -302,13 +303,11 @@ UNITS = [
     _u("tables-and-chairs", "Tables & Chairs", "marquee", "Separate hire",
        "Tables and chairs hired on their own, with or without a marquee.",
        ["We hire tables and chairs on their own, not only as part of a marquee. If you have "
-        "the room already, at home, in a hall or in a shed, and you just need to seat people, "
-        "this is the one to ring about.",
+        "the room already and you just need to seat people, this is the one to ring about.",
         "Tell us how many you are expecting and we will work out the tables and chairs you "
-        "need. Delivered, set out and collected the same as everything else we hire."],
+        "need."],
        [("Hire", "On their own or with a marquee"),
-        ("Numbers", "Sized to your guest list"),
-        ("Delivery", "Delivered, set out and collected")]),
+        ("Numbers", "Sized to your guest list")]),
 ]
 
 # ------------------------------------------------------- marquee extras ----
@@ -318,13 +317,19 @@ UNITS = [
 # TODO: Adam has NOT given the actual marquee sizes, capacities or prices. The
 # page is deliberately written so it does not need them, but add them here as
 # soon as he comes back and the sizes will read a lot stronger than "a range".
-MARQUEE_EXTRAS = [
-    ("Flooring", "A solid floor laid through the marquee, so wet ground is not the end of it."),
-    ("Tables", "Enough tables for your numbers, set out before you arrive."),
-    ("Chairs", "Seating to match the tables."),
-    ("Lighting", "Lit inside for evening events."),
-    ("Heating", "Heaters, so the marquee works in any season."),
-]
+# SOURCED, premiermarqueehire.com (their own marquee site, which links back to
+# bouncycastleman.com as "Our Main Website"): "Provide Marquees, Tables, Chairs,
+# Flooring Heating, For 20-100 People". That is their published capacity, so it
+# is safe to state. Adam still has not given the actual marquee dimensions.
+MARQUEE_CAPACITY = "20 to 100 people"
+
+# NAMES ONLY, deliberately. The five items are Adam's own words and are
+# confirmed twice over, but every descriptive sentence under them was ours and
+# none of it was sourced: whether the floor is timber, whether tables are set
+# out before you arrive, what the lighting actually is. Sales copy invented for
+# a client is how a site ends up promising something the client does not do.
+# Add real detail here only when Adam gives it, as (name, detail) pairs.
+MARQUEE_EXTRAS = ["Flooring", "Tables", "Chairs", "Lighting", "Heating"]
 
 # ------------------------------------------------------------------ areas ----
 # TODO: Adam has not confirmed the travel radius. This list is the one used in
@@ -332,16 +337,15 @@ MARQUEE_EXTRAS = [
 AREAS = [
     dict(slug="bouncy-castle-hire-clonmel", town="Clonmel", county="Co Tipperary",
          nearby="Ardfinnan, Kilsheelan and Fethard",
-         copy=["Clonmel is one of our busiest towns. We deliver bouncy castles, combi castles "
-               "and the full run of obstacle courses across the town and out through Ardfinnan, "
-               "Kilsheelan and Fethard.",
-               "Birthday parties in the back garden, school sports days and community fun days "
-               "are all regular work for us here. We drop the unit out, set it up and collect "
-               "it again, so there is nothing for you to lift."]),
+         copy=["We deliver bouncy castles, combi castles and the full run of obstacle courses "
+               "across Clonmel and out through Ardfinnan, Kilsheelan and Fethard.",
+               "Back garden birthdays, school sports days and community fun days: we drop the "
+               "unit out, set it up and collect it again, so there is nothing for you to "
+               "lift."]),
     dict(slug="bouncy-castle-hire-thurles", town="Thurles", county="Co Tipperary",
          nearby="Holycross, Littleton and Two Mile Borris",
-         copy=["Thurles is home ground for us, so you will see our units around the town most "
-               "weekends through the summer and right through communion season.",
+         copy=["Thurles is home ground for us. We are based here, so it is the shortest run "
+               "we do.",
                "We cover Holycross, Littleton and Two Mile Borris as well, with the full range "
                "travelling: castles, combis, obstacle courses, the disco dome and marquees."]),
     dict(slug="bouncy-castle-hire-nenagh", town="Nenagh", county="Co Tipperary",
@@ -354,8 +358,8 @@ AREAS = [
          nearby="Golden, Rosegreen and New Inn",
          copy=["Cashel, Golden, Rosegreen and New Inn are all inside our delivery area, for "
                "everything from a 12ft arch castle to the 55ft obstacle courses.",
-               "Communions and confirmations are the busiest dates here, so get your date in "
-               "early if you are booking for late spring."]),
+               "If you are booking around communion or confirmation season, get your date in "
+               "to us early."]),
     dict(slug="bouncy-castle-hire-roscrea", town="Roscrea", county="Co Tipperary",
          nearby="Templemore, Borris in Ossory and Moneygall",
          copy=["We cover Roscrea and the surrounding villages, including Templemore, Borris in "
@@ -364,8 +368,8 @@ AREAS = [
                "all travel up this way. Delivered, set up and collected."]),
     dict(slug="bouncy-castle-hire-tipperary-town", town="Tipperary Town", county="Co Tipperary",
          nearby="Bansha, Cappawhite and Dundrum",
-         copy=["Tipperary Town and the surrounding villages of Bansha, Cappawhite and Dundrum "
-               "are all on our regular run.",
+         copy=["We deliver to Tipperary Town and the surrounding villages of Bansha, "
+               "Cappawhite and Dundrum.",
                "Whether it is a back garden birthday or a full community fun day, we have the "
                "unit for it, and every castle and course comes with a rain cover."]),
     dict(slug="bouncy-castle-hire-templemore", town="Templemore", county="Co Tipperary",
@@ -410,13 +414,19 @@ STEPS = [
 ]
 
 WHY = [
+    # The old site says "Established in 2001", "Family Run Business" and "20+
+    # Years Experience". It says nothing about the phone number never changing,
+    # so that claim is gone. Do not put a fact on this site that Adam has not
+    # said somewhere first.
     ("\U0001F3F0", "Family run since " + FOUNDED,
-     "Over twenty years hiring castles and courses across Tipperary. The same family, the same "
-     "phone number."),
+     "Over twenty years hiring castles and courses across Tipperary, and still the same "
+     "family running it."),
     ("\U0001F6E1️", "Fully insured and IIHF certified",
      "We are fully insured and certified with the Irish Inflatable Hirers Federation, so "
      "schools and committees can book with confidence."),
-    ("\U0001F4CF", "Tipperary's biggest selection",
+    # Was "Tipperary's biggest selection", which we could not source and which is
+    # a claim about competitors. The count is a fact about their own catalogue.
+    ("\U0001F4CF", "Twenty three units in the range",
      "From a 30ft block run up to the 55ft high adrenaline courses, plus combis, disco dome, "
      "sumo suits and marquees."),
     ("☔", "Rain covers as standard",
