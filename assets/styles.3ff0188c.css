@@ -132,6 +132,20 @@ h3{font-size:var(--step-1);line-height:1.18}
 .rail-nav .dot{width:11px;height:11px;border-radius:50%;background:var(--ct);flex:none}
 .rail-nav .plain{color:var(--ink-70);font-size:14.5px;font-weight:500}
 .rail-sec{margin-top:auto}
+/* Marquees, one line under the CTA. Adam's point was that the marquee side is
+   invisible, and the rail is the one element on every page. It is NOT a second
+   button: the rule is one call to action per screen, in the logo yellow, and a
+   second filled button beside it would make the page ask twice and answer
+   neither. This is a link in the marquee colour that reads as a signpost. */
+.rail-marq{display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:10px;padding:11px 14px;border-radius:var(--r-pill);
+  border:2px solid var(--c-marquee);color:var(--c-marquee);
+  font-family:var(--display);font-weight:600;font-size:15px;text-align:center;
+  transition:background .15s,color .15s}
+.rail-marq:hover{background:var(--c-marquee);color:#fff}
+.rail-marq::after{content:"";width:8px;height:8px;flex:none;
+  border-right:2.5px solid currentColor;border-top:2.5px solid currentColor;
+  transform:rotate(45deg)}
 .rail-tel{display:block;background:#fff;border-radius:var(--r);
   padding:16px 18px;margin-bottom:10px;transition:background .15s;
   border:2px solid var(--rail-line)}
@@ -154,7 +168,14 @@ h3{font-size:var(--step-1);line-height:1.18}
   .rail{grid-column:1;grid-row:1;position:sticky;height:auto;flex-direction:column;
     gap:0;padding:12px 20px}
   .rail-top{gap:14px}
-  .rail .brand{flex-direction:row;align-items:center;gap:11px}
+  /* width:auto matters. The desktop rail centres the lockup with width:100% on
+     .brand; going back to a row here without unsetting that left the brand
+     filling the whole bar and pushing the burger 32px past the edge. Because
+     the rail sets overflow-y:auto, and CSS resolves the other axis to auto
+     along with it, that overflow became a horizontal scroll INSIDE the rail: it
+     opened scrolled 32px to the right and the drawer's first characters were
+     cut off ("HAT WE HIRE", "ORE"). */
+  .rail .brand{flex-direction:row;align-items:center;gap:11px;width:auto}
   .rail .mark{width:96px}
   .rail .wordmark{font-size:17.5px}
   .burger{display:block}
@@ -162,6 +183,13 @@ h3{font-size:var(--step-1);line-height:1.18}
   .rail.open .rail-body{display:block}
   .rail-sec{margin-top:18px}
   .rail-nav{gap:0}
+}
+/* At 320 the mark plus the full name plus the burger is still 42px wider than
+   the bar. The name does not wrap and is not abbreviated, so the mark gives way
+   instead. */
+@media(max-width:380px){
+  .rail .mark{width:66px}
+  .rail .wordmark{font-size:15.5px}
 }
 
 /* ------------------------------------------------------------ the mark --- */
@@ -617,6 +645,11 @@ form{background:#fff;border-radius:var(--r);padding:26px;color:var(--ink)}
   border-color:var(--c-castle)}
 .fld textarea{resize:vertical;min-height:84px}
 form .btn{width:100%;margin-top:6px}
+/* Draft state: the form is not wired to Formspree yet. */
+form .btn[disabled]{opacity:.5;cursor:not-allowed;box-shadow:0 2px 0 var(--ink)}
+.form-note{margin-top:12px;font-size:14px;font-weight:500;color:var(--ink-70);
+  background:#fff6db;border:2px solid #f2e2ac;border-radius:var(--r-sm);
+  padding:12px 14px}
 @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
 
 /* -------------------------------------------------------------- footer --- */

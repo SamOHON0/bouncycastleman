@@ -90,8 +90,13 @@ CATEGORIES = [
          intro="The disco dome is an enclosed bouncing unit with disco lighting and a full "
                "surround speaker system. It connects over Bluetooth or cable and works with "
                "Apple and Android, so the kids pick their own playlist."),
+    # hero=SOON, not IMG_BANNER. IMG_BANNER is the old site's masthead GRAPHIC,
+    # the wordmark on a blue ground, not a photo of anything. Cropped to a 16/10
+    # banner it rendered as a zoomed fragment of the word CASTLE. The no-photo
+    # panel in the sumo orange is better than a wrong photo. Swap it for a real
+    # sumo shot the moment Adam sends one.
     dict(slug="sumo-gladiator", cat="sumo", k="k5", title="Sumo & Gladiator",
-         hero=IMG_BANNER,
+         hero=SOON,
          blurb="Sumo suits and the gladiator challenge for older groups.",
          intro="Sumo suits and the gladiator challenge are our two units for teenagers, adults "
                "and corporate days. They suit school sports days, fun days and office events "
@@ -440,14 +445,23 @@ WHY = [
 ]
 
 # TODO: placeholders. Replace with Adam's real reviews before go-live.
+#
+# The attributions used to be invented people: "Sarah M., Thurles", "Declan B.,
+# Clonmel". On the page that reads as three real five star reviews from named
+# customers in his own towns, and a client looking at a draft has no way to know
+# otherwise. Quoting invented customers is not a placeholder, it is a fake
+# review, and it only has to survive one approval to be live on the internet.
+# The slot is named as a slot instead, and REVIEWS_NOTE labels the section.
 REVIEWS = [
     ("Booked the 55ft course for our school sports day. Set up early, collected on time and "
-     "the kids did not come off it all afternoon.", "Sarah M.", "Thurles"),
+     "the kids did not come off it all afternoon.", "Your review here", "Thurles"),
     ("Got a combi castle for a garden birthday. Spotless condition and the rain cover meant "
-     "we did not have to worry about the forecast.", "Declan B.", "Clonmel"),
+     "we did not have to worry about the forecast.", "Your review here", "Clonmel"),
     ("Used them for our community fun day. Great value, arrived when they said they would and "
-     "nothing was any trouble.", "Aoife K.", "Nenagh"),
+     "nothing was any trouble.", "Your review here", "Nenagh"),
 ]
+REVIEWS_NOTE = ("Sample wording, so you can see how the section sits. Send us three real "
+                "reviews and we will swap them straight in.")
 
 FAQS = [
     ("What can I hire?",
@@ -464,5 +478,7 @@ FAQS = [
      "events, carnivals and community fun days."),
 ]
 
+# IMG_BANNER is out: it is the old site's wordmark graphic, not a photo of their
+# work, and it read as a mistake sitting among the units.
 GALLERY = [IMG_LIZARD, IMG_GREENGOLD, IMG_CASTLE_C3, IMG_DISCO, IMG_MARQUEE,
-           IMG_CASTLE_A, IMG_CASTLE_B, IMG_BANNER]
+           IMG_CASTLE_A, IMG_CASTLE_B]

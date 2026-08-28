@@ -181,7 +181,8 @@ def build_home():
 </div>
 
 <div class="band">
-  <div class="sec-head"><span class="eyebrow">Testimonials</span><h2>What locals say</h2></div>
+  <div class="sec-head"><span class="eyebrow">Testimonials</span><h2>What locals say</h2>
+    <p>{esc(D.REVIEWS_NOTE)}</p></div>
   <div class="revs">{revs}</div>
 </div>
 

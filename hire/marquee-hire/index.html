@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.160af18f.css">
+<link rel="stylesheet" href="/assets/styles.3ff0188c.css">
 <script>document.documentElement.className+=" js"</script>
 </head>
 <body>
@@ -84,14 +84,13 @@
           <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0Z"/><circle cx="12" cy="10" r="3"/></svg>Thurles, Co Tipperary</div>
         </div>
       </div>
-      <!-- TODO: replace [FORM-ID] with the real Formspree form ID -->
-      <form action="https://formspree.io/f/[FORM-ID]" method="POST">
+      <form class="form-draft" onsubmit="return false">
         <div class="fld"><label for="n">Your name</label><input id="n" name="name" type="text" required></div>
         <div class="fld"><label for="p">Phone</label><input id="p" name="phone" type="tel" required></div>
         <div class="fld"><label for="t">Your town</label><input id="t" name="town" type="text"></div>
         <div class="fld"><label for="d">Date of event</label><input id="d" name="date" type="date"></div>
         <div class="fld"><label for="m">What are you after?</label><textarea id="m" name="message" rows="3"></textarea></div>
-        <button type="submit" class="btn btn-accent">Send enquiry</button>
+        <button type="submit" class="btn btn-accent" disabled>Send enquiry</button><p class="form-note">Not connected yet. Send us the email address you want enquiries going to and we will wire this up.</p>
       </form>
     </div>
 </section>
@@ -102,8 +101,7 @@
       <a href="/" class="brand" aria-label="Bouncy Castle Man home"><img class="mark" src="/assets/logo.97b0a1be.svg" alt="" width="512" height="340" decoding="async"><span class="wordmark">Bouncy Castle Man</span></a>
       <p>Bouncy castle, obstacle course, disco dome and marquee hire across Tipperary. Family run since 2001, fully insured and certified with the Irish Inflatable Hirers Federation.</p>
       <div class="socials">
-        <!-- TODO: replace [FACEBOOK-URL] with the real page -->
-        <a href="[FACEBOOK-URL]" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 1 0-11.5 9.9v-7H8v-2.9h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6v1.9h2.8l-.4 2.9h-2.4v7A10 10 0 0 0 22 12Z"/></svg></a>
+        
         <a href="https://wa.me/353879005391?text=Hi%2C%20I%27d%20like%20to%20enquire%20about%20hire." target="_blank" rel="noopener" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.5 14.4c-.3-.15-1.7-.85-2-.95-.27-.1-.46-.15-.65.15-.2.3-.75.95-.92 1.14-.17.2-.34.22-.63.07-.3-.15-1.25-.46-2.38-1.47-.88-.78-1.47-1.75-1.64-2.05-.17-.3-.02-.46.13-.6.13-.13.3-.34.45-.5.15-.18.2-.3.3-.5.1-.2.05-.37-.02-.52-.08-.15-.65-1.57-.9-2.15-.23-.56-.47-.48-.65-.5h-.55c-.2 0-.5.07-.76.37-.27.3-1 1-1 2.42s1.03 2.8 1.17 3c.15.2 2.02 3.08 4.9 4.32.68.3 1.22.47 1.63.6.69.22 1.31.19 1.8.12.55-.08 1.7-.7 1.94-1.36.24-.67.24-1.24.17-1.36-.07-.12-.27-.2-.56-.34ZM12 2a10 10 0 0 0-8.5 15.3L2 22l4.8-1.5A10 10 0 1 0 12 2Z"/></svg></a>
       </div>
     </div>
@@ -134,6 +132,7 @@
     <div class="rail-sec">
       <a class="rail-tel" href="tel:0879005391"><span>Ring us</span><b>087 900 5391</b></a>
       <a href="/contact/" class="btn btn-accent">Get a price</a>
+      <a href="/marquees/" class="rail-marq">We also do marquees</a>
       <p class="rail-legal" style="margin-top:18px">Family run in Thurles since 2001. Fully insured and IIHF certified.<br>Site by <a href="https://squaretwo.ie" target="_blank" rel="noopener">SquareTwo</a></p>
     </div>
   </div>

@@ -158,6 +158,12 @@ as one more card in the flow, which is exactly the problem Adam was describing.
 The band changes the ground colour, so the page visibly stops doing castles and
 starts doing marquees.
 
+The rail carries **"We also do marquees"** under the CTA, on all 45 pages. It is
+deliberately NOT a second button: the rule is one call to action per screen, in
+the logo yellow, and a second filled button beside it would make the page ask
+twice and answer neither. It is an outlined link in the marquee colour, so it
+reads as a signpost rather than as a competing ask.
+
 A **signpost** carries marquees to the rest of the site: a one line cross link
 on the other five category pages, the 22 other unit pages and all 9 town pages,
 36 in total. `signpost()` in `generate.py`. A block on two pages does not fix
@@ -277,6 +283,15 @@ Two knock-on rules from that change:
 - The card tag pill is white with ink on it rather than ink with white on it,
   so it reads over both a photograph and a saturated colour panel.
 
+### Photos we do not use
+
+`IMG_BANNER` is the old site's masthead **graphic**, the wordmark on a blue
+ground, not a photo of anything. It was the Sumo and Gladiator category hero and
+cropped to a 16/10 banner it rendered as a zoomed fragment of the word CASTLE.
+It was also sitting in the gallery among the units. Both gone. The sumo category
+now uses the no-photo panel in its own orange, which is better than a wrong
+photo. Swap it for a real sumo shot the moment Adam sends one.
+
 ### Other decisions
 
 - **Type**: Fredoka for display, Figtree for body.
@@ -314,12 +329,25 @@ Everything below is blocked on Adam. All of it is marked `TODO` in
 2. **Image hosting.** Those eight images hotlink `files.secure.website`, the
    old site's host, which goes away when the domain moves. Download local
    copies into `/images/` and repoint `data.py` before the DNS cutover.
-3. **Formspree.** `FORMSPREE` in `data.py` is still `[FORM-ID]`.
+3. **Formspree.** `FORMSPREE` in `data.py` is still `[FORM-ID]`, so the form
+   renders in a DRAFT state: fields visible so the layout can be judged, submit
+   disabled, and a note saying it is not connected. It used to ship pointing at
+   `https://formspree.io/f/[FORM-ID]`, so a real enquiry would have gone nowhere
+   silently, and a client looking at a draft is very likely to test the form. Set
+   a real ID and the whole thing turns itself back on.
 4. **Email address.** The old site publishes none, so the contact block falls
    back to WhatsApp. Set `EMAIL` in `data.py` once Adam gives one.
-5. **Facebook.** `FACEBOOK` is `[FACEBOOK-URL]`.
-6. **Reviews.** The three on the home page are placeholders, marked as such in
-   `data.py`. Replace before go-live.
+5. **Facebook.** `FACEBOOK` is `[FACEBOOK-URL]`. The icon is not rendered while
+   the value is a placeholder: it used to ship as `href="[FACEBOOK-URL]"`, a
+   dead link in the footer of all 45 pages. Set the real URL and it comes back.
+6. **Reviews.** The three on the home page are sample wording. They used to be
+   attributed to invented people ("Sarah M., Thurles"), which on the page reads
+   as three real five star reviews from named customers in his own towns, and a
+   client looking at a draft has no way to know otherwise. Quoting invented
+   customers is not a placeholder, it is a fake review, and it only has to
+   survive one approval to be live. The slot is named as a slot now ("Your
+   review here") and `REVIEWS_NOTE` labels the section. Replace both before
+   go-live.
 7. **Areas.** CONFIRMED by Adam 27 Aug: all of Tipperary, and he has also
    delivered to Kilkenny, Waterford, Laois, Offaly and other neighbouring
    counties, but not regularly. The 9 towns stand. The second tier is not on
@@ -347,6 +375,15 @@ Built and rendered in headless Chromium on 20 Aug 2026.
 - Every rendered text node checked against its computed background across all
   six category colours and the dark rail, drawer open and closed: zero WCAG AA
   contrast failures
+- Zero horizontal overflow inside the rail at every width from 320 up. This was
+  broken: the desktop rail centres the lockup with `width:100%` on `.brand`, and
+  the mobile media query flipped it back to a row without unsetting that, so the
+  brand filled the whole bar and pushed the burger 32px past the edge. Because
+  `.rail` sets `overflow-y:auto`, and CSS resolves the other axis to `auto`
+  along with it, that overflow became a horizontal scroll INSIDE the rail: the
+  drawer opened scrolled 32px right and its labels were cut off ("HAT WE HIRE",
+  "ORE"). Fixed with `width:auto`, plus a 380px breakpoint where the mark gives
+  way rather than the name
 - Masthead headline holds to two lines at every desktop width
 - Bento fills every row at all three breakpoints, no empty cell
 - Shelf arrows, disabled states, rail drawer, area checker and FAQ accordion

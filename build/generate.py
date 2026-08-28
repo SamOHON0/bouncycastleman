@@ -240,6 +240,20 @@ h3{font-size:var(--step-1);line-height:1.18}
 .rail-nav .dot{width:11px;height:11px;border-radius:50%;background:var(--ct);flex:none}
 .rail-nav .plain{color:var(--ink-70);font-size:14.5px;font-weight:500}
 .rail-sec{margin-top:auto}
+/* Marquees, one line under the CTA. Adam's point was that the marquee side is
+   invisible, and the rail is the one element on every page. It is NOT a second
+   button: the rule is one call to action per screen, in the logo yellow, and a
+   second filled button beside it would make the page ask twice and answer
+   neither. This is a link in the marquee colour that reads as a signpost. */
+.rail-marq{display:flex;align-items:center;justify-content:center;gap:8px;
+  margin-top:10px;padding:11px 14px;border-radius:var(--r-pill);
+  border:2px solid var(--c-marquee);color:var(--c-marquee);
+  font-family:var(--display);font-weight:600;font-size:15px;text-align:center;
+  transition:background .15s,color .15s}
+.rail-marq:hover{background:var(--c-marquee);color:#fff}
+.rail-marq::after{content:"";width:8px;height:8px;flex:none;
+  border-right:2.5px solid currentColor;border-top:2.5px solid currentColor;
+  transform:rotate(45deg)}
 .rail-tel{display:block;background:#fff;border-radius:var(--r);
   padding:16px 18px;margin-bottom:10px;transition:background .15s;
   border:2px solid var(--rail-line)}
@@ -262,7 +276,14 @@ h3{font-size:var(--step-1);line-height:1.18}
   .rail{grid-column:1;grid-row:1;position:sticky;height:auto;flex-direction:column;
     gap:0;padding:12px 20px}
   .rail-top{gap:14px}
-  .rail .brand{flex-direction:row;align-items:center;gap:11px}
+  /* width:auto matters. The desktop rail centres the lockup with width:100% on
+     .brand; going back to a row here without unsetting that left the brand
+     filling the whole bar and pushing the burger 32px past the edge. Because
+     the rail sets overflow-y:auto, and CSS resolves the other axis to auto
+     along with it, that overflow became a horizontal scroll INSIDE the rail: it
+     opened scrolled 32px to the right and the drawer's first characters were
+     cut off ("HAT WE HIRE", "ORE"). */
+  .rail .brand{flex-direction:row;align-items:center;gap:11px;width:auto}
   .rail .mark{width:96px}
   .rail .wordmark{font-size:17.5px}
   .burger{display:block}
@@ -270,6 +291,13 @@ h3{font-size:var(--step-1);line-height:1.18}
   .rail.open .rail-body{display:block}
   .rail-sec{margin-top:18px}
   .rail-nav{gap:0}
+}
+/* At 320 the mark plus the full name plus the burger is still 42px wider than
+   the bar. The name does not wrap and is not abbreviated, so the mark gives way
+   instead. */
+@media(max-width:380px){
+  .rail .mark{width:66px}
+  .rail .wordmark{font-size:15.5px}
 }
 
 /* ------------------------------------------------------------ the mark --- */
@@ -725,6 +753,11 @@ form{background:#fff;border-radius:var(--r);padding:26px;color:var(--ink)}
   border-color:var(--c-castle)}
 .fld textarea{resize:vertical;min-height:84px}
 form .btn{width:100%;margin-top:6px}
+/* Draft state: the form is not wired to Formspree yet. */
+form .btn[disabled]{opacity:.5;cursor:not-allowed;box-shadow:0 2px 0 var(--ink)}
+.form-note{margin-top:12px;font-size:14px;font-weight:500;color:var(--ink-70);
+  background:#fff6db;border:2px solid #f2e2ac;border-radius:var(--r-sm);
+  padding:12px 14px}
 @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
 
 /* -------------------------------------------------------------- footer --- */
@@ -1051,6 +1084,7 @@ def rail(current=None):
     <div class="rail-sec">
       <a class="rail-tel" href="tel:{D.PHONE_TEL}"><span>Ring us</span><b>{D.PHONE_DISPLAY}</b></a>
       <a href="/contact/" class="btn btn-accent">Get a price</a>
+      <a href="/marquees/" class="rail-marq">We also do marquees</a>
       <p class="rail-legal" style="margin-top:18px">Family run in {D.LOCALITY} since {D.FOUNDED}. Fully insured and IIHF certified.<br>Site by <a href="https://squaretwo.ie" target="_blank" rel="noopener">SquareTwo</a></p>
     </div>
   </div>
@@ -1156,6 +1190,23 @@ def safety_box():
 
 
 def contact_block():
+    """The contact block. The form is LIVE only when FORMSPREE has a real ID.
+
+    Until then it shipped pointing at "https://formspree.io/f/[FORM-ID]", so a
+    real enquiry would have gone nowhere silently. On a draft the client is very
+    likely to test the form, and a form that swallows an enquiry is worse than a
+    form that says it is not connected yet. The fields stay so the layout can be
+    judged; the submit is disabled and a line says why. Set FORMSPREE in data.py
+    and the whole thing turns itself back on.
+    """
+    live = D.FORMSPREE and "[" not in D.FORMSPREE
+    form_open = (f'<form action="{D.FORMSPREE}" method="POST">' if live else
+                 '<form class="form-draft" onsubmit="return false">')
+    submit = ('<button type="submit" class="btn btn-accent">Send enquiry</button>'
+              if live else
+              '<button type="submit" class="btn btn-accent" disabled>Send enquiry</button>'
+              '<p class="form-note">Not connected yet. Send us the email address you '
+              'want enquiries going to and we will wire this up.</p>')
     email_row = (f'<a href="mailto:{D.EMAIL}">{ico("phone")}{D.EMAIL}</a>' if D.EMAIL else
                  f'<a href="{wa_link()}" target="_blank" rel="noopener">{WA_SVG}WhatsApp us</a>')
     return f"""
@@ -1170,14 +1221,13 @@ def contact_block():
           <div>{ico("pin")}{D.LOCALITY}, {D.REGION}</div>
         </div>
       </div>
-      <!-- TODO: replace [FORM-ID] with the real Formspree form ID -->
-      <form action="{D.FORMSPREE}" method="POST">
+      {form_open}
         <div class="fld"><label for="n">Your name</label><input id="n" name="name" type="text" required></div>
         <div class="fld"><label for="p">Phone</label><input id="p" name="phone" type="tel" required></div>
         <div class="fld"><label for="t">Your town</label><input id="t" name="town" type="text"></div>
         <div class="fld"><label for="d">Date of event</label><input id="d" name="date" type="date"></div>
         <div class="fld"><label for="m">What are you after?</label><textarea id="m" name="message" rows="3"></textarea></div>
-        <button type="submit" class="btn btn-accent">Send enquiry</button>
+        {submit}
       </form>
     </div>
 </section>
@@ -1187,6 +1237,12 @@ def contact_block():
 def footer():
     ranges = "".join(f'<a href="/{c["slug"]}/">{c["title"]}</a>' for c in D.CATEGORIES)
     areas = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS[:6])
+    # The Facebook icon is only rendered when there IS a Facebook URL. It used
+    # to ship as href="[FACEBOOK-URL]", a dead link in the footer of all 45
+    # pages. A placeholder is not worth a broken link on every page.
+    fb = ("" if not D.FACEBOOK or D.FACEBOOK.startswith("[") else
+          f'<a href="{D.FACEBOOK}" target="_blank" rel="noopener" '
+          f'aria-label="Facebook">{FB_SVG}</a>')
     wa = wa_link()
     return f"""</main>
 <footer>
@@ -1195,8 +1251,7 @@ def footer():
       {logo()}
       <p>Bouncy castle, obstacle course, disco dome and marquee hire across Tipperary. Family run since {D.FOUNDED}, fully insured and certified with the Irish Inflatable Hirers Federation.</p>
       <div class="socials">
-        <!-- TODO: replace [FACEBOOK-URL] with the real page -->
-        <a href="{D.FACEBOOK}" target="_blank" rel="noopener" aria-label="Facebook">{FB_SVG}</a>
+        {fb}
         <a href="{wa}" target="_blank" rel="noopener" aria-label="WhatsApp">{WA_SVG}</a>
       </div>
     </div>
