@@ -158,10 +158,15 @@ contains the dots now, and a caption pinned to its bottom edge sat on top of the
 
 ### Hero layout
 
-**Two columns. Everything you read on the left, one big photo on the right.**
-Copy, then the date card, in `.mast-left`; the slideshow fills the right column
-top to bottom (`align-items:stretch`, `.pic{height:100%}`). Below 980 it stacks
-in the same reading order: copy, calendar, photo.
+**Two columns. Copy and the slideshow on the left, the date card on the right.**
+The photo is a 16/10 rectangle under the headline, not a full height panel: when
+it filled the right column top to bottom it cropped every landscape photo we have
+down to a vertical strip, and the marquee shots are all landscape. Below 980 it
+stacks: copy, photo, calendar.
+
+Slides use `object-position:center 42%`. The frame is 16/10 and the photos are
+4/3, so there is a little vertical overflow and the ground is the half worth
+losing.
 
 **Nothing in the hero is rotated.** The photo frame was tilted 1.6deg and the
 caption 3deg, the calendar sat square between them at a third angle, and the
@@ -173,8 +178,7 @@ second one directly above it, two identical yellow buttons a hundred pixels
 apart, which was half of why the hero felt busy. The rail keeps a permanent one
 for anyone who does not want to pick a date first.
 
-Slides use `object-position:center 35%`. The frame is tall and the photos are
-landscape, so a centred crop spends its bottom third on grass and tarmac.
+
 
 `.mast p` sets `--step-1` on everything in the hero, so anything small that lives
 in there (the picker's note) has to out-specify it or it renders at

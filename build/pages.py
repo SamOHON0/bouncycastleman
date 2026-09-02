@@ -133,11 +133,11 @@ def build_home():
           <a href="#range" class="btn btn-line">See the range</a>
         </div>
       </div>
-      {date_picker()}
+      <div class="mast-shot">
+        {hero_slides()}
+      </div>
     </div>
-    <div class="mast-shot">
-      {hero_slides()}
-    </div>
+    {date_picker()}
   </div>
 </section>
 <div class="facts">
