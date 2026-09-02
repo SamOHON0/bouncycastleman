@@ -303,12 +303,25 @@ UNITS = [
         "birthday party. All bouncing area, no slide.",
         "Rain cover included, delivered and set up across Tipperary."],
        [("Size", "12ft x 12ft"), ("Rain cover", "Included")]),
-    _u("kiddies-bouncer", "Kiddies Bouncer", "castle", "Toddlers",
-       "A smaller unit sized for toddlers and pre school parties.",
-       ["The kiddies bouncer is our smallest unit, sized for toddlers and pre school age "
-        "children where a full size castle would be too much.",
-        "Ring Adam to check sizes and availability for your date."],
-       [("Suits", "Toddlers and pre school"), ("Rain cover", "Included")]),
+    # THE ONLY UNIT ON THIS SITE WITHOUT PUBLISHED SPECS. Audited 2 Sep against
+    # every page of bouncycastleman.com: 22 of the 23 units are there with their
+    # sizes and features written out, and this one is not. It appears once, in
+    # the home page range list, as the words "Kiddies Bouncers" and nothing else.
+    #
+    # So the NAME is theirs and everything else was ours. It used to say "our
+    # smallest unit" (a claim about a fleet we have not seen), "sized for
+    # toddlers and pre school age children" (an inference off the word kiddies)
+    # and carry specs for who it suits and a rain cover (asserted, not
+    # published). All four are gone. What is left says only that the unit
+    # exists, which is the part their site actually supports.
+    #
+    # Get the size, the age range and whether it has a rain cover from Adam and
+    # put them back. Do not infer them from the name a second time.
+    _u("kiddies-bouncer", "Kiddies Bouncer", "castle", "Ring us",
+       "A smaller bouncer for younger children. Ring us for the size.",
+       ["The kiddies bouncer is the smaller option for younger children.",
+        "Ring Adam for the size, what ages it suits and availability for your date."],
+       []),
 
     # ---- obstacle courses ----
     _u("adrenaline-max", "Adrenaline Max 55 x 15ft", "obstacle", "55ft",

@@ -119,11 +119,16 @@ def build_home():
     html += f"""
 <section class="mast">
   <div class="mast-grid">
-    <div class="mast-left">
-      <div>
+      <div class="mast-copy">
         <span class="eyebrow">Family run in Tipperary since {D.FOUNDED}</span>
         <h1>Bouncy castle hire across <em>Tipperary</em></h1>
-        <p>Castles, combis and obstacle courses up to 55ft. Delivered, set up and collected.</p>
+        <!-- The three nouns carry their own CATEGORY colours, the same ones the
+             shelves below use. It is a legend for the colour system rather than
+             decoration: by the time you reach the obstacle shelf you have
+             already been told green means obstacle courses. -->
+        <p><b class="w-castle">Castles</b>, <b class="w-combi">combis</b> and
+           <b class="w-obstacle">obstacle courses</b> up to 55ft.
+           Delivered, set up and collected.</p>
         <!-- No second "Get a price" here. The date card below carries it, and two
              identical yellow buttons a hundred pixels apart was half of why the
              hero felt cluttered. The rail keeps a permanent one for anyone who
@@ -136,7 +141,6 @@ def build_home():
       <div class="mast-shot">
         {hero_slides()}
       </div>
-    </div>
     {date_picker()}
   </div>
 </section>

@@ -389,10 +389,33 @@ h3{font-size:var(--step-1);line-height:1.18}
 /* Copy and the slideshow on the left, the date card on the right. The photo is
    a wide rectangle under the headline rather than a full height panel: a tall
    frame cropped every landscape photo we have down to a vertical strip. */
+/* TWO COLUMNS, TWO ROWS, AND THE SECOND ROW IS THE POINT.
+   Row 1 is the copy. Row 2 is the photo and the date card SIDE BY SIDE, which
+   is what makes their top and bottom edges line up.
+   It used to be one flex column (copy then photo) with the card in a second
+   column at align-items:center, so the card floated against the middle of the
+   whole left stack: its top sat level with the paragraph and its bottom
+   stopped 130px short of the photo. Neither edge matched anything.
+   The card stretches, so the row height is set by the photo and the card
+   follows it. Its natural height was within 15px of the photo's anyway, so
+   nothing is squashed to make this work. */
 .mast-grid{display:grid;grid-template-columns:minmax(0,1.28fr) minmax(280px,.72fr);
-  gap:clamp(24px,3vw,52px);align-items:center;position:relative;z-index:2}
-.mast-left{display:flex;flex-direction:column;
-  gap:clamp(24px,2.6vw,34px);min-width:0}
+  grid-template-rows:auto auto;
+  column-gap:clamp(24px,3vw,52px);row-gap:clamp(24px,2.6vw,34px);
+  align-items:start;position:relative;z-index:2}
+.mast-copy{grid-column:1;grid-row:1;min-width:0}
+/* Both stretch, so whichever is naturally taller sets the row and the other
+   follows it. The date card is 518 tall and the photo's 16/10 gives 503, so
+   without this the bottoms miss each other by 15px, which is exactly the kind
+   of near-miss that looks like a mistake rather than a choice. */
+.mast-shot{grid-column:1;grid-row:2;align-self:stretch;
+  display:flex;flex-direction:column}
+.mast-shot .shot-frame{flex:1;display:flex}
+/* aspect-ratio has to go, or it wins over the stretch and fixes the height. */
+.mast-shot .pic{aspect-ratio:auto;flex:1;min-height:0}
+.dpick{grid-column:2;grid-row:2;align-self:stretch}
+/* The empty cell this leaves at row 1, column 2 is not waste, it is where the
+   balloons go. See .mast::after. */
 /* The masthead headline is capped below the global display size: the left
    column is narrow because the rail takes 266px, and the hard rule is that
    the headline never runs past two lines on desktop. */
@@ -402,9 +425,26 @@ h3{font-size:var(--step-1);line-height:1.18}
    14ch cap was forcing a third line the column had room to avoid. */
 .mast h1{font-size:clamp(31px,2.4vw + 8px,46px);max-width:17ch;text-wrap:balance}
 .mast h1 em{font-style:normal;color:var(--c-castle)}
+/* Category colours on the nouns in the hero lede. All three are the -ct
+   (text-on-light) value, not the fill: these are words on a pale sky and the
+   fill values are picked for white text on a colour panel, not the reverse. */
+.w-castle{color:var(--c-castle);font-weight:800}
+.w-combi{color:var(--c-combi);font-weight:800}
+.w-obstacle{color:var(--c-obstacle);font-weight:800}
 .mast p{margin-top:18px;font-size:var(--step-1);color:var(--ink-70);max-width:46ch;
   font-weight:500}
 .mast-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
+/* Balloons, drawn in the mark's language: flat fills, one 3.5px ink outline,
+   no gradients, colours out of the category palette. They sit in the cell the
+   grid leaves empty beside the headline, so they are filling a hole the layout
+   already had rather than being sprinkled on top of it.
+   Hidden below 980 where the grid stacks and the cell stops existing. */
+.mast::after{content:"";position:absolute;z-index:1;pointer-events:none;
+  right:calc(var(--gut) + 2vw);top:clamp(40px,5vw,86px);
+  width:clamp(150px,13vw,215px);aspect-ratio:250/300;
+  background:url("__ART_BALLOONS__") no-repeat center/contain;
+  opacity:.92}
+@media(max-width:1180px){.mast::after{display:none}}
 .mast-shot{position:relative;min-width:0}
 .shot-frame{position:relative}
 /* Portrait in the three column hero. Beside a date card that is naturally tall,
@@ -441,8 +481,12 @@ h3{font-size:var(--step-1);line-height:1.18}
   .mast-grid{grid-template-columns:1fr;gap:clamp(24px,4vw,34px)}
   .mast-left{gap:26px}
   .dpick{max-width:380px}
-  .mast-shot{max-width:640px}
-  .mast-shot .pic{aspect-ratio:4/3}}
+  .mast-copy,.mast-shot,.dpick{grid-column:1}
+  .mast-copy{grid-row:1} .mast-shot{grid-row:3} .dpick{grid-row:2}
+  .mast-shot{max-width:640px;display:block}
+  .mast-shot .shot-frame{display:block}
+  /* Stacked there is no row to stretch to, so the ratio comes back. */
+  .mast-shot .pic{aspect-ratio:4/3;flex:none}}
 
 /* Facts sit across the seam between the masthead and the page. */
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
@@ -497,7 +541,11 @@ h3{font-size:var(--step-1);line-height:1.18}
    Adam has not made. It picks a date and carries it into the enquiry. */
 .dpick{background:#fff;border:3px solid var(--ink);border-radius:var(--r);
   padding:18px 18px 16px;box-shadow:8px 8px 0 var(--accent);
-  width:100%;align-self:center}
+  width:100%;display:flex;flex-direction:column}
+/* Stretched to the photo's height, so the grid of days takes the slack and the
+   button and its note stay pinned to the bottom edge. Without flex:1 here the
+   card grows but its content stays at the top and leaves a hole. */
+.dpick .dp-grid{flex:1;align-content:space-between}
 .dp-label{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-45);margin-bottom:12px}
 .dp-head{display:flex;align-items:center;justify-content:space-between;gap:6px;
@@ -701,17 +749,25 @@ h3{font-size:var(--step-1);line-height:1.18}
 
 /* ------------------------------------------------------------- reviews --- */
 /* Staggered, not three equal columns. */
-.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:start}
-.rev{background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:26px}
-.rev:nth-child(1){--rc:var(--c-disco);margin-top:30px}
+/* ALIGNED, NOT STAGGERED. Children 1 and 3 carried margin-top:30px and 52px,
+   which set the three cards at three different heights on purpose. With three
+   quotes of different lengths that read as three cards that had slipped rather
+   than as a deliberate stagger, and it left a ragged line under the heading.
+   align-items:stretch so all three are the height of the tallest. */
+.revs{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-items:stretch}
+.rev{background:#fff;border:2px solid var(--line);border-radius:var(--r);padding:26px;
+  display:flex;flex-direction:column}
+.rev:nth-child(1){--rc:var(--c-disco)}
 .rev:nth-child(2){--rc:var(--c-castle)}
-.rev:nth-child(3){--rc:var(--c-obstacle);margin-top:52px}
+.rev:nth-child(3){--rc:var(--c-obstacle)}
+/* Pushes the attribution to the bottom of every card, so with the cards now
+   equal height the three rules under the quotes line up too. */
+.rev .who{margin-top:auto}
 .rev .stars{color:var(--accent-text);font-size:14px;letter-spacing:3px;margin-bottom:12px}
 .rev p{font-family:var(--display);font-weight:500;font-size:var(--step-1);line-height:1.35}
 .rev .who{margin-top:16px;padding-top:14px;border-top:2px solid var(--line);
   font-size:14px;font-weight:700;color:var(--rc)}
-@media(max-width:900px){.revs{grid-template-columns:1fr}
-  .rev,.rev:nth-child(1),.rev:nth-child(3){margin-top:0}}
+@media(max-width:900px){.revs{grid-template-columns:1fr}}
 
 /* ----------------------------------------------------------------- faq --- */
 .faq{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start}
@@ -1210,7 +1266,8 @@ def build_assets():
     # substituted BEFORE the CSS is hashed or the hash will not track the art.
     css = CSS.strip() + "\n"
     for token, src, name in (("__ART_BUNTING__", "bunting.svg", "bunting"),
-                             ("__ART_WAVE__", "wave.svg", "wave")):
+                             ("__ART_WAVE__", "wave.svg", "wave"),
+                             ("__ART_BALLOONS__", "balloons.svg", "balloons")):
         css = css.replace(token, art(src, name))
     h = hashlib.md5(css.encode("utf-8")).hexdigest()[:8]
     ASSET["css"] = "/assets/styles.%s.css" % h
