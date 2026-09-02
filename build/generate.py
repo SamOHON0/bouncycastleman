@@ -112,9 +112,25 @@ CSS = r"""
 
 *,*::before,*::after{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+/* overflow-x:hidden here is INSURANCE, not a fix. It stops a stray overflow
+   becoming a sideways scroll, but it also silently CLIPS the offending content,
+   which is how the bento grid ran 85px off every phone for weeks without ever
+   producing a scrollbar to notice. Do not treat "no sideways scroll" as proof
+   the layout fits: measure element rects against clientWidth instead, skipping
+   anything inside a horizontal scroller. */
 body{margin:0;overflow-x:hidden}
 img,svg{display:block;max-width:100%}
 button,input,select,textarea{font:inherit;color:inherit}
+/* 16px ON EVERY FORM CONTROL, AND DO NOT LOWER IT.
+   iOS Safari zooms the whole page in whenever a focused input is under 16px.
+   The zoom widens the layout viewport past the screen, so the page can then be
+   dragged sideways, and it STAYS zoomed after the keyboard closes. That is the
+   whole "it does not fit on mobile and it scrolls sideways" bug: it is not a
+   layout overflow, which is why every static width sweep came back clean.
+   16px is Safari's threshold, not a design preference. 15.5px triggers it.
+   This rule is last-resort insurance; the individual control rules below are
+   all 16px too, and they out-specify this one. */
+input,select,textarea{font-size:16px}
 a{color:inherit;text-decoration:none}
 h1,h2,h3,h4,p,ul,ol,figure{margin:0}
 ul{padding:0;list-style:none}
@@ -216,6 +232,7 @@ h3{font-size:var(--step-1);line-height:1.18}
 .rail{grid-column:1;grid-row:1;position:sticky;top:0;height:100dvh;
   display:flex;flex-direction:column;gap:22px;padding:24px 22px;
   background:var(--rail-bg);color:var(--ink-70);overflow-y:auto;z-index:60;
+  overscroll-behavior:contain;
   border-right:2px solid var(--rail-line)}
 .rail-top{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .rail .brand{color:var(--ink)}
@@ -512,7 +529,7 @@ h3{font-size:var(--step-1);line-height:1.18}
 /* No JS: a native date input does the same job. */
 .dp-fallback{display:block;font-size:13px;font-weight:700;color:var(--ink-70)}
 .dp-fallback input{width:100%;margin-top:6px;padding:11px 12px;
-  border:2px solid var(--line-strong);border-radius:var(--r-sm);font-size:15px}
+  border:2px solid var(--line-strong);border-radius:var(--r-sm);font-size:16px}
 .js .dp-fallback{display:none}
 .dp-go{width:100%;margin-top:14px}
 /* .mast p sets step-1 on everything in the hero, and this lives in the hero, so
@@ -554,7 +571,11 @@ h3{font-size:var(--step-1);line-height:1.18}
 .shelf-nav svg{width:16px;height:16px}
 .track{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(232px,268px);gap:16px;
   overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;
-  padding:4px var(--gut) 14px;scrollbar-width:thin}
+  padding:4px var(--gut) 14px;scrollbar-width:thin;
+  /* Without this, a swipe that reaches the end of a shelf CHAINS to the page and
+     drags the whole document sideways. Six shelves on the home page, so on a
+     phone this is the easiest way to knock the layout off centre. */
+  overscroll-behavior-x:contain}
 .track>*{scroll-snap-align:start}
 .track::-webkit-scrollbar{height:8px}
 .track::-webkit-scrollbar-thumb{background:var(--line-strong);border-radius:var(--r-pill)}
@@ -634,8 +655,17 @@ h3{font-size:var(--step-1);line-height:1.18}
 @media(max-width:1000px){.bento{grid-template-columns:repeat(4,1fr)}
   .bento li,.bento li:nth-child(5){grid-column:span 2}
   .bento li:nth-child(1),.bento li:nth-child(6){grid-column:span 4}}
+/* EVERY nth-child SPAN ABOVE HAS TO BE NAMED AGAIN HERE. `.bento li` is
+   specificity (0,1,1) and `.bento li:nth-child(5)` is (0,2,1), so a blanket
+   `.bento li{grid-column:span 1}` inside the media query LOSES to the base
+   rule. Cells 5 and 6 were staying at `span 3` in a one column grid, which
+   makes the grid invent two implicit columns and pushes both cells about 85px
+   off the right of every phone. `body{overflow-x:hidden}` was clipping them,
+   so it read as "the page does not fit" rather than as a scrollbar, and no
+   width sweep caught it because nothing ever scrolled. */
 @media(max-width:620px){.bento{grid-template-columns:1fr}
-  .bento li,.bento li:nth-child(1){grid-column:span 1}
+  .bento li,.bento li:nth-child(1),
+  .bento li:nth-child(5),.bento li:nth-child(6){grid-column:span 1}
   .bento li:nth-child(1){grid-template-columns:1fr}}
 
 /* --------------------------------------------------------------- areas --- */
@@ -655,7 +685,7 @@ h3{font-size:var(--step-1);line-height:1.18}
 .checker h3{margin-bottom:12px}
 .checker-row{display:flex;gap:10px;flex-wrap:wrap}
 .checker select{flex:1;min-width:170px;padding:13px 15px;border:2px solid transparent;
-  border-radius:var(--r-sm);background:#fff;color:var(--ink);font-size:15px}
+  border-radius:var(--r-sm);background:#fff;color:var(--ink);font-size:16px}
 .checker select:focus{outline:3px solid var(--accent);outline-offset:1px}
 #areaOut{margin-top:13px;font-size:15.5px;font-weight:700;min-height:22px}
 
@@ -871,7 +901,7 @@ form{background:#fff;border-radius:var(--r);padding:26px;color:var(--ink)}
 .fld{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
 .fld label{font-size:13.5px;font-weight:800;color:var(--ink-70)}
 .fld input,.fld textarea{padding:13px 15px;border:2px solid var(--line-strong);
-  border-radius:var(--r-sm);font-size:15.5px;background:#fff;color:var(--ink);width:100%}
+  border-radius:var(--r-sm);font-size:16px;background:#fff;color:var(--ink);width:100%}
 .fld input:focus,.fld textarea:focus{outline:3px solid var(--c-castle);outline-offset:1px;
   border-color:var(--c-castle)}
 .fld textarea{resize:vertical;min-height:84px}
