@@ -73,11 +73,22 @@ HERO_MAIN = IMG_LIZARD
 # dome and a marquee inside the first screen, which is the actual pitch. The
 # marquee is in here on purpose: Adam said that side of the business was being
 # lost. Replace the lot the day he sends real photos.
+# ORDER MATTERS. The first slide is the first thing anyone sees, and it used to
+# be the Red Lizard: a good unit, photographed indoors on a gym floor under
+# strip lights. The opener is outdoors now.
+#
+# CAVEAT for whoever changes this next: the marquee photos are the only images
+# on this site we have actually looked at. Everything else is a small hotlink
+# off the old host, unreachable from the build environment, so we cannot tell
+# which of the castle shots are outdoors. If one of them is a good sunny castle
+# photo it belongs first, ahead of the marquee, because the headline above it
+# says bouncy castles.
 HERO_SLIDES = [
-    (IMG_LIZARD,     "Red Lizard Obstacle", "50ft"),
+    (IMG_MQ_ASTRO,   "Marquee",             "20 to 100 people"),
     (IMG_CASTLE_C3,  "Large Combi Castle",  "19x19ft"),
     (IMG_GREENGOLD,  "Obstacle Course",     "Green and gold"),
-    (IMG_MQ_ASTRO,   "Marquee",             "20 to 100 people"),
+    (IMG_MQ_PAIR,    "Marquees",            "Two on site"),
+    (IMG_LIZARD,     "Red Lizard Obstacle", "50ft"),
     (IMG_DISCO,      "Disco Dome",          "Lights and sound"),
     (IMG_CASTLE_A,   "Bouncy Castle",       "Rain cover included"),
 ]

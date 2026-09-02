@@ -119,16 +119,22 @@ def build_home():
     html += f"""
 <section class="mast">
   <div class="mast-grid">
-    <div>
-      <span class="eyebrow">Family run in Tipperary since {D.FOUNDED}</span>
-      <h1>Bouncy castle hire across <em>Tipperary</em></h1>
-      <p>Castles, combis and obstacle courses up to 55ft. Delivered, set up and collected.</p>
-      <div class="mast-actions">
-        <a href="/contact/" class="btn btn-accent">Get a price</a>
-        <a href="tel:{D.PHONE_TEL}" class="btn btn-line">{ico("phone")}{D.PHONE_DISPLAY}</a>
+    <div class="mast-left">
+      <div>
+        <span class="eyebrow">Family run in Tipperary since {D.FOUNDED}</span>
+        <h1>Bouncy castle hire across <em>Tipperary</em></h1>
+        <p>Castles, combis and obstacle courses up to 55ft. Delivered, set up and collected.</p>
+        <!-- No second "Get a price" here. The date card below carries it, and two
+             identical yellow buttons a hundred pixels apart was half of why the
+             hero felt cluttered. The rail keeps a permanent one for anyone who
+             does not want to pick a date first. -->
+        <div class="mast-actions">
+          <a href="tel:{D.PHONE_TEL}" class="btn btn-line">{ico("phone")}{D.PHONE_DISPLAY}</a>
+          <a href="#range" class="btn btn-line">See the range</a>
+        </div>
       </div>
+      {date_picker()}
     </div>
-    {date_picker()}
     <div class="mast-shot">
       {hero_slides()}
     </div>
@@ -140,7 +146,7 @@ def build_home():
   <div><b>IIHF</b><span>Fully insured and certified</span></div>
 </div>
 
-<div class="band band-tight">
+<div class="band band-tight" id="range">
   <div class="sec-head" style="margin-bottom:0">
     <h2>The range</h2>
     <p>Six kinds of hire. Walk sideways through any shelf, or open a category for the lot.</p>

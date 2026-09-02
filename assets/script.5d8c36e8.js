@@ -78,6 +78,12 @@ if (slidesEl) {
   function stop() { clearInterval(timer); timer = null; }
 
   dots.forEach((d, k) => d.addEventListener('click', () => { show(k); stop(); }));
+  /* Clicking an arrow means the visitor is driving. Stop the timer so it does
+     not move the photo out from under them a second later. */
+  const prev = document.getElementById('heroPrev');
+  const next = document.getElementById('heroNext');
+  if (prev) prev.addEventListener('click', () => { show(i - 1); stop(); });
+  if (next) next.addEventListener('click', () => { show(i + 1); stop(); });
   slidesEl.addEventListener('mouseenter', stop);
   slidesEl.addEventListener('mouseleave', start);
   /* Nothing animates while the hero is off screen. */

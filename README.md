@@ -133,6 +133,20 @@ courses, the dome and a marquee, all inside the first screen. One photo was
 carrying the whole hero and the range read as thinner than it is. The marquee is
 in the set on purpose, since Adam said that side of the business was being lost.
 
+**Arrows are real always-visible buttons on the frame**, not a hover affordance:
+half the audience is on a phone where hover does not exist, and the other half is
+a client checking his own site. Clicking one stops the timer, because the visitor
+is driving at that point and having the photo move a second later is worse than
+no autoplay at all.
+
+**The first slide is outdoors.** It used to be the Red Lizard, a good unit
+photographed indoors on a gym floor under strip lights. Note for whoever changes
+the order next: the marquee photos are the only images on this site anyone has
+actually looked at. The rest are small hotlinks off the old host and unreachable
+from the build environment, so we cannot tell which castle shots are outdoors. If
+one of them is a good sunny castle photo it belongs first, ahead of the marquee,
+because the headline above it says bouncy castles.
+
 The first slide is **eager and already `.on` in the markup**, so the hero shows a
 photo whether or not the script runs. A slideshow that needs JS to show its first
 image is a blank box when the script fails. Crossfade pauses on hover, stops
@@ -144,15 +158,23 @@ contains the dots now, and a caption pinned to its bottom edge sat on top of the
 
 ### Hero layout
 
-Three columns (headline, picker, photo) above **1400px**, not 1280: at 1366 the
-three way split leaves the headline about 346px and it takes a third line, and
-the rule that it never runs past two lines on desktop is older than the picker
-and wins. 1000 to 1400 is two columns with the picker under the buttons and a
-taller photo beside them. Below 1000 everything stacks, text first.
+**Two columns. Everything you read on the left, one big photo on the right.**
+Copy, then the date card, in `.mast-left`; the slideshow fills the right column
+top to bottom (`align-items:stretch`, `.pic{height:100%}`). Below 980 it stacks
+in the same reading order: copy, calendar, photo.
 
-The photo is portrait (4/4.9) in the three column hero. Beside a date card that
-is naturally tall, a landscape photo left a lot of empty sky above it and read as
-an afterthought.
+**Nothing in the hero is rotated.** The photo frame was tilted 1.6deg and the
+caption 3deg, the calendar sat square between them at a third angle, and the
+whole thing read as clutter rather than three things doing three jobs. The
+chunky offset shadows stay; they are the house style and they are not slanted.
+
+There is **one "Get a price" in the hero, in the date card**. There used to be a
+second one directly above it, two identical yellow buttons a hundred pixels
+apart, which was half of why the hero felt busy. The rail keeps a permanent one
+for anyone who does not want to pick a date first.
+
+Slides use `object-position:center 35%`. The frame is tall and the photos are
+landscape, so a centred crop spends its bottom third on grass and tarmac.
 
 `.mast p` sets `--step-1` on everything in the hero, so anything small that lives
 in there (the picker's note) has to out-specify it or it renders at
@@ -415,7 +437,9 @@ Everything below is blocked on Adam. All of it is marked `TODO` in
    copies into `/images/` and repoint `data.py` before the DNS cutover.
 3. **Formspree.** `FORMSPREE` in `data.py` is still `[FORM-ID]`, so the form
    renders in a DRAFT state: fields visible so the layout can be judged, submit
-   disabled, and a note saying it is not connected. It used to ship pointing at
+   disabled, and a note reading just "Not connected yet." The note used to
+   explain what was needed to fix it, which is a message for Sam, not for
+   whoever is looking at the page. It used to ship pointing at
    `https://formspree.io/f/[FORM-ID]`, so a real enquiry would have gone nowhere
    silently, and a client looking at a draft is very likely to test the form. Set
    a real ID and the whole thing turns itself back on.

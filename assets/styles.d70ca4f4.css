@@ -258,9 +258,13 @@ h3{font-size:var(--step-1);line-height:1.18}
 /* Three columns above 1280: headline, date picker, photo. The picker is a fixed
    300px because a date grid has a floor below which it stops being tappable;
    the headline and the photo share what is left. */
-.mast-grid{display:grid;
-  grid-template-columns:minmax(0,1.05fr) 272px minmax(0,.98fr);
-  gap:clamp(18px,2.1vw,34px);align-items:end;position:relative;z-index:2}
+/* Two columns: everything you read on the left, one big photo on the right.
+   align-items:stretch, so the photo is as tall as the copy and the calendar
+   together rather than floating at one end of it. */
+.mast-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.02fr);
+  gap:clamp(24px,3vw,52px);align-items:stretch;position:relative;z-index:2}
+.mast-left{display:flex;flex-direction:column;justify-content:center;
+  gap:clamp(24px,2.8vw,38px);min-width:0}
 /* The masthead headline is capped below the global display size: the left
    column is narrow because the rail takes 266px, and the hard rule is that
    the headline never runs past two lines on desktop. */
@@ -268,22 +272,26 @@ h3{font-size:var(--step-1);line-height:1.18}
    370px at 1440, and the hard rule is still that it never runs past two lines. */
 /* No ch cap in the three column hero: the column itself is the measure, and a
    14ch cap was forcing a third line the column had room to avoid. */
-.mast h1{font-size:clamp(30px,1.7vw + 11px,38px);text-wrap:balance}
+.mast h1{font-size:clamp(31px,2.4vw + 8px,46px);max-width:17ch;text-wrap:balance}
 .mast h1 em{font-style:normal;color:var(--c-castle)}
 .mast p{margin-top:18px;font-size:var(--step-1);color:var(--ink-70);max-width:46ch;
   font-weight:500}
 .mast-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:28px}
-.mast-shot{position:relative}
-.shot-frame{position:relative}
+.mast-shot{position:relative;display:flex;flex-direction:column;min-width:0}
+.shot-frame{position:relative;flex:1;display:flex;min-height:0}
+.shot-frame .pic{flex:1}
 /* Portrait in the three column hero. Beside a date card that is naturally tall,
    a landscape photo left a lot of empty sky above it and read as an
    afterthought. */
-.mast-shot .pic{--ratio:4/4.9;border:3px solid var(--ink);transform:rotate(-1.6deg);
-  box-shadow:12px 12px 0 var(--c-castle);background:var(--paper-2)}
+/* Straight. The frame and the caption were both tilted, the calendar sat at a
+   third angle between them, and the hero read as clutter rather than as three
+   things doing three jobs. Nothing in the hero is rotated now. */
+.mast-shot .pic{border:3px solid var(--ink);box-shadow:12px 12px 0 var(--c-castle);
+  background:var(--paper-2);aspect-ratio:auto;height:100%;min-height:440px}
 /* Set here, not inline on the element, so the stacked breakpoint can reshape it. */
 .mast-tag{position:absolute;left:-10px;bottom:-14px;background:var(--accent);color:var(--ink);
   padding:10px 18px;border-radius:var(--r-pill);font-family:var(--display);font-weight:600;
-  font-size:14.5px;transform:rotate(-3deg)}
+  font-size:14.5px}
 /* Clouds, drawn and outlined rather than blurred blobs. Held back to .55 so
    they sit behind the headline instead of competing with it, and hidden on
    narrow screens where there is no room to be scenery. */
@@ -300,23 +308,14 @@ h3{font-size:var(--step-1);line-height:1.18}
 /* Below 1280 there is not room for three. The picker goes under the buttons
    beside the photo, which keeps it above the fold, and below 1000 everything
    stacks with the text leading. */
-/* 1400, not 1280. At 1366 the three column split leaves the headline about
-   346px and it takes a third line; the rule that it never runs past two lines
-   on desktop is older than the date picker and it wins. */
-@media(max-width:1400px){
-  .mast-grid{grid-template-columns:minmax(0,1fr) minmax(0,.9fr)}
-  /* Two columns now carry the picker under the buttons, so the left column is
-     narrower than it was and 52px ran the headline to three lines. */
-  .mast h1{font-size:clamp(33px,2.5vw + 10px,45px);max-width:19ch}
-  .mast p{max-width:46ch}
-  .dpick{grid-column:1;max-width:320px;margin-top:26px;align-self:start}
-  .mast-shot{grid-column:2;grid-row:1 / span 2}
-  .mast-shot .pic{--ratio:4/4.6}}
-@media(max-width:1000px){
-  .mast-grid{grid-template-columns:1fr}
-  .dpick{grid-column:1;max-width:340px}
-  .mast-shot{grid-column:1;grid-row:auto;max-width:640px;margin-top:10px}
-  .mast-shot .pic{--ratio:4/2.5}}
+/* Below 980 the two columns stack: copy, then the calendar, then the photo,
+   which is the same reading order the desktop layout has. */
+@media(max-width:980px){
+  .mast-grid{grid-template-columns:1fr;gap:clamp(24px,4vw,34px)}
+  .mast-left{gap:26px}
+  .dpick{max-width:360px}
+  .mast-shot{max-width:640px}
+  .mast-shot .pic{height:auto;min-height:0;aspect-ratio:4/3}}
 
 /* Facts sit across the seam between the masthead and the page. */
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
@@ -333,11 +332,29 @@ h3{font-size:var(--step-1);line-height:1.18}
 
 /* --------------------------------------------------------- hero slides --- */
 .slides{position:relative}
+/* 35% not 50%: the frame is tall and the photos are landscape, so a centred
+   crop spends its bottom third on grass and tarmac. */
 .slides .slide{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;
-  opacity:0;transition:opacity .7s ease}
+  object-position:center 35%;opacity:0;transition:opacity .7s ease}
 .slides .slide.on{opacity:1}
 /* No JS: the first slide is already .on and already loaded, so the hero shows a
    photo whatever happens to the script. */
+/* Chunky, always on, same round-and-outlined language as the buttons. */
+.slide-arrow{display:none;position:absolute;top:50%;margin-top:-24px;z-index:3;
+  width:48px;height:48px;border-radius:50%;background:#fff;border:3px solid var(--ink);
+  cursor:pointer;padding:0;box-shadow:0 3px 0 var(--ink);
+  transition:background .14s,transform .12s,box-shadow .12s}
+.js .slide-arrow{display:grid;place-items:center}
+.slide-arrow:hover{background:var(--accent)}
+.slide-arrow:active{transform:translateY(3px);box-shadow:0 0 0 var(--ink)}
+.slide-arrow::before{content:"";width:12px;height:12px;
+  border-top:3px solid var(--ink);border-right:3px solid var(--ink)}
+.slide-arrow.prev{left:14px}
+.slide-arrow.prev::before{transform:rotate(-135deg);margin-left:4px}
+.slide-arrow.next{right:14px}
+.slide-arrow.next::before{transform:rotate(45deg);margin-right:4px}
+@media(max-width:480px){.slide-arrow{width:40px;height:40px;margin-top:-20px}
+  .slide-arrow.prev{left:8px}.slide-arrow.next{right:8px}}
 .slide-dots{display:none;gap:7px;justify-content:center;margin-top:26px}
 .js .slide-dots{display:flex}
 .slide-dots .dot{width:9px;height:9px;padding:0;border-radius:50%;cursor:pointer;
@@ -352,8 +369,8 @@ h3{font-size:var(--step-1);line-height:1.18}
    booked, because we have no booking data and inventing one would be a promise
    Adam has not made. It picks a date and carries it into the enquiry. */
 .dpick{background:#fff;border:3px solid var(--ink);border-radius:var(--r);
-  padding:16px 16px 15px;box-shadow:8px 8px 0 var(--accent);align-self:end;
-  width:100%;max-width:272px}
+  padding:18px 18px 16px;box-shadow:8px 8px 0 var(--accent);
+  width:100%;max-width:420px}
 .dp-label{display:block;font-size:11px;font-weight:800;letter-spacing:.14em;
   text-transform:uppercase;color:var(--ink-45);margin-bottom:12px}
 .dp-head{display:flex;align-items:center;justify-content:space-between;gap:6px;
