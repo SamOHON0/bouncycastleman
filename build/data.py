@@ -168,36 +168,58 @@ SAFETY = [
 ]
 
 # ------------------------------------------------------------- categories ----
+# ORDER IS LOAD BEARING AND IT IS DELIBERATE. This one list drives the rail, the
+# six shelves on the home page, the footer range list and the sitemap, so
+# reordering here reorders the whole site at once.
+#
+# Obstacle courses lead. They are the strongest thing this business has to show:
+# ten units against two for bouncy castles, and nine of the ten have a real
+# photo. Bouncy castles led until 2 Sep and opened the page with two "photo
+# coming soon" tiles, which is the worst possible first impression on a site
+# whose whole job is to look like a going concern.
+#
+# Bouncy castles sit third rather than last on purpose. The business is called
+# Bouncy Castle Man and the h1 says bouncy castle hire, so burying the category
+# entirely would read as a mistake. Third is far enough down that the empty
+# tiles are not the opening shot, and near enough that the promise is kept.
+# Combi castles at two also covers the intent: a combi IS a bouncy castle to
+# whoever is booking, and that shelf has seven units and five photos.
+#
+# MOVE BOUNCY CASTLES BACK UP as soon as Adam sends photos of the Standard Arch
+# Castle and the Kiddies Bouncer. The reason it is down here is missing photos,
+# not merit.
+#
+# `k` is currently read by nothing. Kept in step with the order anyway so it
+# does not start lying to the next person who greps for it.
 CATEGORIES = [
-    dict(slug="bouncy-castles", cat="castle", k="k1", title="Bouncy Castles",
-         hero=IMG_CASTLE_OUTDOOR,
-         blurb="Arch castles and kiddies bouncers, all with rain covers.",
-         intro="Our standard bouncy castles suit birthday parties, communions and back garden "
-               "days out. Every unit comes with a rain cover as standard, so an Irish forecast "
-               "does not cancel the party. Delivered, set up and collected across Tipperary."),
+    dict(slug="obstacle-courses", cat="obstacle", k="k1", title="Obstacle Courses",
+         hero=IMG_OBS_BLUEYELLOW,
+         blurb="30ft up to 55ft, with rock climbs, tunnels and slides.",
+         intro="Ten obstacle courses in the range, from a 30ft block run for younger children "
+               "up to the 55ft high adrenaline units with double rock climbs and extra high "
+               "slides. Every course has a full rain cover."),
     dict(slug="combi-castles", cat="combi", k="k2", title="Combi Castles",
          hero=IMG_COMBI_JUNGLE,
          blurb="Bounce area and a built in slide, most with a basketball ring.",
          intro="Combi castles give you a full bouncing area and a slide in the one unit, and "
                "most have a basketball ring inside. Seven of them in the range, from 15ft up "
                "to 19ft, every one with a full rain cover."),
-    dict(slug="obstacle-courses", cat="obstacle", k="k3", title="Obstacle Courses",
-         hero=IMG_OBS_BLUEYELLOW,
-         blurb="30ft up to 55ft, with rock climbs, tunnels and slides.",
-         intro="Ten obstacle courses in the range, from a 30ft block run for younger children "
-               "up to the 55ft high adrenaline units with double rock climbs and extra high "
-               "slides. Every course has a full rain cover."),
+    dict(slug="bouncy-castles", cat="castle", k="k3", title="Bouncy Castles",
+         hero=IMG_CASTLE_OUTDOOR,
+         blurb="Arch castles and kiddies bouncers, all with rain covers.",
+         intro="Our standard bouncy castles suit birthday parties, communions and back garden "
+               "days out. Every unit comes with a rain cover as standard, so an Irish forecast "
+               "does not cancel the party. Delivered, set up and collected across Tipperary."),
     dict(slug="disco-dome", cat="disco", k="k4", title="Disco Dome",
          hero=IMG_DISCO,
          blurb="Enclosed dome with disco lighting and a full sound system.",
          intro="The disco dome is an enclosed bouncing unit with disco lighting and a full "
                "surround speaker system. It connects over Bluetooth or cable and works with "
                "Apple and Android, so the kids pick their own playlist."),
-    # hero=SOON, not IMG_BANNER. IMG_BANNER is the old site's masthead GRAPHIC,
-    # the wordmark on a blue ground, not a photo of anything. Cropped to a 16/10
-    # banner it rendered as a zoomed fragment of the word CASTLE. The no-photo
-    # panel in the sumo orange is better than a wrong photo. Swap it for a real
-    # sumo shot the moment Adam sends one.
+    # This was the no-photo panel until 2 Sep. It is the gladiator platform now.
+    # It is NOT the old site's masthead graphic, which is the wordmark on a blue
+    # ground and cropped to a 16/10 banner rendered as a zoomed fragment of the
+    # word CASTLE. Never put that back.
     dict(slug="sumo-gladiator", cat="sumo", k="k5", title="Sumo & Gladiator",
          hero=IMG_GLADIATOR,
          blurb="Sumo suits and the gladiator challenge for older groups.",

@@ -31,6 +31,24 @@ cache on `/assets/`.
 
 Rebuilt 20 Aug 2026. The cartoon "Bounce Land" house style is gone.
 
+### Category order
+
+`CATEGORIES` in `data.py` drives the rail, the six home shelves, the footer
+range list and the sitemap. Reordering that one list reorders the site.
+
+Current order and why: **obstacle courses, combis, bouncy castles**, disco,
+sumo, marquees. Obstacle courses lead because they are the strongest thing to
+show, ten units with nine real photos. Bouncy castles led until 2 Sep and
+opened the page with two "photo coming soon" tiles.
+
+Bouncy castles are third rather than last deliberately. The business is called
+Bouncy Castle Man, so burying the category reads as a mistake; third keeps the
+promise without making the empty tiles the opening shot. Combis at two cover
+the same intent, since a combi is a bouncy castle to whoever is booking.
+
+**Move bouncy castles back up when the Standard Arch Castle and Kiddies Bouncer
+have photos.** It is down there for missing photos, not merit.
+
 ### Layout
 
 A **persistent left rail** rather than a top nav, on a light cream ground. It
@@ -50,13 +68,20 @@ below 640px where swiping is the natural gesture.
 The masthead is a soft sky-blue block with the headline bottom-left and the
 photo tilted and bleeding off the right edge, with the three fact cards
 straddling the seam below it. The block is **drawn in the mark's language**
-rather than decorated: bunting along the top in the six category colours in
-order, and the seam cut as a wave carrying the same heavy ink line the castle is
-outlined in. Both are flat fills with a 3 to 3.5px ink stroke, which is the one
-rule the mark follows, so the hero reads as the same hand that drew the logo.
-Art in `build/brand/bunting.svg` and `wave.svg`, hashed into `/assets/` like
+rather than decorated: bunting along the top in the brand colours, and the seam
+cut as a wave carrying the same heavy ink line the castle is outlined in. Both
+are flat fills with a 3 to 3.5px ink stroke, which is the one rule the mark
+follows, so the hero reads as the same hand that drew the logo. Art in
+`build/brand/bunting.svg` and `wave.svg`, hashed into `/assets/` like
 everything else. `wave.svg` carries `--paper` as a literal `#f8fbff`: change
 `--paper` and the wave has to change with it.
+
+This page used to claim the bunting ran "the six category colours in order".
+**It does not, and it never did.** The six flags are blue, the accent yellow,
+pink, emerald, orange and violet: the yellow is not a category colour at all,
+and the marquee teal is missing. It is a decorative arrangement, not a mapping.
+That matters only because someone reordering `CATEGORIES` would otherwise think
+they had to reorder the flags to match. They do not.
 
 A cloud was drawn and cut. Everywhere it fit it sat half behind the photo frame
 and read as a smudge, and the hero already carries bunting, a tilted frame and
@@ -81,7 +106,7 @@ Every section is a different layout family and none repeats.
 **Every image on this site is a local file.** Nothing hotlinks
 `files.secure.website` any more, so nothing breaks at the DNS cutover. There are
 two folders: `/images/marquees/` (nine photos from Adam) and `/images/units/`
-(twenty-four pulled off the old site).
+(twenty-five pulled off the old site).
 
 They arrived as 2.8MB of phone JPEG with names like
 `WhatsApp Image 2026-09-02 at 12.27.33 (4).jpeg`, dropped into `/marquees/`,
@@ -106,11 +131,11 @@ Unit pages render a `gallery=` tuple as a four-up strip under the specs
 
 #### `/images/units/`, and how each photo was identified
 
-Twenty-four images off the old site, 2 Sep 2026. Neither the build container nor
+Twenty-five images off the old site, 2 Sep 2026. Neither the build container nor
 the Cowork VM can reach `files.secure.website`, so they came down via a
 PowerShell script run on Sam's machine, then went through the same treatment as
 the marquee shots: EXIF-rotated, 1200px long edge, q74 progressive. 1.5MB for
-twenty-four.
+the set.
 
 Twelve had filenames that named them (`jungle-castle`, `block-run`). The other
 ten were `img-0278`, `photo-2-1` and UUIDs, and **the old site keeps its captions
