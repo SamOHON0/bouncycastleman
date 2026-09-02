@@ -12,8 +12,8 @@ TODOs Adam must supply, all marked below:
   - confirmation of the delivery areas and any prices he wants shown
   - real reviews (the three here are placeholders and are marked as such)
   - photos of five units that have none: the Large Combi 19x19, the plain
-    Combi 15x15, the Standard Arch Castle, the Kiddies Bouncer, the 50ft Rock
-    Climb Course, and a sumo suit shot. See SOON below.
+    Combi 15x15, the Standard Arch Castle, the Kiddies Bouncer and the 50ft
+    Rock Climb Course. See SOON below.
 
 IMAGES ARE LOCAL. Every photo on this site is a file in this repo. Nothing
 hotlinks files.secure.website any more, so nothing breaks at the DNS cutover.
@@ -53,9 +53,10 @@ FACEBOOK = "[FACEBOOK-URL]"                       # TODO: confirm with Adam
 #                              PLAYLAND, the words are printed on the unit.
 #   Bouncy_Castles_Limerick    was the Standard Arch Castle hero. It is the
 #                              GLADIATOR CHALLENGE duel platform.
-#   bouncy_castle_2.jpg        was the Kiddies Bouncer hero. It is a SUMO SUIT,
-#                              and a 226px supplier stock shot with another
-#                              company's watermark on it. Dropped, not moved.
+#   bouncy_castle_2.jpg        was the Kiddies Bouncer hero. It is a SUMO SUIT.
+#                              Now on the Sumo Suits unit, where it belongs.
+#                              See the note on sumo-suit.jpg below before you
+#                              touch it: there is a watermark question on it.
 _U = "/images/units/"
 IMG_COMBI_JUNGLE    = _U + "combi-jungle.jpg"        # Jungle Castle 15x15
 IMG_COMBI_MINECRAFT = _U + "combi-minecraft.jpg"     # Minecraft Castle 17x19
@@ -74,6 +75,7 @@ IMG_OBS_JUNGLERUN   = _U + "obs-jungle-run.jpg"      # Jungle Run 45ft
 IMG_OBS_BLOCKRUN    = _U + "obs-block-run.jpg"       # Block Run 30ft
 IMG_DISCO           = _U + "disco-dome.jpg"          # Disco Dome
 IMG_GLADIATOR       = _U + "gladiator.jpg"           # Gladiator Challenge (SEE BELOW)
+IMG_SUMO            = _U + "sumo-suit.jpg"           # Sumo Suits (SEE BELOW)
 IMG_VAN             = _U + "van.jpg"                 # the branded van, unused
 
 # Extra shots. The old site captions FIVE different inflatables "Adrenaline Max"
@@ -87,18 +89,34 @@ IMG_OBS_MAX_BLUE    = _U + "obs-max-blue.jpg"
 IMG_OBS_BOOSTER_2   = _U + "obs-booster-2.jpg"
 IMG_OBS_BOOSTER_IN  = _U + "obs-booster-indoor.jpg"
 
-# TWO WEAK IMAGES, both kept because they are the only shot of that unit and a
-# soft photo beats a "coming soon" tile on a draft. Replace both when Adam
-# sends phone photos, which will be better than either.
+# THREE WEAK IMAGES, all kept because they are the only shot of that unit and a
+# soft photo beats a "coming soon" tile on a draft. Replace all three when Adam
+# sends phone photos, which will be better than any of them.
 #   obs-crocodile.jpg  300x168. The old site never held a bigger copy.
 #   gladiator.jpg      312x139, a supplier render on white, not a photo.
+#   sumo-suit.jpg      226x127 originally, and it is a SUPPLIER STOCK SHOT that
+#                      carried an "indigo INFLATABLES" watermark top right.
+#
+# READ THIS BEFORE CHANGING sumo-suit.jpg.
+# The watermark is another company's mark, and the source is their stock photo
+# rather than a photo of Adam's kit. Two things make it defensible to ship:
+# Adam has been publishing this exact image on bouncycastleman.com for years,
+# so we are carrying across his own existing use rather than introducing it;
+# and Indigo Inflatables is a manufacturer, so if he bought the suits from them
+# he is very likely entitled to their product shot.
+# The crop is 170x127 of the 226x127 original, which is 1.339 against the
+# card's 4/3, so it is the ratio the card wants and it centres the suit. The
+# watermark sat at x172-222 and falls outside that crop. That is a real side
+# effect and it was not an accident, so it is written down here rather than
+# left for someone to discover. The mark was NOT painted out or cloned over.
+# If Adam is not an Indigo customer the photo should come off entirely, and
+# cropping would not have made it alright. ASK HIM.
 
 # ---- REAL PHOTOS, and the first local images on this site --------------------
 # Nine marquee photos from Adam, 2 Sep 2026, via Sam. Resized to a 1200px long
 # edge at q74 and saved progressive: the originals were 2.8MB of phone JPEG for
 # 2.5MB of grass texture, and this is 1.7MB for the nine with no visible loss.
-# They live in /images/ so they survive the DNS cutover. Everything else on the
-# site still hotlinks the old host and does not.
+# They live in /images/ like everything else on this site now.
 _MQ = "/images/marquees/"
 IMG_MQ_ASTRO  = _MQ + "marquee-astro-sunny.jpg"      # landscape, blue sky
 IMG_MQ_PAIR   = _MQ + "marquee-pair-astro.jpg"       # landscape, two marquees
@@ -367,7 +385,7 @@ UNITS = [
         "availability."],
        [("Suit size", "Adult, 3m x 3m"), ("Comes with", "Sumo mat and two helmets"),
         ("Suits", "Teenagers, adults, corporate"),
-        ("Supervision", "Adult supervision required")]),
+        ("Supervision", "Adult supervision required")], img=IMG_SUMO),
     # SOURCED, the old site's Corporate page, read 2 Sep 2026, verbatim:
     # "Sumo Suits / Adult Size 3m x 3m / Sumo Mat & 2 Helmets" and
     # "Gladiator Challenge / 5 X 5 M". Nothing here is inferred.
