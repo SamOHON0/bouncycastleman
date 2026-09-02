@@ -7,15 +7,16 @@ approved by the client at bouncycastleman.vercel.app. Adam Garrett is the
 contact (086 194 5789); Mike Garrett handed the job over on 12 Aug.
 
 TODOs Adam must supply, all marked below:
-  - real product photos (the old site only has 8 usable images, see IMAGES)
   - the real Formspree form ID
   - a business email address (the old site publishes none)
   - confirmation of the delivery areas and any prices he wants shown
   - real reviews (the three here are placeholders and are marked as such)
+  - photos of five units that have none: the Large Combi 19x19, the plain
+    Combi 15x15, the Standard Arch Castle, the Kiddies Bouncer, the 50ft Rock
+    Climb Course, and a sumo suit shot. See SOON below.
 
-NOTE: the images that do exist hotlink files.secure.website, the old site's
-host. That host disappears when the domain moves, so download local copies
-into /images/ before go-live.
+IMAGES ARE LOCAL. Every photo on this site is a file in this repo. Nothing
+hotlinks files.secure.website any more, so nothing breaks at the DNS cutover.
 """
 
 SITE = "https://bouncycastleman.com"
@@ -33,16 +34,64 @@ FORMSPREE = "https://formspree.io/f/[FORM-ID]"    # TODO: Adam's real Formspree 
 FOUNDED = "2001"
 FACEBOOK = "[FACEBOOK-URL]"                       # TODO: confirm with Adam
 
-# Every image the old site actually serves. Nothing here is guessed.
-_S = "https://files.secure.website/wscfus/10590302/"
-IMG_BANNER = _S + "4489225/tvituvbevatafuao9m8r-w640-o.jpg"
-IMG_LIZARD = _S + "8420309/lizard-castle-w480-o.jpg"
-IMG_GREENGOLD = _S + "8407799/obstacle-green-n-gold-1-w640-o.jpg"
-IMG_DISCO = _S + "8404155/disco-dome-w360-o.jpg"
-IMG_CASTLE_C3 = _S + "uploads/c3_567.png"
-IMG_MARQUEE = _S + "uploads/50ft-x-20ft-Marquee1-274x170.jpg"
-IMG_CASTLE_A = _S + "uploads/Bouncy_Castles_Limerick_325.png"
-IMG_CASTLE_B = _S + "uploads/bouncy_castle_2.jpg"
+# ---- UNIT PHOTOS, pulled off the old site 2 Sep 2026 and now LOCAL ----------
+# Nothing on this site hotlinks files.secure.website any more. That matters:
+# the old host serves images off the old domain's account, and it goes away at
+# the DNS cutover. Every image below is in this repo.
+#
+# HOW EACH ONE WAS IDENTIFIED. The old site keeps its captions in elements that
+# are not related to the images in the markup, so filename matching got twelve
+# of them and no more. The other ten had filenames like img-0278 and a UUID.
+# They were identified by loading each old page in a browser, shrinking it and
+# READING it: the caption beside a photo on the rendered page is what names it.
+# So these assignments come from the client's own published captions, not from
+# my guess at what an inflatable looks like.
+#
+# THREE IMAGES WERE ON THE WRONG UNIT before this pass, all inherited from the
+# old site's filenames:
+#   c3_567.png                 was the Large Combi hero. It is the CRAYOLA
+#                              PLAYLAND, the words are printed on the unit.
+#   Bouncy_Castles_Limerick    was the Standard Arch Castle hero. It is the
+#                              GLADIATOR CHALLENGE duel platform.
+#   bouncy_castle_2.jpg        was the Kiddies Bouncer hero. It is a SUMO SUIT,
+#                              and a 226px supplier stock shot with another
+#                              company's watermark on it. Dropped, not moved.
+_U = "/images/units/"
+IMG_COMBI_JUNGLE    = _U + "combi-jungle.jpg"        # Jungle Castle 15x15
+IMG_COMBI_MINECRAFT = _U + "combi-minecraft.jpg"     # Minecraft Castle 17x19
+IMG_COMBI_COCOMELON = _U + "combi-cocomelon.jpg"     # Cocomelon Castle 17x19
+IMG_COMBI_MINIONS   = _U + "combi-minions.jpg"       # Minions Combi 17x19
+IMG_COMBI_CRAYOLA   = _U + "combi-crayola.jpg"       # Crayola Playland 15x15
+IMG_CASTLE_OUTDOOR  = _U + "castle-outdoor.jpg"      # old site's Combi tile
+IMG_OBS_MAX         = _U + "obs-adrenaline-max.jpg"  # Adrenaline Max 55ft
+IMG_OBS_ZONE        = _U + "obs-adrenaline-zone.jpg" # Adrenaline Zone 55ft
+IMG_OBS_LIZARD      = _U + "obs-red-lizard.jpg"      # Red Lizard 50ft
+IMG_OBS_CROC        = _U + "obs-crocodile.jpg"       # Crocodile 50ft (SEE BELOW)
+IMG_OBS_BLUEYELLOW  = _U + "obs-blue-yellow.jpg"     # Blue and Yellow 50ft
+IMG_OBS_ORANGEGREEN = _U + "obs-orange-green.jpg"    # Orange and Green 50ft
+IMG_OBS_BOOSTER     = _U + "obs-booster.jpg"         # Booster 45ft
+IMG_OBS_JUNGLERUN   = _U + "obs-jungle-run.jpg"      # Jungle Run 45ft
+IMG_OBS_BLOCKRUN    = _U + "obs-block-run.jpg"       # Block Run 30ft
+IMG_DISCO           = _U + "disco-dome.jpg"          # Disco Dome
+IMG_GLADIATOR       = _U + "gladiator.jpg"           # Gladiator Challenge (SEE BELOW)
+IMG_VAN             = _U + "van.jpg"                 # the branded van, unused
+
+# Extra shots. The old site captions FIVE different inflatables "Adrenaline Max"
+# and THREE "Booster Obstacle". They are visibly not the same units. Rather than
+# pick which four are mislabelled, one of each goes on the unit page and the
+# rest go in the site gallery, where no photo claims to be a particular unit.
+IMG_OBS_MAX_STUDIO  = _U + "obs-max-studio.jpg"
+IMG_OBS_MAX_RED     = _U + "obs-max-red.jpg"
+IMG_OBS_MAX_TEAL    = _U + "obs-max-teal.jpg"
+IMG_OBS_MAX_BLUE    = _U + "obs-max-blue.jpg"
+IMG_OBS_BOOSTER_2   = _U + "obs-booster-2.jpg"
+IMG_OBS_BOOSTER_IN  = _U + "obs-booster-indoor.jpg"
+
+# TWO WEAK IMAGES, both kept because they are the only shot of that unit and a
+# soft photo beats a "coming soon" tile on a draft. Replace both when Adam
+# sends phone photos, which will be better than either.
+#   obs-crocodile.jpg  300x168. The old site never held a bigger copy.
+#   gladiator.jpg      312x139, a supplier render on white, not a photo.
 
 # ---- REAL PHOTOS, and the first local images on this site --------------------
 # Nine marquee photos from Adam, 2 Sep 2026, via Sam. Resized to a 1200px long
@@ -65,37 +114,30 @@ IMG_MQ_INSIDE = _MQ + "marquee-inside.jpg"           # INTERIOR, empty and brigh
 # branded "photo coming soon" tile rather than a broken image.
 SOON = "__SOON__"
 
-HERO_MAIN = IMG_LIZARD
+HERO_MAIN = IMG_CASTLE_OUTDOOR
 
-# The hero photo is a SLIDESHOW. There are only eight usable images on the old
-# site and one of them was carrying the whole hero, so the range looked thinner
-# than it is. Rotating six of them shows a castle, a combi, two courses, the
-# dome and a marquee inside the first screen, which is the actual pitch. The
-# marquee is in here on purpose: Adam said that side of the business was being
-# lost. Replace the lot the day he sends real photos.
-# ORDER MATTERS. The first slide is the first thing anyone sees, and it used to
-# be the Red Lizard: a good unit, photographed indoors on a gym floor under
-# strip lights. The opener is outdoors now.
-#
-# CAVEAT for whoever changes this next: the marquee photos are the only images
-# on this site we have actually looked at. Everything else is a small hotlink
-# off the old host, unreachable from the build environment, so we cannot tell
-# which of the castle shots are outdoors. If one of them is a good sunny castle
-# photo it belongs first, ahead of the marquee, because the headline above it
-# says bouncy castles.
+# The hero photo is a SLIDESHOW.
+# ORDER MATTERS. The first slide is the first thing anyone sees. The headline
+# above it says bouncy castles, so a bouncy castle goes first, and it is the
+# one outdoor castle photo they have: turrets, a slide, grass, a marquee in the
+# background doing the cross sell for free.
+# The rest alternate sides of the business: marquee, course, combi, marquee,
+# course, dome. Four of the seven are outdoors. The two marquees are in here on
+# purpose, because Adam said that side of the business was being lost.
+# Every one of these is now a LOCAL file. The old hotlinks are gone.
 HERO_SLIDES = [
-    (IMG_MQ_ASTRO,   "Marquee",             "20 to 100 people"),
-    (IMG_CASTLE_C3,  "Large Combi Castle",  "19x19ft"),
-    (IMG_GREENGOLD,  "Obstacle Course",     "Green and gold"),
-    (IMG_MQ_PAIR,    "Marquees",            "Two on site"),
-    (IMG_LIZARD,     "Red Lizard Obstacle", "50ft"),
-    (IMG_DISCO,      "Disco Dome",          "Lights and sound"),
-    (IMG_CASTLE_A,   "Bouncy Castle",       "Rain cover included"),
+    (IMG_CASTLE_OUTDOOR,  "Bouncy Castle",            "Rain cover included"),
+    (IMG_MQ_ASTRO,        "Marquee",                  "20 to 100 people"),
+    (IMG_OBS_MAX,         "Adrenaline Max",           "55ft"),
+    (IMG_COMBI_JUNGLE,    "Jungle Castle",            "15x15ft"),
+    (IMG_MQ_PAIR,         "Marquees",                 "Two on site"),
+    (IMG_OBS_BLUEYELLOW,  "Blue and Yellow Obstacle", "50ft"),
+    (IMG_DISCO,           "Disco Dome",               "Lights and sound"),
 ]
 HERO_IMG = HERO_SLIDES[0][0]
 HERO_IMG_NAME = HERO_SLIDES[0][1]
 HERO_IMG_TAG = HERO_SLIDES[0][2]
-IMG_AREAS = IMG_GREENGOLD
+IMG_AREAS = IMG_OBS_ORANGEGREEN
 
 DELIVERY_TERMS = ("Delivery, set up and collection are included across Tipperary and the "
                   "surrounding areas. We agree a drop time with you when you book and take "
@@ -110,19 +152,19 @@ SAFETY = [
 # ------------------------------------------------------------- categories ----
 CATEGORIES = [
     dict(slug="bouncy-castles", cat="castle", k="k1", title="Bouncy Castles",
-         hero=IMG_CASTLE_A,
+         hero=IMG_CASTLE_OUTDOOR,
          blurb="Arch castles and kiddies bouncers, all with rain covers.",
          intro="Our standard bouncy castles suit birthday parties, communions and back garden "
                "days out. Every unit comes with a rain cover as standard, so an Irish forecast "
                "does not cancel the party. Delivered, set up and collected across Tipperary."),
     dict(slug="combi-castles", cat="combi", k="k2", title="Combi Castles",
-         hero=IMG_CASTLE_C3,
+         hero=IMG_COMBI_JUNGLE,
          blurb="Bounce area and a built in slide, most with a basketball ring.",
          intro="Combi castles give you a full bouncing area and a slide in the one unit, and "
                "most have a basketball ring inside. Seven of them in the range, from 15ft up "
                "to 19ft, every one with a full rain cover."),
     dict(slug="obstacle-courses", cat="obstacle", k="k3", title="Obstacle Courses",
-         hero=IMG_GREENGOLD,
+         hero=IMG_OBS_BLUEYELLOW,
          blurb="30ft up to 55ft, with rock climbs, tunnels and slides.",
          intro="Ten obstacle courses in the range, from a 30ft block run for younger children "
                "up to the 55ft high adrenaline units with double rock climbs and extra high "
@@ -139,7 +181,7 @@ CATEGORIES = [
     # panel in the sumo orange is better than a wrong photo. Swap it for a real
     # sumo shot the moment Adam sends one.
     dict(slug="sumo-gladiator", cat="sumo", k="k5", title="Sumo & Gladiator",
-         hero=SOON,
+         hero=IMG_GLADIATOR,
          blurb="Sumo suits and the gladiator challenge for older groups.",
          intro="Sumo suits and the gladiator challenge are our two units for teenagers, adults "
                "and corporate days. They suit school sports days, fun days and office events "
@@ -170,35 +212,35 @@ UNITS = [
         "It comes with a basketball ring inside and a full rain cover, and we deliver, set it "
         "up and collect it again across Tipperary."],
        [("Size", "19ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
-        ("Rain cover", "Full cover included")], img=IMG_CASTLE_C3),
+        ("Rain cover", "Full cover included")]),
     _u("minions-combi-castle", "Minions Combi Castle 17 x 19ft", "combi", "17x19ft",
        "Minions themed combi with a slide, basketball ring and rain cover.",
        ["A themed combi castle at 17ft by 19ft with the slide built in and a basketball ring "
         "inside. A reliable pick for younger birthday parties.",
         "Full rain cover included, delivered and set up."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_COMBI_MINIONS),
     _u("cocomelon-castle", "Cocomelon Castle 17 x 19ft", "combi", "17x19ft",
        "Cocomelon themed unit with a large bounce area, slide and rain cover.",
        ["The Cocomelon castle suits smaller children. It has a large bouncing area with the "
         "slide built into the same unit.",
         "Rain cover included as standard."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_COMBI_COCOMELON),
     _u("minecraft-castle", "Minecraft Castle 17 x 19ft", "combi", "17x19ft",
        "Minecraft themed combi with a large bounce area, slide and rain cover.",
        ["A Minecraft themed combi at 17ft by 19ft, with a large bouncing area and a slide in "
         "the one unit. Popular with the seven to twelve age group.",
         "Rain cover included as standard."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_COMBI_MINECRAFT),
     _u("crayola-playland", "Crayola Playland 15 x 15ft", "combi", "15x15ft",
        "Bright Crayola themed unit with an internal slide and rain cover.",
        ["The Crayola Playland is a 15ft by 15ft unit with the slide inside rather than on the "
         "outside, which suits smaller gardens and younger children.",
         "Rain cover included."],
        [("Size", "15ft x 15ft"), ("Slide", "Internal"),
-        ("Rain cover", "Included")]),
+        ("Rain cover", "Included")], img=IMG_COMBI_CRAYOLA),
     _u("combi-castle-15", "Combi Castle 15 x 15ft", "combi", "15x15ft",
        "Compact combi with an internal slide and rain cover.",
        ["A 15ft by 15ft combi with the slide built inside the unit. A good fit where space is "
@@ -212,7 +254,7 @@ UNITS = [
         "it is sized for children up to about eight years old.",
         "Rain cover included as standard."],
        [("Size", "15ft x 15ft"), ("Slide", "Built in"), ("Ages", "Up to 8 years"),
-        ("Rain cover", "Included")]),
+        ("Rain cover", "Included")], img=IMG_COMBI_JUNGLE),
 
     # ---- bouncy castles ----
     _u("standard-arch-castle", "Standard Arch Castle 12 x 12ft", "castle", "12x12ft",
@@ -220,13 +262,13 @@ UNITS = [
        ["Our standard 12ft by 12ft arch castle is the straightforward option for a back garden "
         "birthday party. All bouncing area, no slide.",
         "Rain cover included, delivered and set up across Tipperary."],
-       [("Size", "12ft x 12ft"), ("Rain cover", "Included")], img=IMG_CASTLE_A),
+       [("Size", "12ft x 12ft"), ("Rain cover", "Included")]),
     _u("kiddies-bouncer", "Kiddies Bouncer", "castle", "Toddlers",
        "A smaller unit sized for toddlers and pre school parties.",
        ["The kiddies bouncer is our smallest unit, sized for toddlers and pre school age "
         "children where a full size castle would be too much.",
         "Ring Adam to check sizes and availability for your date."],
-       [("Suits", "Toddlers and pre school"), ("Rain cover", "Included")], img=IMG_CASTLE_B),
+       [("Suits", "Toddlers and pre school"), ("Rain cover", "Included")]),
 
     # ---- obstacle courses ----
     _u("adrenaline-max", "Adrenaline Max 55 x 15ft", "obstacle", "55ft",
@@ -237,7 +279,8 @@ UNITS = [
         "sports days rather than toddler parties. Full rain cover included."],
        [("Size", "55ft x 15ft"), ("Slide", "Extra high"), ("Rock climb", "Double"),
         ("Features", "Biff and bash, tunnels, bash pillars"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_OBS_MAX,
+       gallery=(IMG_OBS_MAX_BLUE, IMG_OBS_MAX_TEAL, IMG_OBS_MAX_RED, IMG_OBS_MAX_STUDIO)),
     _u("adrenaline-zone", "Adrenaline Zone 55ft", "obstacle", "55ft",
        "55ft course with an extra high slide, double rock climb and bash pillars.",
        ["The Adrenaline Zone runs to 55ft with an extra high slide and a double rock climb, "
@@ -246,35 +289,35 @@ UNITS = [
         "Full rain cover included."],
        [("Size", "55ft"), ("Slide", "Extra high"), ("Rock climb", "Double"),
         ("Features", "Bash pillars, tunnels"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_OBS_ZONE),
     _u("red-lizard-obstacle", "Red Lizard Obstacle 50ft", "obstacle", "50ft",
        "50ft course with biff and bash, a rock climb and a slide.",
        ["The Red Lizard is a 50ft obstacle course with biff and bash sections, a rock climb "
         "and a slide to finish.",
         "Full rain cover included, so it runs whatever the forecast."],
        [("Size", "50ft"), ("Features", "Biff and bash, rock climb, slide"),
-        ("Rain cover", "Full cover included")], img=IMG_LIZARD),
+        ("Rain cover", "Full cover included")], img=IMG_OBS_LIZARD),
     _u("crocodile-obstacle", "Crocodile Obstacle 50ft", "obstacle", "50ft",
        "50ft crocodile themed course with biff and bash, rock climb and slide.",
        ["A 50ft crocodile themed obstacle course with biff and bash sections, a rock climb and "
         "a slide at the end.",
         "Full rain cover included."],
        [("Size", "50ft"), ("Features", "Biff and bash, rock climb, slide"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_OBS_CROC),
     _u("blue-yellow-obstacle", "Blue and Yellow Obstacle 50ft", "obstacle", "50ft",
        "Blue and yellow 50ft course with tunnels, a rock climb and a slide to finish.",
        ["A 50ft obstacle course in blue and yellow, with biff and bash, a rock climb, tunnels "
         "and a slide.",
         "Rain cover included."],
        [("Size", "50ft"), ("Features", "Biff and bash, rock climb, tunnels, slide"),
-        ("Rain cover", "Included")]),
+        ("Rain cover", "Included")], img=IMG_OBS_BLUEYELLOW),
     _u("orange-green-obstacle", "Orange and Green Obstacle 50ft", "obstacle", "50ft",
        "50ft course with biff and bash, a rock climb, tunnels and a slide.",
        ["A 50ft obstacle course in orange and green, with biff and bash sections, a rock "
         "climb, tunnels and a slide.",
         "Rain cover included."],
        [("Size", "50ft"), ("Features", "Biff and bash, rock climb, tunnels, slide"),
-        ("Rain cover", "Included")], img=IMG_GREENGOLD),
+        ("Rain cover", "Included")], img=IMG_OBS_ORANGEGREEN),
     _u("rock-climb-course", "50ft Rock Climb Course", "obstacle", "50ft",
        "50ft course built around the rock climb, rain cover included.",
        ["A 50ft obstacle course built around the rock climb section.",
@@ -287,14 +330,15 @@ UNITS = [
         "A good middle size where the 55ft units are too big for the space. Rain cover "
         "included."],
        [("Size", "45ft"), ("Features", "Slide, rock climb, tunnels, biff and bash"),
-        ("Rain cover", "Included")]),
+        ("Rain cover", "Included")], img=IMG_OBS_BOOSTER,
+       gallery=(IMG_OBS_BOOSTER_2, IMG_OBS_BOOSTER_IN)),
     _u("jungle-run-obstacle", "Jungle Run Obstacle 45ft", "obstacle", "45ft",
        "45ft jungle themed course with a high slide, rock climb and biff and bash.",
        ["The Jungle Run is a 45ft obstacle course with a high slide, a rock climb and biff and "
         "bash sections.",
         "Full rain cover included."],
        [("Size", "45ft"), ("Features", "High slide, rock climb, biff and bash"),
-        ("Rain cover", "Full cover included")]),
+        ("Rain cover", "Full cover included")], img=IMG_OBS_JUNGLERUN),
     _u("block-run-obstacle", "Block Run Obstacle 30ft", "obstacle", "30ft",
        "Our smallest course at 30ft, with a slide, rock climb and bounce area.",
        ["The Block Run is a 30ft obstacle course with a slide, a rock climb, a bounce area and "
@@ -302,7 +346,7 @@ UNITS = [
         "At 30ft it fits gardens that will not take the bigger courses, and it suits younger "
         "children. Rain cover included."],
        [("Size", "30ft"), ("Features", "Slide, rock climb, bounce area, biff and bash"),
-        ("Rain cover", "Included")]),
+        ("Rain cover", "Included")], img=IMG_OBS_BLOCKRUN),
 
     # ---- disco dome ----
     _u("disco-dome", "Disco Dome 17 x 19ft", "disco", "17x19ft",
@@ -321,14 +365,20 @@ UNITS = [
        ["A set of padded sumo suits with the mat, for teenagers, adults and corporate events.",
         "Suits school sports days, fun days and office events. Ring Adam for numbers and "
         "availability."],
-       [("Suits", "Teenagers, adults, corporate"), ("Supervision", "Adult supervision required")]),
+       [("Suit size", "Adult, 3m x 3m"), ("Comes with", "Sumo mat and two helmets"),
+        ("Suits", "Teenagers, adults, corporate"),
+        ("Supervision", "Adult supervision required")]),
+    # SOURCED, the old site's Corporate page, read 2 Sep 2026, verbatim:
+    # "Sumo Suits / Adult Size 3m x 3m / Sumo Mat & 2 Helmets" and
+    # "Gladiator Challenge / 5 X 5 M". Nothing here is inferred.
     _u("gladiator-challenge", "Gladiator Challenge", "sumo", "Head to head",
        "Head to head gladiator duel platform for older groups and corporate days.",
        ["The gladiator challenge is a head to head duel on a raised platform, with the padded "
         "poles. Two go up, one comes down.",
         "Suits teenagers, adults and corporate days rather than small children."],
-       [("Format", "Head to head"), ("Suits", "Teenagers, adults, corporate"),
-        ("Supervision", "Adult supervision required")]),
+       [("Size", "5m x 5m"), ("Format", "Head to head"),
+        ("Suits", "Teenagers, adults, corporate"),
+        ("Supervision", "Adult supervision required")], img=IMG_GLADIATOR),
 
     # ---- marquees ----
     _u("marquee-hire", "Marquee Hire", "marquee", "All seasons",
@@ -522,11 +572,19 @@ FAQS = [
      "events, carnivals and community fun days."),
 ]
 
-# IMG_BANNER is out: it is the old site's wordmark graphic, not a photo of their
-# work, and it read as a mistake sitting among the units.
-# The marquee photos lead: they are the only real, local, full size images we
-# have. Everything after them is a small hotlink off the old host.
-GALLERY = [IMG_MQ_ASTRO, IMG_MQ_TABLES, IMG_MQ_LONG, IMG_MQ_INSIDE, IMG_MQ_STONE,
-           IMG_MQ_FLOOR, IMG_MQ_PAIR, IMG_MQ_TREE, IMG_MQ_GRAVEL,
-           IMG_LIZARD, IMG_GREENGOLD, IMG_CASTLE_C3, IMG_DISCO,
-           IMG_CASTLE_A, IMG_CASTLE_B]
+# The old site's wordmark graphic is out: it is not a photo of their work and it
+# read as a mistake sitting among the units. So is the clip art castle logo, and
+# so is the watermarked sumo stock shot.
+# Marquees and outdoor shots lead, because they are the strongest images.
+# The six "extra" obstacle shots live here and nowhere else. The old site gives
+# five different inflatables the same caption, so on a unit page one of them
+# would be making a claim we cannot stand over. In a gallery no photo claims to
+# be a particular unit, which is exactly what these are good for.
+GALLERY = [IMG_MQ_ASTRO, IMG_CASTLE_OUTDOOR, IMG_MQ_TABLES, IMG_OBS_BLUEYELLOW,
+           IMG_MQ_LONG, IMG_OBS_MAX, IMG_MQ_INSIDE, IMG_OBS_MAX_BLUE,
+           IMG_MQ_STONE, IMG_OBS_MAX_TEAL, IMG_MQ_FLOOR, IMG_OBS_MAX_RED,
+           IMG_MQ_PAIR, IMG_OBS_BOOSTER_2, IMG_MQ_TREE, IMG_OBS_BOOSTER_IN,
+           IMG_MQ_GRAVEL, IMG_OBS_MAX_STUDIO,
+           IMG_COMBI_JUNGLE, IMG_COMBI_MINECRAFT, IMG_COMBI_COCOMELON,
+           IMG_OBS_LIZARD, IMG_OBS_ORANGEGREEN, IMG_OBS_JUNGLERUN,
+           IMG_OBS_BLOCKRUN, IMG_DISCO]

@@ -78,10 +78,10 @@ Every section is a different layout family and none repeats.
 
 ### Photos
 
-**`/images/marquees/` holds the only real, local images on this site.** Nine
-marquee photos from Adam, 2 Sep 2026. Everything else still hotlinks
-`files.secure.website`, the old host, and **dies at the DNS cutover**. These do
-not.
+**Every image on this site is a local file.** Nothing hotlinks
+`files.secure.website` any more, so nothing breaks at the DNS cutover. There are
+two folders: `/images/marquees/` (nine photos from Adam) and `/images/units/`
+(twenty-four pulled off the old site).
 
 They arrived as 2.8MB of phone JPEG with names like
 `WhatsApp Image 2026-09-02 at 12.27.33 (4).jpeg`, dropped into `/marquees/`,
@@ -102,9 +102,62 @@ Where they go, and why each one:
 | the other four | the marquee unit's own photo strip, and the gallery |
 
 Unit pages render a `gallery=` tuple as a four-up strip under the specs
-(`.ugal`). Only the marquee has one so far.
+(`.ugal`). The marquee, the Adrenaline Max and the Booster have one.
 
-The gallery page leads with all nine, then the old host's leftovers.
+#### `/images/units/`, and how each photo was identified
+
+Twenty-four images off the old site, 2 Sep 2026. Neither the build container nor
+the Cowork VM can reach `files.secure.website`, so they came down via a
+PowerShell script run on Sam's machine, then went through the same treatment as
+the marquee shots: EXIF-rotated, 1200px long edge, q74 progressive. 1.5MB for
+twenty-four.
+
+Twelve had filenames that named them (`jungle-castle`, `block-run`). The other
+ten were `img-0278`, `photo-2-1` and UUIDs, and **the old site keeps its captions
+in elements the markup does not relate to the images** — nearest-ancestor text
+walking gets you the wrong card, and pairing by DOM order gets you every image
+after every caption. Two attempts at DOM pairing both produced plausible,
+consistently-off-by-one answers.
+
+What worked: load the page in a real browser, set `document.body.style.zoom` to
+0.3, and **read the rendered page**. The caption beside a photo is what names it.
+That is the client's own published caption, not a guess at what an inflatable
+looks like, which matters here because these are being written into the site as
+product claims.
+
+**Three images were on the wrong unit before this pass**, all inherited from the
+old site's filenames:
+
+| File | Was on | Actually shows |
+|---|---|---|
+| `c3_567.png` | Large Combi Castle 19x19 | the **Crayola Playland**. The words are printed on the unit |
+| `Bouncy_Castles_Limerick_325.png` | Standard Arch Castle | the **Gladiator Challenge** duel platform |
+| `bouncy_castle_2.jpg` | Kiddies Bouncer | a **sumo suit**, and a 226px supplier stock shot with another company's watermark. Dropped, not moved |
+
+**The old site's captions are not reliable either.** It captions five visibly
+different inflatables "Adrenaline Max" and three "Booster Obstacle". One of each
+goes on the unit page; the rest go in the site gallery, where no photo claims to
+be a particular unit. Choosing which four were mislabelled would have been
+inventing an answer.
+
+Two images are kept despite being weak, because they are the only shot of that
+unit and a soft photo beats a "coming soon" tile on a draft:
+
+- `obs-crocodile.jpg`, 300x168. The old host never held a bigger copy.
+- `gladiator.jpg`, 312x139, a supplier render on white rather than a photo.
+
+**Six units still have no photo**, and they show the `SOON` panel: Large Combi
+19x19, Combi 15x15, Standard Arch Castle, Kiddies Bouncer, 50ft Rock Climb
+Course, Sumo Suits. Bouncy Castles is the thinnest page on the site because two
+of the six are its entire range, so that is the first ask when Adam next picks up
+the phone.
+
+The hero slideshow opens on `castle-outdoor.jpg`, the one outdoor castle photo
+they have: turrets, a slide, grass, and a marquee in the background doing the
+cross sell for free. It was the old site's Combi Castles category tile.
+
+The gallery page runs 26 photos, marquees and outdoor shots interleaved so the
+two sides of the business alternate down the page.
 
 ### The date picker
 
@@ -236,7 +289,10 @@ Sourced and safe to repeat:
 | Marquees for 20 to 100 people | premiermarqueehire.com |
 | Flooring, tables, chairs, lighting, heating | Adam's email, and premiermarqueehire.com |
 | Tables and chairs hired separately | Adam's email |
+| Sumo suits: adult size 3m x 3m, sumo mat and two helmets | bouncycastleman.com Corporate page, read 2 Sep 2026 |
+| Gladiator Challenge 5m x 5m | bouncycastleman.com Corporate page, read 2 Sep 2026 |
 | Unit counts and sizes | their own catalogue |
+| Which photo shows which unit | the caption beside it on the old site's rendered page. See Photos |
 
 Rewritten 28 Aug because they were ours, not theirs. Comparative claims about
 competitors and claims about what sells best are the two kinds to watch for:
@@ -393,12 +449,17 @@ Two knock-on rules from that change:
 
 ### Photos we do not use
 
-`IMG_BANNER` is the old site's masthead **graphic**, the wordmark on a blue
-ground, not a photo of anything. It was the Sumo and Gladiator category hero and
-cropped to a 16/10 banner it rendered as a zoomed fragment of the word CASTLE.
-It was also sitting in the gallery among the units. Both gone. The sumo category
-now uses the no-photo panel in its own orange, which is better than a wrong
-photo. Swap it for a real sumo shot the moment Adam sends one.
+Three of the old site's images were pulled and never wired in:
+
+- the masthead **graphic**, the wordmark on a blue ground. Not a photo of
+  anything. Cropped to a 16/10 banner it rendered as a zoomed fragment of the
+  word CASTLE.
+- `castle-logo`, a clip art castle with cartoon children. Not their unit.
+- `bouncy_castle_2`, the sumo suit: 226px, and it carries another company's
+  watermark. Never publish a competitor's stock photo.
+
+`van.jpg` is downloaded and processed but unused. It is the branded van, and it
+is a good "we deliver" image if a page ever wants one.
 
 ### Other decisions
 
@@ -432,14 +493,19 @@ photo. Swap it for a real sumo shot the moment Adam sends one.
 Everything below is blocked on Adam. All of it is marked `TODO` in
 `build/data.py`.
 
-1. **Photos.** Nine real marquee photos arrived 2 Sep and are in
-   `/images/marquees/`. Castles, combis, courses, the dome, sumo and gladiator
-   still run on the old site's eight small hotlinked images. Those are the gap
-   now.
-2. **Image hosting.** Those eight images hotlink `files.secure.website`, the
-   old site's host, which goes away when the domain moves. Download local
-   copies into `/images/` and repoint `data.py` before the DNS cutover.
-3. **Formspree.** `FORMSPREE` in `data.py` is still `[FORM-ID]`, so the form
+1. **Photos.** DONE for the DNS cutover, not done for quality. Every image is
+   now a local file: nine real marquee photos from Adam, and twenty-four pulled
+   off the old site. Nothing hotlinks the old host, so nothing breaks when the
+   domain moves.
+
+   Six units still have no photo at all and show the `SOON` panel: **Large Combi
+   19x19, Combi 15x15, Standard Arch Castle, Kiddies Bouncer, 50ft Rock Climb
+   Course, Sumo Suits.** Two of those six are the entire Bouncy Castles range,
+   which makes it the thinnest page on a site called Bouncy Castle Man. That is
+   the first thing to ask Adam for. Two more, the Crocodile course and the
+   Gladiator platform, are wired up but running on images too small to stand up
+   at full size. Phone photos would beat all eight.
+2. **Formspree.** `FORMSPREE` in `data.py` is still `[FORM-ID]`, so the form
    renders in a DRAFT state: fields visible so the layout can be judged, submit
    disabled, and a note reading just "Not connected yet." The note used to
    explain what was needed to fix it, which is a message for Sam, not for
@@ -447,12 +513,12 @@ Everything below is blocked on Adam. All of it is marked `TODO` in
    `https://formspree.io/f/[FORM-ID]`, so a real enquiry would have gone nowhere
    silently, and a client looking at a draft is very likely to test the form. Set
    a real ID and the whole thing turns itself back on.
-4. **Email address.** The old site publishes none, so the contact block falls
+3. **Email address.** The old site publishes none, so the contact block falls
    back to WhatsApp. Set `EMAIL` in `data.py` once Adam gives one.
-5. **Facebook.** `FACEBOOK` is `[FACEBOOK-URL]`. The icon is not rendered while
+4. **Facebook.** `FACEBOOK` is `[FACEBOOK-URL]`. The icon is not rendered while
    the value is a placeholder: it used to ship as `href="[FACEBOOK-URL]"`, a
    dead link in the footer of all 45 pages. Set the real URL and it comes back.
-6. **Reviews.** The three on the home page are sample wording. They used to be
+5. **Reviews.** The three on the home page are sample wording. They used to be
    attributed to invented people ("Sarah M., Thurles"), which on the page reads
    as three real five star reviews from named customers in his own towns, and a
    client looking at a draft has no way to know otherwise. Quoting invented
@@ -460,16 +526,16 @@ Everything below is blocked on Adam. All of it is marked `TODO` in
    survive one approval to be live. The slot is named as a slot now ("Your
    review here") and `REVIEWS_NOTE` labels the section. Replace both before
    go-live.
-7. **Areas.** CONFIRMED by Adam 27 Aug: all of Tipperary, and he has also
+6. **Areas.** CONFIRMED by Adam 27 Aug: all of Tipperary, and he has also
    delivered to Kilkenny, Waterford, Laois, Offaly and other neighbouring
    counties, but not regularly. The 9 towns stand. The second tier is not on
    the site yet and needs wording that does not promise a regular service.
-8. **Prices.** Every unit says "Call for price" because the old site published
+7. **Prices.** Every unit says "Call for price" because the old site published
    none. Set `price=` per unit if Adam wants figures shown.
-9. **Marquee sizes.** Adam said "various sizes" but gave none. `/marquees/`
+8. **Marquee sizes.** Adam said "various sizes" but gave none. `/marquees/`
    is written so it does not need them, but the page is stronger with them.
    Also unknown: whether the tables and chairs have a minimum order.
-10. **Hire terms.** Deposits, cancellations, weather policy, damage and public
+9. **Hire terms.** Deposits, cancellations, weather policy, damage and public
    liability wording are deliberately left blank on `/hire-terms/` rather
    than guessed at, because they are contractual.
 

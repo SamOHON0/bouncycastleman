@@ -4,3 +4,4 @@ Thumbs.db
 node_modules/
 *.log
 build/__pycache__/
+_to_delete/
