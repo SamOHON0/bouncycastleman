@@ -99,10 +99,18 @@ def build_home():
         f'<li data-reveal><span class="n">{i+1:02d}</span><div><h3>{esc(h)}</h3>'
         f'<p>{esc(p)}</p></div></li>' for i, (_e, h, p) in enumerate(D.WHY))
 
+    # REVIEWS IS EMPTY AND THAT IS DELIBERATE. The quotes used to be ours, so
+    # they went. An empty list renders ONE honest slot panel rather than three
+    # invented five star testimonials, and Adam still sees where they will sit.
+    # Fill D.REVIEWS with his real ones and the three cards come back on their
+    # own with no change needed here.
     revs = "".join(
         f'<div class="rev" data-reveal><div class="stars">★★★★★</div>'
         f'<p>{esc(t)}</p><div class="who">{w}, {loc}</div></div>'
-        for t, w, loc in D.REVIEWS)
+        for t, w, loc in D.REVIEWS) or (
+        '<div class="rev rev-empty"><div class="stars">★★★★★</div>'
+        '<p>Your reviews go here.</p>'
+        '<div class="who">Send us three and we will set them in</div></div>')
 
     towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
     opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
@@ -127,8 +135,8 @@ def build_home():
              decoration: by the time you reach the obstacle shelf you have
              already been told green means obstacle courses. -->
         <p><b class="w-castle">Castles</b>, <b class="w-combi">combis</b> and
-           <b class="w-obstacle">obstacle courses</b> up to 55ft.
-           Delivered, set up and collected.</p>
+           <b class="w-obstacle">obstacle courses</b> up to 55ft,
+           across Tipperary.</p>
         <!-- No second "Get a price" here. The date card below carries it, and two
              identical yellow buttons a hundred pixels apart was half of why the
              hero felt cluttered. The rail keeps a permanent one for anyone who
@@ -175,7 +183,7 @@ def build_home():
 </div>
 
 <div class="band areas-band">
-  <div class="sec-head"><h2>Where we deliver</h2>
+  <div class="sec-head"><h2>Where we cover</h2>
     <p>Tipperary and the surrounding areas. If your town is not here, ring us, we may still reach you.</p></div>
   <div class="town-list">{towns}</div>
   <div class="checker">
@@ -242,9 +250,8 @@ def build_categories():
         if c["cat"] == "marquee":
             lead = ('<div class="band" style="padding-bottom:0">'
                     + marquee_block("What a marquee from us looks like",
-                                    "For 20 to 100 people, in all seasons, delivered, put up "
-                                    "and taken down again. Fit it out with as much or as "
-                                    "little as you need.",
+                                    "For 20 to 100 people, in all seasons. Fit it out with "
+                                    "as much or as little as you need.",
                                     photo=D.IMG_MQ_INSIDE)
                     + "</div>")
         html += lead + f"""
@@ -256,7 +263,7 @@ def build_categories():
 </div>
 
 <div class="band areas-band">
-  <div class="sec-head"><h2>Delivered across Tipperary</h2>
+  <div class="sec-head"><h2>Where we cover</h2>
     <p>{travels}</p></div>
   <div class="town-list">{towns}</div>
 </div>
@@ -313,7 +320,7 @@ def build_units():
     </div>
     <aside class="unit-side">
       <span class="price">{u['price']}</span>
-      <p>Delivered, set up and collected across Tipperary and the surrounding areas.</p>
+      <p>Ring Adam with your date and your town and he will come straight back with a price.</p>
       <a href="tel:{D.PHONE_TEL}" class="btn btn-accent">{ico("phone")}{D.PHONE_DISPLAY}</a>
       <a href="/contact/" class="btn btn-line">Get a price</a>
       <a href="{wa_link()}" target="_blank" rel="noopener" class="btn btn-line">WhatsApp us</a>
@@ -332,7 +339,7 @@ def build_areas():
         f'<div class="area-row" data-reveal><h3><a href="/{a["slug"]}/">{a["town"]}</a></h3>'
         f'<p>{a["county"]}. Also {esc(a["nearby"])}.</p></div>' for a in D.AREAS)
     html = head(f"Areas We Cover | Bouncy Castle Hire Tipperary | {D.NAME}",
-                "The towns we deliver to across Tipperary, from Clonmel and Thurles to Nenagh, "
+                "The towns we cover across Tipperary, from Clonmel and Thurles to Nenagh, "
                 "Cashel, Roscrea, Templemore, Cahir and Carrick on Suir.", "/areas/")
     html += page_hero("Areas we cover",
                       "Tipperary and the surrounding areas. If your town is not listed, ring us, "
@@ -367,11 +374,11 @@ def build_areas():
         picks = "".join(card(u) for u in D.UNITS[:4])
         html = head(f"Bouncy Castle Hire {a['town']} | {D.NAME}",
                     f"Bouncy castle, combi castle and obstacle course hire in {a['town']}, "
-                    f"{a['county']}. Delivered and set up, rain covers as standard. "
+                    f"{a['county']}. Rain covers as standard. "
                     f"Call {D.PHONE_DISPLAY}.", f"/{a['slug']}/")
         html += page_hero(f"Bouncy castle hire in {a['town']}",
                           f"Castles, combis, obstacle courses, the disco dome and marquees, "
-                          f"delivered and set up in {a['town']} and around.",
+                          f"covering {a['town']} and around.",
                           D.HERO_MAIN, [("/areas/", "Areas"), (None, a["town"])], cat="castle")
         html += f"""
 <div class="band">
@@ -379,7 +386,7 @@ def build_areas():
     <h2>What we bring to {a['town']}</h2>
     <p>The full range travels: bouncy castles, combi castles with built in slides, obstacle
     courses from a 30ft block run up to the 55ft high adrenaline units, the disco dome, sumo
-    suits, the gladiator challenge and marquees. Everything is delivered, set up and collected.</p>
+    suits, the gladiator challenge and marquees.</p>
   </div>
   {safety_box()}
   {signpost(
@@ -458,8 +465,8 @@ def build_simple():
 
     terms = "".join(f"<li>{esc(s)}</li>" for s in D.SAFETY)
     html = head(f"Hire Terms | {D.NAME}",
-                "Hire conditions for Bouncy Castle Man, including delivery and collection, "
-                "supervision and insurance.", "/hire-terms/")
+                "Hire conditions for Bouncy Castle Man. Insurance, bookings and how to get "
+                "a price.", "/hire-terms/")
     html += page_hero("Hire terms", "The conditions that apply to every hire.",
                       D.SOON, [(None, "Hire terms")], cat="marquee")
     html += f"""
@@ -467,7 +474,7 @@ def build_simple():
   <div class="prose">
     <h2 style="margin-top:0">Hire conditions</h2>
     <ul style="padding-left:20px;list-style:disc">{terms}</ul>
-    <h2>Delivery and collection</h2>
+    <h2>How the hire works</h2>
     <p>{esc(D.DELIVERY_TERMS)}</p>
     <h2>Bookings</h2>
     <p>Bookings are confirmed by phone on {D.PHONE_DISPLAY}. Prices depend on the unit, the date

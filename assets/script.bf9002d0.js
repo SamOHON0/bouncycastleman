@@ -164,7 +164,7 @@ if (areaBtn) {
     if (v === '__other__') {
       r.innerHTML = 'Not listed? <a href="tel:0879005391" style="text-decoration:underline">Give us a call</a>, we may still reach you.';
     } else {
-      r.textContent = 'Yes, we deliver to ' + v + '. Send us your date for a price.';
+      r.textContent = 'Yes, we cover ' + v + '. Send us your date for a price.';
     }
   });
 }

@@ -763,6 +763,12 @@ h3{font-size:var(--step-1);line-height:1.18}
 /* Pushes the attribution to the bottom of every card, so with the cards now
    equal height the three rules under the quotes line up too. */
 .rev .who{margin-top:auto}
+/* The empty state: one panel across the full row, dashed, so it reads as a slot
+   waiting to be filled rather than as a review. */
+.revs:has(.rev-empty){grid-template-columns:1fr}
+.rev-empty{border-style:dashed;border-color:var(--line-strong);background:var(--paper-2)}
+.rev-empty .stars{opacity:.35}
+.rev-empty p{color:var(--ink-45)}
 .rev .stars{color:var(--accent-text);font-size:14px;letter-spacing:3px;margin-bottom:12px}
 .rev p{font-family:var(--display);font-weight:500;font-size:var(--step-1);line-height:1.35}
 .rev .who{margin-top:16px;padding-top:14px;border-top:2px solid var(--line);
@@ -1203,7 +1209,7 @@ if (areaBtn) {
     if (v === '__other__') {
       r.innerHTML = 'Not listed? <a href="tel:PHONE_TEL" style="text-decoration:underline">Give us a call</a>, we may still reach you.';
     } else {
-      r.textContent = 'Yes, we deliver to ' + v + '. Send us your date for a price.';
+      r.textContent = 'Yes, we cover ' + v + '. Send us your date for a price.';
     }
   });
 }

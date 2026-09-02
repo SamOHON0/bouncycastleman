@@ -11,9 +11,11 @@ TODOs Adam must supply, all marked below:
   - a business email address (the old site publishes none)
   - confirmation of the delivery areas and any prices he wants shown
   - real reviews (the three here are placeholders and are marked as such)
-  - photos of five units that have none: the Large Combi 19x19, the plain
-    Combi 15x15, the Standard Arch Castle, the Kiddies Bouncer and the 50ft
-    Rock Climb Course. See SOON below.
+  - CONFIRMATION THAT FIVE UNITS ARE STILL IN THE FLEET: the Large Combi
+    19x19, the plain Combi 15x15, the Standard Arch Castle, the Kiddies Bouncer
+    and the 50ft Rock Climb Course. All five rest on white-on-white text on the
+    old site and all five are the ones with no photo. See the provenance
+    warning above the UNITS list. Photos for them too, if they are real.
 
 IMAGES ARE LOCAL. Every photo on this site is a file in this repo. Nothing
 hotlinks files.secure.website any more, so nothing breaks at the DNS cutover.
@@ -157,14 +159,21 @@ HERO_IMG_NAME = HERO_SLIDES[0][1]
 HERO_IMG_TAG = HERO_SLIDES[0][2]
 IMG_AREAS = IMG_OBS_ORANGEGREEN
 
-DELIVERY_TERMS = ("Delivery, set up and collection are included across Tipperary and the "
-                  "surrounding areas. We agree a drop time with you when you book and take "
-                  "the unit away again at the end of your hire.")
+# NOT SOURCED, SO NOT STATED. Their whole site, all seven pages, says nothing
+# about delivery, set up, collection, what is included in a hire, or how a drop
+# time is agreed. Neither does anything Adam has emailed. This used to promise
+# all of it. Almost every hire firm in the trade does deliver and set up, which
+# is exactly why it was easy to write and easy to miss.
+# Ask Adam and put the real wording here.
+DELIVERY_TERMS = ("Ring Adam on " + PHONE_DISPLAY + " and he will go through how the hire "
+                  "works, what is included and what he needs from you on the day.")
 
+# ONE LINE, because one line is all their site supports. The supervision rule
+# and the setup requirements (flat clear surface, blower, power supply) were
+# both ours. They are standard in the trade and they are probably right, which
+# is not the same as Adam having said them. Get his real conditions.
 SAFETY = [
-    "All castles and obstacle courses must be supervised by a responsible adult at all times.",
     "We are fully insured and certified with the Irish Inflatable Hirers Federation.",
-    "Units are set up on a flat, clear surface with access for the blower and a power supply.",
 ]
 
 # ------------------------------------------------------------- categories ----
@@ -208,8 +217,8 @@ CATEGORIES = [
          hero=IMG_CASTLE_OUTDOOR,
          blurb="Arch castles and kiddies bouncers, all with rain covers.",
          intro="Our standard bouncy castles suit birthday parties, communions and back garden "
-               "days out. Every unit comes with a rain cover as standard, so an Irish forecast "
-               "does not cancel the party. Delivered, set up and collected across Tipperary."),
+               "days out. The units their listings name all come with a rain cover, so an "
+               "Irish forecast does not cancel the party."),
     dict(slug="disco-dome", cat="disco", k="k4", title="Disco Dome",
          hero=IMG_DISCO,
          blurb="Enclosed dome with disco lighting and a full sound system.",
@@ -223,9 +232,9 @@ CATEGORIES = [
     dict(slug="sumo-gladiator", cat="sumo", k="k5", title="Sumo & Gladiator",
          hero=IMG_GLADIATOR,
          blurb="Sumo suits and the gladiator challenge for older groups.",
-         intro="Sumo suits and the gladiator challenge are our two units for teenagers, adults "
-               "and corporate days. They suit school sports days, fun days and office events "
-               "across Tipperary."),
+         intro="Sumo suits and the gladiator challenge are our two units for adults and "
+               "corporate days. Their old site put both under Corporate Hire, so ring Adam "
+               "for numbers and availability."),
     dict(slug="marquees", cat="marquee", k="k6", title="Marquees",
          hero=IMG_MQ_PAIR,
          blurb="Marquees in a range of sizes, with flooring, furniture, lighting and heat.",
@@ -235,6 +244,40 @@ CATEGORIES = [
                "fitted out with flooring, tables, chairs, lighting and heaters, and we hire "
                "tables and chairs on their own as well."),
 ]
+
+# ---- PROVENANCE WARNING: FIVE UNITS REST ON INVISIBLE TEXT -------------------
+# Audited 2 Sep 2026 after Sam asked where the castles came from. The first
+# answer was wrong and this is the correction.
+#
+# 18 of the 23 units are on visible product cards on bouncycastleman.com, with
+# their sizes and features, exactly as this file states them.
+#
+# FIVE ARE NOT. Their text is in the page as WHITE TEXT ON A WHITE BACKGROUND,
+# computed colour rgb(255,255,255), so it is in the markup but no human visitor
+# to their site can read it:
+#
+#   Large Combi Castle 19x19    combi page, white on white
+#   Combi Castle 15x15          combi page, white on white
+#   Standard Arch Castle 12x12  combi page, white on white
+#   50ft Rock Climb Course      obstacle page, white on white
+#   Kiddies Bouncer             not even that. It appears once, as the words
+#                               "Kiddies Bouncers" in the home page range list.
+#                               No size, no ages, no features, anywhere.
+#
+# THE CORRELATION IS EXACT AND IT IS NOT A COINCIDENCE: the five units with no
+# photo are the same five units whose text is invisible. That is the signature
+# of content left behind by an older version of the page. These may be units
+# Adam has since sold or stopped hiring.
+#
+# They are KEPT for now rather than deleted, because they are also the five most
+# ordinary things in the trade (a plain arch castle, a plain 15x15 combi, a
+# kiddies bouncer, a big combi, a rock climb course) and it would be strange for
+# a firm this size not to have them. Plausible is not sourced, though.
+#
+# ASK ADAM TO CONFIRM THESE FIVE BEFORE GO-LIVE. If he does not have one, it
+# comes off. A site that advertises a unit he cannot deliver is worse than a
+# site with a shorter list, because the customer finds out on the phone.
+# The question is in claude/draft-send.md.
 
 # ------------------------------------------------------------------ units ----
 def _u(slug, n, cat, tag, short, body, specs, img=SOON, price="Call for price", gallery=()):
@@ -249,15 +292,14 @@ UNITS = [
        ["At 19ft by 19ft this is the biggest combi in the range. It gives a full bouncing "
         "area alongside the slide, so a group of children can use both at once without "
         "queueing.",
-        "It comes with a basketball ring inside and a full rain cover, and we deliver, set it "
-        "up and collect it again across Tipperary."],
+        "It comes with a basketball ring inside and a full rain cover."],
        [("Size", "19ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
         ("Rain cover", "Full cover included")]),
     _u("minions-combi-castle", "Minions Combi Castle 17 x 19ft", "combi", "17x19ft",
        "Minions themed combi with a slide, basketball ring and rain cover.",
        ["A themed combi castle at 17ft by 19ft with the slide built in and a basketball ring "
         "inside. A reliable pick for younger birthday parties.",
-        "Full rain cover included, delivered and set up."],
+        "Full rain cover included."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
         ("Rain cover", "Full cover included")], img=IMG_COMBI_MINIONS),
     _u("cocomelon-castle", "Cocomelon Castle 17 x 19ft", "combi", "17x19ft",
@@ -270,7 +312,7 @@ UNITS = [
     _u("minecraft-castle", "Minecraft Castle 17 x 19ft", "combi", "17x19ft",
        "Minecraft themed combi with a large bounce area, slide and rain cover.",
        ["A Minecraft themed combi at 17ft by 19ft, with a large bouncing area and a slide in "
-        "the one unit. Popular with the seven to twelve age group.",
+        "the one unit.",
         "Rain cover included as standard."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"),
         ("Rain cover", "Full cover included")], img=IMG_COMBI_MINECRAFT),
@@ -301,7 +343,7 @@ UNITS = [
        "The classic arch castle, rain cover included.",
        ["Our standard 12ft by 12ft arch castle is the straightforward option for a back garden "
         "birthday party. All bouncing area, no slide.",
-        "Rain cover included, delivered and set up across Tipperary."],
+        "Rain cover included."],
        [("Size", "12ft x 12ft"), ("Rain cover", "Included")]),
     # THE ONLY UNIT ON THIS SITE WITHOUT PUBLISHED SPECS. Audited 2 Sep against
     # every page of bouncycastleman.com: 22 of the 23 units are there with their
@@ -328,8 +370,7 @@ UNITS = [
        "High adrenaline 55ft course with an extra high slide and double rock climb.",
        ["The Adrenaline Max is one of the two biggest units we run. At 55ft by 15ft it has an "
         "extra high slide, a double rock climb, biff and bash, tunnels and bash pillars.",
-        "This is a high adrenaline unit, so it suits older children, teenagers and school "
-        "sports days rather than toddler parties. Full rain cover included."],
+        "Their own listing calls it a high adrenaline unit. Full rain cover included."],
        [("Size", "55ft x 15ft"), ("Slide", "Extra high"), ("Rock climb", "Double"),
         ("Features", "Biff and bash, tunnels, bash pillars"),
         ("Rain cover", "Full cover included")], img=IMG_OBS_MAX,
@@ -338,8 +379,7 @@ UNITS = [
        "55ft course with an extra high slide, double rock climb and bash pillars.",
        ["The Adrenaline Zone runs to 55ft with an extra high slide and a double rock climb, "
         "plus bash pillars and tunnels along the way.",
-        "Another high adrenaline unit, popular for school sports days and community fun days. "
-        "Full rain cover included."],
+        "Another of their high adrenaline units. Full rain cover included."],
        [("Size", "55ft"), ("Slide", "Extra high"), ("Rock climb", "Double"),
         ("Features", "Bash pillars, tunnels"),
         ("Rain cover", "Full cover included")], img=IMG_OBS_ZONE),
@@ -407,31 +447,32 @@ UNITS = [
        ["The disco dome is an enclosed bouncing unit with disco lighting inside and a full "
         "surround speaker system.",
         "It connects over Bluetooth or by cable and works with both Apple and Android, so the "
-        "kids can run their own playlist. Popular for birthdays and teenage parties."],
+        "kids can run their own playlist."],
        [("Size", "17ft x 19ft"), ("Lighting", "Disco lighting"),
         ("Sound", "Full surround speaker system"),
         ("Connectivity", "Bluetooth or cable, Apple and Android")], img=IMG_DISCO),
 
     # ---- sumo and gladiator ----
     _u("sumo-suits", "Sumo Suits", "sumo", "Groups",
-       "Padded sumo suits for teenagers, adults and corporate days.",
-       ["A set of padded sumo suits with the mat, for teenagers, adults and corporate events.",
-        "Suits school sports days, fun days and office events. Ring Adam for numbers and "
-        "availability."],
+       "Adult size padded sumo suits, with the mat and two helmets.",
+       ["A set of padded sumo suits, adult size, with the sumo mat and two helmets.",
+        "Their corporate page is where these live, so ring Adam for numbers and availability."],
+       # "Adult supervision required" and "Teenagers" were ours. Their corporate
+       # page gives the size, the mat, the two helmets and the words "We
+       # specialize in corporate hire", and nothing else. Corporate stays
+       # because it is theirs. The rest goes.
        [("Suit size", "Adult, 3m x 3m"), ("Comes with", "Sumo mat and two helmets"),
-        ("Suits", "Teenagers, adults, corporate"),
-        ("Supervision", "Adult supervision required")], img=IMG_SUMO),
+        ("Suits", "Adults and corporate days")], img=IMG_SUMO),
     # SOURCED, the old site's Corporate page, read 2 Sep 2026, verbatim:
     # "Sumo Suits / Adult Size 3m x 3m / Sumo Mat & 2 Helmets" and
     # "Gladiator Challenge / 5 X 5 M". Nothing here is inferred.
     _u("gladiator-challenge", "Gladiator Challenge", "sumo", "Head to head",
-       "Head to head gladiator duel platform for older groups and corporate days.",
-       ["The gladiator challenge is a head to head duel on a raised platform, with the padded "
+       "Head to head gladiator duel platform, 5m by 5m, for adults and corporate days.",
+       ["The gladiator challenge is a head to head duel on a raised platform with padded "
         "poles. Two go up, one comes down.",
-        "Suits teenagers, adults and corporate days rather than small children."],
+        "5m by 5m. Ring Adam for numbers and availability."],
        [("Size", "5m x 5m"), ("Format", "Head to head"),
-        ("Suits", "Teenagers, adults, corporate"),
-        ("Supervision", "Adult supervision required")], img=IMG_GLADIATOR),
+        ("Suits", "Adults and corporate days")], img=IMG_GLADIATOR),
 
     # ---- marquees ----
     _u("marquee-hire", "Marquee Hire", "marquee", "All seasons",
@@ -486,58 +527,63 @@ MARQUEE_EXTRAS = ["Flooring", "Tables", "Chairs", "Lighting", "Heating"]
 # ------------------------------------------------------------------ areas ----
 # TODO: Adam has not confirmed the travel radius. This list is the one used in
 # the demo pitch. Add or drop towns once he comes back.
+# TOWN COPY, REWRITTEN 2 Sep. Every one of these nine used to open with "We
+# deliver to", and several closed with a drop-and-collect promise. Their site
+# and Adam's emails say nothing about delivery, so all of it went. What is left
+# is the part that IS sourced: Adam's 27 Aug email, "We cover all of Tipperary",
+# plus the range itself. "Cover" is his word. "Deliver" was ours.
+# The neighbouring villages are geography, not claims: they are in Tipperary,
+# and Adam said all of Tipperary.
 AREAS = [
     dict(slug="bouncy-castle-hire-clonmel", town="Clonmel", county="Co Tipperary",
          nearby="Ardfinnan, Kilsheelan and Fethard",
-         copy=["We deliver bouncy castles, combi castles and the full run of obstacle courses "
-               "across Clonmel and out through Ardfinnan, Kilsheelan and Fethard.",
-               "Back garden birthdays, school sports days and community fun days: we drop the "
-               "unit out, set it up and collect it again, so there is nothing for you to "
-               "lift."]),
+         copy=["We cover Clonmel and out through Ardfinnan, Kilsheelan and Fethard, with "
+               "bouncy castles, combi castles and the full run of obstacle courses.",
+               "Back garden birthdays, school sports days and community fun days. Ring Adam "
+               "with your date and he will tell you what is free."]),
     dict(slug="bouncy-castle-hire-thurles", town="Thurles", county="Co Tipperary",
          nearby="Holycross, Littleton and Two Mile Borris",
-         copy=["Thurles is home ground for us. We are based here, so it is the shortest run "
-               "we do.",
-               "We cover Holycross, Littleton and Two Mile Borris as well, with the full range "
-               "travelling: castles, combis, obstacle courses, the disco dome and marquees."]),
+         copy=["Thurles is home ground. We are based here, so it is the shortest run we do.",
+               "We cover Holycross, Littleton and Two Mile Borris as well, with the full "
+               "range: castles, combis, obstacle courses, the disco dome and marquees."]),
     dict(slug="bouncy-castle-hire-nenagh", town="Nenagh", county="Co Tipperary",
          nearby="Borrisokane, Newport and Puckane",
-         copy=["We deliver to Nenagh and out around Borrisokane, Newport and Puckane, with the "
+         copy=["We cover Nenagh and out around Borrisokane, Newport and Puckane, with the "
                "full range of castles and obstacle courses.",
                "If you are running a bigger day, the 55ft high adrenaline courses and the "
-               "marquees travel here too. Ring us with your numbers and we will size it."]),
+               "marquees come this way too. Ring us with your numbers and we will size it."]),
     dict(slug="bouncy-castle-hire-cashel", town="Cashel", county="Co Tipperary",
          nearby="Golden, Rosegreen and New Inn",
-         copy=["Cashel, Golden, Rosegreen and New Inn are all inside our delivery area, for "
+         copy=["Cashel, Golden, Rosegreen and New Inn are all inside the area we cover, for "
                "everything from a 12ft arch castle to the 55ft obstacle courses.",
-               "If you are booking around communion or confirmation season, get your date in "
-               "to us early."]),
+               "If you are looking at communion or confirmation season, get your date in to "
+               "us early."]),
     dict(slug="bouncy-castle-hire-roscrea", town="Roscrea", county="Co Tipperary",
          nearby="Templemore, Borris in Ossory and Moneygall",
-         copy=["We cover Roscrea and the surrounding villages, including Templemore, Borris in "
-               "Ossory and Moneygall.",
+         copy=["We cover Roscrea and the surrounding villages, including Templemore, Borris "
+               "in Ossory and Moneygall.",
                "Castles, combis with slides, obstacle courses, the disco dome and sumo suits "
-               "all travel up this way. Delivered, set up and collected."]),
+               "all come up this way."]),
     dict(slug="bouncy-castle-hire-tipperary-town", town="Tipperary Town", county="Co Tipperary",
          nearby="Bansha, Cappawhite and Dundrum",
-         copy=["We deliver to Tipperary Town and the surrounding villages of Bansha, "
-               "Cappawhite and Dundrum.",
-               "Whether it is a back garden birthday or a full community fun day, we have the "
-               "unit for it, and every castle and course comes with a rain cover."]),
+         copy=["We cover Tipperary Town and the surrounding villages of Bansha, Cappawhite "
+               "and Dundrum.",
+               "Whether it is a back garden birthday or a full community fun day, there is a "
+               "unit for it. Ring us and we will point you at the right one."]),
     dict(slug="bouncy-castle-hire-templemore", town="Templemore", county="Co Tipperary",
          nearby="Borrisoleigh, Loughmore and Clonmore",
-         copy=["We deliver to Templemore, Borrisoleigh, Loughmore and Clonmore.",
-               "The full range travels here: castles, combis with built in slides, obstacle "
+         copy=["We cover Templemore, Borrisoleigh, Loughmore and Clonmore.",
+               "The full range comes here: castles, combis with built in slides, obstacle "
                "courses from 30ft to 55ft, the disco dome, sumo suits and marquees."]),
     dict(slug="bouncy-castle-hire-cahir", town="Cahir", county="Co Tipperary",
          nearby="Ardfinnan, Bansha and Ballylooby",
-         copy=["Cahir, Ardfinnan, Bansha and Ballylooby are all within our delivery area.",
-               "Popular here are the combi castles for younger birthdays and the 45ft and 50ft "
-               "obstacle courses for school and club days."]),
+         copy=["Cahir, Ardfinnan, Bansha and Ballylooby are all inside the area we cover.",
+               "The combi castles suit younger birthdays and the 45ft and 50ft obstacle "
+               "courses suit school and club days."]),
     dict(slug="bouncy-castle-hire-carrick-on-suir", town="Carrick on Suir", county="Co Tipperary",
          nearby="Kilsheelan, Piltown and Mooncoin",
          copy=["We cover Carrick on Suir and out towards Kilsheelan, Piltown and Mooncoin.",
-               "Castles, obstacle courses, the disco dome and marquees all travel down this "
+               "Castles, obstacle courses, the disco dome and marquees all come down this "
                "end of the county. Ring us with your date and we will confirm availability."]),
 ]
 
@@ -556,13 +602,17 @@ REDIRECTS = [
 AREA_OPTIONS = [a["town"] for a in AREAS] + ["Littleton", "Borrisokane", "Newport"]
 
 # ------------------------------------------------------------------- misc ----
+# Step three used to be "We deliver and set up", describing a drop, a safety
+# runthrough and a collection. None of that is on their site or in an email.
+# What is left describes only the enquiry, which is the part we can stand over,
+# because it is the thing this website actually does.
 STEPS = [
     ("Pick your unit", "Have a look through the range and note the one you want, or ring Adam "
-                       "and he will point you at the right size for the space and the ages."),
-    ("Check your date", "Send an enquiry or ring with your date, your town and the ages of the "
-                        "children. We come back to you with the price."),
-    ("We deliver and set up", "We drop the unit out, set it up, run through the safety points "
-                              "with you and collect it again at the end of the hire."),
+                       "and he will talk you through what suits the space and the ages."),
+    ("Send us the date", "Your date, your town and the ages of the children is all we need. "
+                         "Ring, WhatsApp or use the form."),
+    ("Adam comes back to you", "He confirms what is free on your date and what it costs. "
+                               "Nothing is booked until the two of you have spoken."),
 ]
 
 WHY = [
@@ -581,11 +631,19 @@ WHY = [
     ("\U0001F4CF", "Twenty three units in the range",
      "From a 30ft block run up to the 55ft high adrenaline courses, plus combis, disco dome, "
      "sumo suits and marquees."),
-    ("☔", "Rain covers as standard",
-     "Every castle and course comes with a rain cover, so an Irish forecast does not cancel "
-     "the party."),
-    ("\U0001F69A", "Delivered, set up and collected",
-     "We bring it out, set it up and take it away again. You do not lift a thing."),
+    # "Every castle and course" is not quite true any more. Their listings name a
+    # rain cover on nearly all of them, but the Kiddies Bouncer has no published
+    # spec at all, so "every" was reaching one unit further than the source.
+    ("☔", "Rain covers on the range",
+     "Their listings name a rain cover on castles, combis and courses alike, so an Irish "
+     "forecast does not cancel the party."),
+    # Was "Delivered, set up and collected. You do not lift a thing." Nothing on
+    # their site or in an email says they deliver, so it is gone. This replaces
+    # it with their own sentence, verbatim from bouncycastleman.com:
+    # "We promise quality, top class service and punctuality."
+    ("\U0001F44D", "Quality, service and punctuality",
+     "Their own promise, and the reason most of the work comes back around again through the "
+     "same schools, clubs and families."),
     ("\U0001F389", "Every kind of day",
      "Birthdays, communions, confirmations, school sports days, corporate events, carnivals "
      "and community fun days."),
@@ -599,16 +657,16 @@ WHY = [
 # otherwise. Quoting invented customers is not a placeholder, it is a fake
 # review, and it only has to survive one approval to be live on the internet.
 # The slot is named as a slot instead, and REVIEWS_NOTE labels the section.
-REVIEWS = [
-    ("Booked the 55ft course for our school sports day. Set up early, collected on time and "
-     "the kids did not come off it all afternoon.", "Your review here", "Thurles"),
-    ("Got a combi castle for a garden birthday. Spotless condition and the rain cover meant "
-     "we did not have to worry about the forecast.", "Your review here", "Clonmel"),
-    ("Used them for our community fun day. Great value, arrived when they said they would and "
-     "nothing was any trouble.", "Your review here", "Nenagh"),
-]
-REVIEWS_NOTE = ("Sample wording, so you can see how the section sits. Send us three real "
-                "reviews and we will swap them straight in.")
+# EMPTY ON PURPOSE. The attributions were fixed on 28 Aug ("Your review here"
+# instead of invented people), but the QUOTES were still ours: "set up early,
+# collected on time", "spotless condition", "great value". Nobody said those.
+# A fabricated testimonial with a placeholder name on it is still a fabricated
+# testimonial, and it only has to survive one approval to be live.
+# pages.py renders an empty REVIEWS list as a single "your reviews go here"
+# panel, so the section still shows Adam where they will sit.
+REVIEWS = []
+REVIEWS_NOTE = ("This is where three of your reviews will go. Send us the three you like "
+                "best, or the link to where they are, and we will set them in.")
 
 FAQS = [
     ("What can I hire?",

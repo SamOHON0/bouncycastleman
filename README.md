@@ -299,7 +299,42 @@ it is gone. Add real detail here only when Adam gives it.
 ### Claims
 
 **Nothing on this site states a fact Adam has not published somewhere.** Do not
-add one. Sales copy invented for a client is how a site ends up promising
+add one.
+
+#### The 2 Sep sweep: what came off, and why
+
+Sam asked for everything not traceable to their site or Adam's emails to go.
+Checked all seven pages of bouncycastleman.com by fetching them and grepping for
+the terms below. **Their site says nothing at all about delivery, set up,
+collection, supervision, setup requirements, deposits, cancellations, weather,
+damage or prices.** Neither does anything Adam has emailed. Removed:
+
+| Claim | Was where | Verdict |
+|---|---|---|
+| "Delivered, set up and collected" | hero lede, a WHY cell, step 3, `DELIVERY_TERMS`, 3 unit bodies, 7 of 9 town pages, the areas band heading, the unit sidebar, 3 meta descriptions | **nowhere on their site or in an email.** Near-universal in the trade, which is exactly why it was easy to write and easy to miss |
+| "All castles and obstacle courses must be supervised by a responsible adult" | `SAFETY` | ours |
+| "Units are set up on a flat, clear surface with access for the blower and a power supply" | `SAFETY` | ours |
+| "Adult supervision required" | sumo and gladiator specs | ours |
+| "Teenagers" as an audience | sumo, gladiator, Adrenaline Max | ours. Their corporate page says adult size and corporate |
+| "Popular for birthdays and teenage parties" | disco dome | a claim about what sells |
+| "Popular with the seven to twelve age group" | Minecraft castle | same |
+| "Every castle and course comes with a rain cover" | a WHY cell | "every" reached one unit past the source once the Kiddies Bouncer lost its invented specs |
+| Three review quotes | `REVIEWS` | **written by us.** The attributions were fixed on 28 Aug but the quotes were still ours |
+
+`DELIVERY_TERMS` now points at the phone rather than promising a service model.
+`SAFETY` is one line, the IIHF one, because one line is what the source supports.
+`REVIEWS` is an empty list, which `pages.py` renders as a single dashed slot
+panel; fill it with real ones and the three cards return with no code change.
+The nine town pages say "cover", which is Adam's word from his 27 Aug email
+("We cover all of Tipperary"), not "deliver", which was ours.
+
+One replacement is worth knowing about: the WHY cell that used to promise
+delivery now carries **their own sentence**, verbatim off their home page,
+"We promise quality, top class service and punctuality."
+
+**Ask Adam about delivery first.** He almost certainly does deliver and set up,
+and the moment he confirms it, it can go back everywhere. Until then the site
+does not promise it. Sales copy invented for a client is how a site ends up promising
 something the client does not do.
 
 Sourced and safe to repeat:
