@@ -76,6 +76,36 @@ for why us, a full-bleed teal band with towns as pills and the area checker
 inside it, staggered quote cards, a two-column FAQ, and a split contact block.
 Every section is a different layout family and none repeats.
 
+### Photos
+
+**`/images/marquees/` holds the only real, local images on this site.** Nine
+marquee photos from Adam, 2 Sep 2026. Everything else still hotlinks
+`files.secure.website`, the old host, and **dies at the DNS cutover**. These do
+not.
+
+They arrived as 2.8MB of phone JPEG with names like
+`WhatsApp Image 2026-09-02 at 12.27.33 (4).jpeg`, dropped into `/marquees/`,
+which is a generated page directory. They are resized to a 1200px long edge at
+q74, progressive, EXIF-rotated, and renamed for what they actually show: 1.7MB
+for the nine, no visible loss, and a filename you can reason about. 1200 is 2x
+for the largest place any of them is displayed.
+
+Where they go, and why each one:
+
+| Photo | Used for |
+|---|---|
+| `marquee-tables-chairs` (interior, laid out) | the home page marquee block, and the tables and chairs unit. It is the one photo that shows "furnished" rather than describing it |
+| `marquee-inside` (interior, empty) | the marquee block on `/marquees/` |
+| `marquee-astro-sunny` (landscape, blue sky) | the hero slideshow's marquee slide |
+| `marquee-pair-astro` (two marquees) | the `/marquees/` page banner |
+| `marquee-long-grass` | the marquee unit's main photo |
+| the other four | the marquee unit's own photo strip, and the gallery |
+
+Unit pages render a `gallery=` tuple as a four-up strip under the specs
+(`.ugal`). Only the marquee has one so far.
+
+The gallery page leads with all nine, then the old host's leftovers.
+
 ### The date picker
 
 "Pick your date" sits between the headline and the photo in the hero.
@@ -376,8 +406,10 @@ photo. Swap it for a real sumo shot the moment Adam sends one.
 Everything below is blocked on Adam. All of it is marked `TODO` in
 `build/data.py`.
 
-1. **Photos.** The old site only serves eight usable images. This design is
-   photo led, so photos are the single biggest lift available to it.
+1. **Photos.** Nine real marquee photos arrived 2 Sep and are in
+   `/images/marquees/`. Castles, combis, courses, the dome, sumo and gladiator
+   still run on the old site's eight small hotlinked images. Those are the gap
+   now.
 2. **Image hosting.** Those eight images hotlink `files.secure.website`, the
    old site's host, which goes away when the domain moves. Download local
    copies into `/images/` and repoint `data.py` before the DNS cutover.

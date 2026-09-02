@@ -44,6 +44,23 @@ IMG_MARQUEE = _S + "uploads/50ft-x-20ft-Marquee1-274x170.jpg"
 IMG_CASTLE_A = _S + "uploads/Bouncy_Castles_Limerick_325.png"
 IMG_CASTLE_B = _S + "uploads/bouncy_castle_2.jpg"
 
+# ---- REAL PHOTOS, and the first local images on this site --------------------
+# Nine marquee photos from Adam, 2 Sep 2026, via Sam. Resized to a 1200px long
+# edge at q74 and saved progressive: the originals were 2.8MB of phone JPEG for
+# 2.5MB of grass texture, and this is 1.7MB for the nine with no visible loss.
+# They live in /images/ so they survive the DNS cutover. Everything else on the
+# site still hotlinks the old host and does not.
+_MQ = "/images/marquees/"
+IMG_MQ_ASTRO  = _MQ + "marquee-astro-sunny.jpg"      # landscape, blue sky
+IMG_MQ_PAIR   = _MQ + "marquee-pair-astro.jpg"       # landscape, two marquees
+IMG_MQ_LONG   = _MQ + "marquee-long-grass.jpg"       # landscape, long, on grass
+IMG_MQ_GRAVEL = _MQ + "marquee-gravel.jpg"           # portrait, exterior
+IMG_MQ_TREE   = _MQ + "marquee-grass-tree.jpg"       # portrait, exterior
+IMG_MQ_STONE  = _MQ + "marquee-stone-building.jpg"   # portrait, exterior
+IMG_MQ_TABLES = _MQ + "marquee-tables-chairs.jpg"    # INTERIOR, tables and chairs out
+IMG_MQ_FLOOR  = _MQ + "marquee-flooring.jpg"         # INTERIOR, the floor
+IMG_MQ_INSIDE = _MQ + "marquee-inside.jpg"           # INTERIOR, empty and bright
+
 # Units with no photo on the old site get this. generate.py renders it as a
 # branded "photo coming soon" tile rather than a broken image.
 SOON = "__SOON__"
@@ -60,7 +77,7 @@ HERO_SLIDES = [
     (IMG_LIZARD,     "Red Lizard Obstacle", "50ft"),
     (IMG_CASTLE_C3,  "Large Combi Castle",  "19x19ft"),
     (IMG_GREENGOLD,  "Obstacle Course",     "Green and gold"),
-    (IMG_MARQUEE,    "Marquee",             "50ft x 20ft"),
+    (IMG_MQ_ASTRO,   "Marquee",             "20 to 100 people"),
     (IMG_DISCO,      "Disco Dome",          "Lights and sound"),
     (IMG_CASTLE_A,   "Bouncy Castle",       "Rain cover included"),
 ]
@@ -117,7 +134,7 @@ CATEGORIES = [
                "and corporate days. They suit school sports days, fun days and office events "
                "across Tipperary."),
     dict(slug="marquees", cat="marquee", k="k6", title="Marquees",
-         hero=IMG_MARQUEE,
+         hero=IMG_MQ_PAIR,
          blurb="Marquees in a range of sizes, with flooring, furniture, lighting and heat.",
          intro="We hire marquees in a range of sizes across Tipperary and the surrounding "
                "areas, in all seasons and for all events, from communions and confirmations "
@@ -315,7 +332,8 @@ UNITS = [
        [("Sizes", "A range, sized to your numbers"), ("Numbers", "20 to 100 people"),
         ("Flooring", "Available"),
         ("Tables and chairs", "Available"), ("Lighting", "Available"),
-        ("Heating", "Available"), ("Season", "All seasons")], img=IMG_MARQUEE),
+        ("Heating", "Available"), ("Season", "All seasons")], img=IMG_MQ_LONG,
+       gallery=(IMG_MQ_INSIDE, IMG_MQ_FLOOR, IMG_MQ_GRAVEL, IMG_MQ_TREE)),
     # Furniture on its own. Adam: "We also hire tables and chairs separately from
     # the marquees." It sits in the marquee category rather than becoming a
     # seventh one: it is the same side of the business, and six categories is
@@ -327,7 +345,7 @@ UNITS = [
         "Tell us how many you are expecting and we will work out the tables and chairs you "
         "need."],
        [("Hire", "On their own or with a marquee"),
-        ("Numbers", "Sized to your guest list")]),
+        ("Numbers", "Sized to your guest list")], img=IMG_MQ_TABLES),
 ]
 
 # ------------------------------------------------------- marquee extras ----
@@ -495,5 +513,9 @@ FAQS = [
 
 # IMG_BANNER is out: it is the old site's wordmark graphic, not a photo of their
 # work, and it read as a mistake sitting among the units.
-GALLERY = [IMG_LIZARD, IMG_GREENGOLD, IMG_CASTLE_C3, IMG_DISCO, IMG_MARQUEE,
+# The marquee photos lead: they are the only real, local, full size images we
+# have. Everything after them is a small hotlink off the old host.
+GALLERY = [IMG_MQ_ASTRO, IMG_MQ_TABLES, IMG_MQ_LONG, IMG_MQ_INSIDE, IMG_MQ_STONE,
+           IMG_MQ_FLOOR, IMG_MQ_PAIR, IMG_MQ_TREE, IMG_MQ_GRAVEL,
+           IMG_LIZARD, IMG_GREENGOLD, IMG_CASTLE_C3, IMG_DISCO,
            IMG_CASTLE_A, IMG_CASTLE_B]

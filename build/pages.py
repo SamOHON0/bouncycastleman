@@ -152,7 +152,7 @@ def build_home():
     "Marquees, floored, furnished, lit and heated",
     "A marquee for anywhere from 20 to 100 people, on its own or fitted out. Communions, "
     "confirmations, corporate days and family parties, in any season.",
-    eyebrow="The other side of the business")}</div>
+    eyebrow="The other side of the business", photo=D.IMG_MQ_TABLES)}</div>
 
 <div class="band tint">
   <div class="sec-head"><h2>How it works</h2></div>
@@ -234,7 +234,8 @@ def build_categories():
                     + marquee_block("What a marquee from us looks like",
                                     "For 20 to 100 people, in all seasons, delivered, put up "
                                     "and taken down again. Fit it out with as much or as "
-                                    "little as you need.")
+                                    "little as you need.",
+                                    photo=D.IMG_MQ_INSIDE)
                     + "</div>")
         html += lead + f"""
 <div class="band" data-cat="{c['cat']}">
@@ -263,6 +264,9 @@ def build_units():
         body = "".join(f"<p>{esc(p)}</p>" for p in u["body"])
         rel = [x for x in D.UNITS if x["cat"] == u["cat"] and x["slug"] != u["slug"]][:4]
         # Marquee units already sit on the marquee side of the site.
+        ugal = ('<div class="ugal">'
+                + "".join(shot(g, u["n"], ratio="1/1") for g in u["gallery"])
+                + "</div>") if u["gallery"] else ""
         sign = "" if u["cat"] == "marquee" else signpost(
             "Doing a communion, a confirmation or a party that needs cover as well? We hire "
             "marquees, and tables and chairs on their own.")
@@ -293,6 +297,7 @@ def build_units():
       <h2>About the {esc(u['n'])}</h2>
       <div class="prose">{body}</div>
       <dl class="specs">{specs}</dl>
+      {ugal}
       {safety_box()}
       {sign}
     </div>
