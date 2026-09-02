@@ -67,18 +67,27 @@ def shelf(c):
     the category you actually want."""
     units = [u for u in D.UNITS if u["cat"] == c["cat"]]
     cards = "".join(card(u) for u in units)
+    # A SHELF WITH ONE OR TWO UNITS IS NOT A SHELF, IT IS A ROW.
+    # The track sizes columns at a fixed 268px max, which is right when six
+    # cards run off the edge and wrong when two sit in a 1600px band with half
+    # the screen empty beside them. Bouncy Castles has two units and the disco
+    # dome has one, and both looked broken rather than short.
+    # Under three, the track stops being a scroller and becomes a plain grid
+    # whose cards share the width. Capped at 3 because four already fills a
+    # desktop row and a full-width four would look stretched.
+    short = " short" if len(units) < 3 else ""
     return f"""
   <section class="shelf" data-shelf data-reveal data-cat="{c['cat']}" aria-label="{c['title']}">
     <div class="shelf-head">
       <span class="dot"></span>
       <h3>{c['title']}</h3>
       <a class="all" href="/{c['slug']}/">All {len(units)}</a>
-      <div class="shelf-nav">
+      {"" if short else f'''<div class="shelf-nav">
         <button type="button" data-dir="prev" aria-label="Scroll {c['title']} left">{ico("left")}</button>
         <button type="button" data-dir="next" aria-label="Scroll {c['title']} right">{ico("right")}</button>
-      </div>
+      </div>'''}
     </div>
-    <div class="track">{cards}</div>
+    <div class="track{short}">{cards}</div>
   </section>
 """
 

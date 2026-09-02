@@ -522,7 +522,19 @@ h3{font-size:var(--step-1);line-height:1.18}
 /* On touch you swipe the shelf, so the arrows are dead weight and at 320px
    they push the header row past the viewport. */
 @media(max-width:640px){.shelf-nav{display:none}}
-@media(max-width:560px){.track{grid-auto-columns:minmax(210px,74%)}}
+/* One or two units: not a scroller, a row that fills the band. Without this a
+   two card shelf leaves half a 1600px screen empty and reads as broken rather
+   than as short. auto-flow row so the cards lay out normally, and a max so two
+   cards do not stretch to 700px each. */
+.track.short{grid-auto-flow:row;overflow-x:visible;scroll-snap-type:none;
+  /* 360px MAX, not 1fr. With 1fr the disco dome's single card stretched to
+     744px, which looks more broken than the gap it was fixing. Capped, the
+     cards stay the size cards are everywhere else on the page and just sit
+     left, which is what a short row is supposed to look like. */
+  grid-template-columns:repeat(auto-fit,minmax(232px,360px));
+  max-width:840px}
+@media(max-width:560px){.track{grid-auto-columns:minmax(210px,74%)}
+  .track.short{grid-template-columns:1fr;max-width:none}}
 
 /* ----------------------------------------------------------------- card -- */
 .card{min-width:0;display:flex;flex-direction:column;color:inherit;background:#fff;
