@@ -163,7 +163,7 @@ def build_home():
 </section>
 <div class="facts">
   <div><b>{D.FOUNDED}</b><span>Family run ever since, over twenty years at it</span></div>
-  <div><b>{HIRE_UNITS} units</b><span>From a 12ft arch castle to a 55ft course</span></div>
+  <div><b>{HIRE_UNITS} units</b><span>From a 15ft combi to a 55ft course</span></div>
   <div><b>IIHF</b><span>Fully insured and certified</span></div>
 </div>
 
@@ -522,6 +522,59 @@ def build_meta():
     return urls
 
 
+def prune():
+    """Delete generated page directories this build did not write.
+
+    The build only ever WROTE pages, it never removed them. Take a unit out of
+    data.py and its page stayed on disk, stayed in the repo and stayed live: an
+    orphan with no link into it, still reachable, still indexable, still
+    advertising a unit we had just decided we could not stand over. Four of them
+    were sitting there after the 2 Sep removal.
+
+    Scoped deliberately narrowly. It only touches the directories this file
+    generates from a list (hire/, the category slugs, the town slugs), and only
+    ones absent from BUILT. It will not walk the repo or touch anything hand
+    made.
+    """
+    import shutil
+    built = {os.path.normpath(b) for b in BUILT}
+    keep_top = {os.path.normpath(f"{c['slug']}/index.html") for c in D.CATEGORIES}
+    keep_top |= {os.path.normpath(f"{a['slug']}/index.html") for a in D.AREAS}
+    gone = []
+
+    hire = os.path.join(G.ROOT, "hire")
+    if os.path.isdir(hire):
+        for name in sorted(os.listdir(hire)):
+            d = os.path.join(hire, name)
+            if not os.path.isdir(d):
+                continue
+            if os.path.normpath(f"hire/{name}/index.html") not in built:
+                shutil.rmtree(d)
+                gone.append("hire/" + name)
+
+    # Category and town directories are top level, so match them by slug shape
+    # against the two lists rather than by scanning every directory in the root.
+    for slug in sorted({*(c["slug"] for c in D.CATEGORIES), *(a["slug"] for a in D.AREAS)}):
+        pass  # current slugs are always rebuilt; nothing to do
+    for name in sorted(os.listdir(G.ROOT)):
+        d = os.path.join(G.ROOT, name)
+        if not os.path.isdir(d) or name.startswith(".") or name in (
+                "assets", "images", "build", "hire", "node_modules", "_to_delete"):
+            continue
+        idx = os.path.normpath(f"{name}/index.html")
+        # Only a directory that LOOKS like one of ours and is not in this build.
+        if idx not in built and (name.startswith("bouncy-castle-hire-")
+                                 or name in {"areas", "gallery", "faqs", "contact",
+                                             "hire-terms"}
+                                 or idx in keep_top):
+            shutil.rmtree(d)
+            gone.append(name)
+
+    for g in gone:
+        print("pruned stale page: %s" % g)
+    return gone
+
+
 def main():
     build_home()
     build_categories()
@@ -529,6 +582,7 @@ def main():
     build_areas()
     build_simple()
     urls = build_meta()
+    prune()
     print("pages written: %d" % len(BUILT))
     print("sitemap urls: %d" % len(urls))
 

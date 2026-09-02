@@ -11,11 +11,10 @@ TODOs Adam must supply, all marked below:
   - a business email address (the old site publishes none)
   - confirmation of the delivery areas and any prices he wants shown
   - real reviews (the three here are placeholders and are marked as such)
-  - CONFIRMATION THAT FIVE UNITS ARE STILL IN THE FLEET: the Large Combi
-    19x19, the plain Combi 15x15, the Standard Arch Castle, the Kiddies Bouncer
-    and the 50ft Rock Climb Course. All five rest on white-on-white text on the
-    old site and all five are the ones with no photo. See the provenance
-    warning above the UNITS list. Photos for them too, if they are real.
+  - a photo of the Kiddies Bouncer, and its size and age range. It is the only
+    unit left without a photo and the only one whose specs we do not have.
+  - whether he still has the FOUR UNITS REMOVED on 2 Sep. See the note above
+    the UNITS list. They come back the moment he says he has them.
 
 IMAGES ARE LOCAL. Every photo on this site is a file in this repo. Nothing
 hotlinks files.secure.website any more, so nothing breaks at the DNS cutover.
@@ -204,21 +203,21 @@ CATEGORIES = [
     dict(slug="obstacle-courses", cat="obstacle", k="k1", title="Obstacle Courses",
          hero=IMG_OBS_BLUEYELLOW,
          blurb="30ft up to 55ft, with rock climbs, tunnels and slides.",
-         intro="Ten obstacle courses in the range, from a 30ft block run for younger children "
-               "up to the 55ft high adrenaline units with double rock climbs and extra high "
-               "slides. Every course has a full rain cover."),
+         intro="Nine obstacle courses in the range, from a 30ft block run for younger "
+               "children up to the 55ft high adrenaline units with double rock climbs and "
+               "extra high slides. Every course has a full rain cover."),
     dict(slug="combi-castles", cat="combi", k="k2", title="Combi Castles",
          hero=IMG_COMBI_JUNGLE,
          blurb="Bounce area and a built in slide, most with a basketball ring.",
          intro="Combi castles give you a full bouncing area and a slide in the one unit, and "
-               "most have a basketball ring inside. Seven of them in the range, from 15ft up "
+               "most have a basketball ring inside. Five of them in the range, from 15ft up "
                "to 19ft, every one with a full rain cover."),
     dict(slug="bouncy-castles", cat="castle", k="k3", title="Bouncy Castles",
          hero=IMG_CASTLE_OUTDOOR,
-         blurb="Arch castles and kiddies bouncers, all with rain covers.",
-         intro="Our standard bouncy castles suit birthday parties, communions and back garden "
-               "days out. The units their listings name all come with a rain cover, so an "
-               "Irish forecast does not cancel the party."),
+         blurb="A smaller bouncer for younger children.",
+         intro="The kiddies bouncer is the smaller option, for younger children and toddler "
+               "parties where a full size castle is too much. Ring Adam for the size and "
+               "what ages it suits."),
     dict(slug="disco-dome", cat="disco", k="k4", title="Disco Dome",
          hero=IMG_DISCO,
          blurb="Enclosed dome with disco lighting and a full sound system.",
@@ -245,39 +244,33 @@ CATEGORIES = [
                "tables and chairs on their own as well."),
 ]
 
-# ---- PROVENANCE WARNING: FIVE UNITS REST ON INVISIBLE TEXT -------------------
-# Audited 2 Sep 2026 after Sam asked where the castles came from. The first
-# answer was wrong and this is the correction.
+# ---- FOUR UNITS WERE REMOVED ON 2 SEP. DO NOT PUT THEM BACK WITHOUT ADAM. ----
 #
-# 18 of the 23 units are on visible product cards on bouncycastleman.com, with
-# their sizes and features, exactly as this file states them.
+#   Large Combi Castle 19 x 19ft
+#   Combi Castle 15 x 15ft
+#   Standard Arch Castle 12 x 12ft
+#   50ft Rock Climb Course
 #
-# FIVE ARE NOT. Their text is in the page as WHITE TEXT ON A WHITE BACKGROUND,
-# computed colour rgb(255,255,255), so it is in the markup but no human visitor
-# to their site can read it:
+# All four came from text that is in bouncycastleman.com's markup as WHITE TEXT
+# ON A WHITE BACKGROUND, computed colour rgb(255,255,255). It is in the page and
+# it is what a text dump returns, but no human visitor to their site can read a
+# word of it, and none of the four had a photo or a visible card anywhere.
 #
-#   Large Combi Castle 19x19    combi page, white on white
-#   Combi Castle 15x15          combi page, white on white
-#   Standard Arch Castle 12x12  combi page, white on white
-#   50ft Rock Climb Course      obstacle page, white on white
-#   Kiddies Bouncer             not even that. It appears once, as the words
-#                               "Kiddies Bouncers" in the home page range list.
-#                               No size, no ages, no features, anywhere.
+# It reads like a caption set stranded by an older version of the page: the same
+# hidden column also holds captions for the Minions Combi and the Crayola
+# Playland, which DO still have visible cards and photos. So it is not a list of
+# discontinued units, and the honest position is that we cannot tell from their
+# site which of them Adam still owns.
 #
-# THE CORRELATION IS EXACT AND IT IS NOT A COINCIDENCE: the five units with no
-# photo are the same five units whose text is invisible. That is the signature
-# of content left behind by an older version of the page. These may be units
-# Adam has since sold or stopped hiring.
+# THE KIDDIES BOUNCER STAYS, on Sam's call. Its evidence is different and
+# weaker still: the words "Kiddies Bouncers" once, in the home page range list,
+# visible, with no size, no ages and no features anywhere. It keeps its name and
+# says only that it exists. It is the whole Bouncy Castles category now.
 #
-# They are KEPT for now rather than deleted, because they are also the five most
-# ordinary things in the trade (a plain arch castle, a plain 15x15 combi, a
-# kiddies bouncer, a big combi, a rock climb course) and it would be strange for
-# a firm this size not to have them. Plausible is not sourced, though.
-#
-# ASK ADAM TO CONFIRM THESE FIVE BEFORE GO-LIVE. If he does not have one, it
-# comes off. A site that advertises a unit he cannot deliver is worse than a
-# site with a shorter list, because the customer finds out on the phone.
-# The question is in claude/draft-send.md.
+# Put any of the four back the moment Adam confirms he has it, with a photo.
+# Counts that move with them, all updated in this file: the WHY cell (nineteen),
+# the obstacle intro (nine) and the combi intro (five). HIRE_UNITS in pages.py
+# counts the list, so it follows on its own.
 
 # ------------------------------------------------------------------ units ----
 def _u(slug, n, cat, tag, short, body, specs, img=SOON, price="Call for price", gallery=()):
@@ -287,14 +280,6 @@ def _u(slug, n, cat, tag, short, body, specs, img=SOON, price="Call for price", 
 
 UNITS = [
     # ---- combi castles ----
-    _u("large-combi-castle", "Large Combi Castle 19 x 19ft", "combi", "19x19ft",
-       "Our biggest combi, with a built in slide, basketball ring and full rain cover.",
-       ["At 19ft by 19ft this is the biggest combi in the range. It gives a full bouncing "
-        "area alongside the slide, so a group of children can use both at once without "
-        "queueing.",
-        "It comes with a basketball ring inside and a full rain cover."],
-       [("Size", "19ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
-        ("Rain cover", "Full cover included")]),
     _u("minions-combi-castle", "Minions Combi Castle 17 x 19ft", "combi", "17x19ft",
        "Minions themed combi with a slide, basketball ring and rain cover.",
        ["A themed combi castle at 17ft by 19ft with the slide built in and a basketball ring "
@@ -323,13 +308,6 @@ UNITS = [
         "Rain cover included."],
        [("Size", "15ft x 15ft"), ("Slide", "Internal"),
         ("Rain cover", "Included")], img=IMG_COMBI_CRAYOLA),
-    _u("combi-castle-15", "Combi Castle 15 x 15ft", "combi", "15x15ft",
-       "Compact combi with an internal slide and rain cover.",
-       ["A 15ft by 15ft combi with the slide built inside the unit. A good fit where space is "
-        "tight but you still want a slide as well as a bounce area.",
-        "Rain cover included."],
-       [("Size", "15ft x 15ft"), ("Slide", "Internal"),
-        ("Rain cover", "Included")]),
     _u("jungle-castle", "Jungle Castle 15 x 15ft", "combi", "Up to 8 yrs",
        "Jungle themed unit with a large bounce area and slide, suited to under eights.",
        ["The Jungle Castle is a 15ft by 15ft unit with a large bouncing area and a slide, and "
@@ -339,12 +317,6 @@ UNITS = [
         ("Rain cover", "Included")], img=IMG_COMBI_JUNGLE),
 
     # ---- bouncy castles ----
-    _u("standard-arch-castle", "Standard Arch Castle 12 x 12ft", "castle", "12x12ft",
-       "The classic arch castle, rain cover included.",
-       ["Our standard 12ft by 12ft arch castle is the straightforward option for a back garden "
-        "birthday party. All bouncing area, no slide.",
-        "Rain cover included."],
-       [("Size", "12ft x 12ft"), ("Rain cover", "Included")]),
     # THE ONLY UNIT ON THIS SITE WITHOUT PUBLISHED SPECS. Audited 2 Sep against
     # every page of bouncycastleman.com: 22 of the 23 units are there with their
     # sizes and features written out, and this one is not. It appears once, in
@@ -411,11 +383,6 @@ UNITS = [
         "Rain cover included."],
        [("Size", "50ft"), ("Features", "Biff and bash, rock climb, tunnels, slide"),
         ("Rain cover", "Included")], img=IMG_OBS_ORANGEGREEN),
-    _u("rock-climb-course", "50ft Rock Climb Course", "obstacle", "50ft",
-       "50ft course built around the rock climb, rain cover included.",
-       ["A 50ft obstacle course built around the rock climb section.",
-        "Rain cover included as standard."],
-       [("Size", "50ft"), ("Features", "Rock climb"), ("Rain cover", "Included")]),
     _u("booster-obstacle", "Booster Obstacle 45ft", "obstacle", "45ft",
        "45ft course with a slide, rock climb, tunnels and biff and bash.",
        ["The Booster is a 45ft obstacle course with a slide, a rock climb, tunnels and biff "
@@ -555,7 +522,7 @@ AREAS = [
     dict(slug="bouncy-castle-hire-cashel", town="Cashel", county="Co Tipperary",
          nearby="Golden, Rosegreen and New Inn",
          copy=["Cashel, Golden, Rosegreen and New Inn are all inside the area we cover, for "
-               "everything from a 12ft arch castle to the 55ft obstacle courses.",
+               "everything from a 15ft combi castle to the 55ft obstacle courses.",
                "If you are looking at communion or confirmation season, get your date in to "
                "us early."]),
     dict(slug="bouncy-castle-hire-roscrea", town="Roscrea", county="Co Tipperary",
@@ -628,7 +595,7 @@ WHY = [
      "schools and committees can book with confidence."),
     # Was "Tipperary's biggest selection", which we could not source and which is
     # a claim about competitors. The count is a fact about their own catalogue.
-    ("\U0001F4CF", "Twenty three units in the range",
+    ("\U0001F4CF", "Nineteen units in the range",
      "From a 30ft block run up to the 55ft high adrenaline courses, plus combis, disco dome, "
      "sumo suits and marquees."),
     # "Every castle and course" is not quite true any more. Their listings name a
