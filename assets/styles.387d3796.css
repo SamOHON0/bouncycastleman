@@ -380,6 +380,42 @@ h3{font-size:var(--step-1);line-height:1.18}
   /* Stacked there is no row to stretch to, so the ratio comes back. */
   .mast-shot .pic{aspect-ratio:4/3;flex:none}}
 
+/* THE DATE PICKER IS OFF ON PHONES. Sam's call, 3 Sep. On a phone the hero is
+   already a headline, a paragraph, two buttons and a photo, and a seven column
+   calendar between the buttons and the photo pushed the photo most of a screen
+   further down for a control almost nobody was going to drive with a thumb.
+
+   It is hidden, not removed, because the desktop layout is built around it:
+   .mast-grid's second column IS the picker. Deleting it would reflow the hero
+   at every width, and the whole point of hiding it is to change phones only.
+
+   760 rather than the 1100 the rail switches at. Between the two there is
+   width for the calendar to sit beside things and it still reads as a layout
+   rather than a stack.
+
+   The picker carries the only "Get a price" in the hero, so hiding it would
+   leave a phone with a phone number and "see the range" and no way into the
+   enquiry form. .mast-cta-m is that button coming back, and it exists ONLY
+   below this breakpoint. Above it the picker's own button is the one, and two
+   yellow buttons a hundred pixels apart is what the hero was cleaned up to
+   avoid in the first place.
+
+   The action bar pinned to the bottom of the screen below 1100 is Call and
+   WhatsApp. It is not an enquiry link, so it does not cover this.
+
+   EVERY SELECTOR HERE IS PREFIXED WITH .mast ON PURPOSE. The base .dpick rule,
+   the one that sets display:flex, is declared LATER in this stylesheet than
+   this block. At equal specificity the later declaration wins, so a plain
+   .dpick{display:none} in here loses and the calendar stays on the page: it
+   was still rendering, just pushed below the photo by the grid-row swap, which
+   is the kind of half fix that looks right in a screenshot of the top of the
+   page. .mast .dpick is 0,2,0 against 0,1,0 and wins wherever it sits. */
+.mast .mast-cta-m{display:none}
+@media(max-width:760px){
+  .mast .dpick{display:none}
+  .mast .mast-shot{grid-row:2}
+  .mast .mast-cta-m{display:inline-flex}}
+
 /* Facts sit across the seam between the masthead and the page. */
 .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
   margin:-38px var(--gut) 0;position:relative;z-index:3}

@@ -161,12 +161,17 @@ def build_home():
         <p><b class="w-castle">Castles</b>, <b class="w-combi">combis</b> and
            <b class="w-obstacle">obstacle courses</b> up to 55ft,
            across Tipperary.</p>
-        <!-- No second "Get a price" here. The date card below carries it, and two
-             identical yellow buttons a hundred pixels apart was half of why the
-             hero felt cluttered. The rail keeps a permanent one for anyone who
-             does not want to pick a date first. -->
+        <!-- No second "Get a price" here ON DESKTOP. The date card below carries
+             it, and two identical yellow buttons a hundred pixels apart was half
+             of why the hero felt cluttered. The rail keeps a permanent one for
+             anyone who does not want to pick a date first.
+
+             .mast-cta-m is display:none until 760px, where the date card is
+             hidden and its button goes with it. See the note above the
+             breakpoint in generate.py. -->
         <div class="mast-actions">
           <a href="tel:{D.PHONE_TEL}" class="btn btn-line">{ico("phone")}{D.PHONE_DISPLAY}</a>
+          <a href="/contact/" class="btn btn-accent mast-cta-m">Get a price</a>
           <a href="#range" class="btn btn-line">See the range</a>
         </div>
       </div>
