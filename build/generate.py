@@ -49,27 +49,39 @@ def write(relpath, html):
 
 
 # ------------------------------------------------------------------ logo ----
-# The castle, centred above the name. Source in build/brand/castle.svg.
+# The castle, centred above the name. Source in build/brand/castle.png.
 #
-# REDRAWN 3 Sep 2026 against the new logo artwork Sam supplied. What changed
-# from the previous mark: a flag on BOTH towers rather than one, a round finial
-# on each pole, and the pennants are curved rather than flat triangles. The
-# three colours are unchanged because the new artwork uses the same ones.
+# THIS IS THE CLIENT'S OWN ARTWORK, NOT A REDRAW. Sam supplied the logo on
+# 3 Sep and asked for that file on the site rather than an interpretation of
+# it, so brand/castle.png is the castle lifted straight out of it.
 #
-# It is DRAWN, not cut out of the artwork, and that has not changed either. The
-# supplied file is a raster of a generated illustration with soft gradients and
-# a drop shadow. A cut of it is heavy, soft at small sizes and cannot be tinted.
-# The redraw is about 1.5KB, sharp at 32px and at 3000px, and takes its colours
-# from the palette.
+# The full artwork is kept at brand/logo-source.png. Do not delete it: it is
+# the only copy of the source, and the mark and both icons are derived from it.
 #
-# brand/castle-square.svg is the same mark on a white rounded square and is the
-# source for favicon.png and apple-touch-icon.png. If you change one, rerender
-# the icons from it or the tab icon and the phone icon drift apart.
+# How the cut was made, in case it has to be redone. The artwork sits on white
+# (253-255, not flat), so a hard threshold left either a white fringe or a
+# chewed edge. What worked: read alpha off the DARKEST channel of each pixel,
+# ramp it so near-white goes fully clear and any real ink goes fully opaque,
+# then UN-MULTIPLY the colour against white so the anti-aliased edge pixels get
+# their true colour back instead of a washed out one. The soft drop shadow
+# survives as a soft transparent shadow, which is what it should be.
 #
-# The castle is 1.51:1, so it is sized by WIDTH and the height follows.
+# Exported at 456px wide, which is 3x the 150px the rail renders it at, and
+# quantised to 160 colours: 17KB against 116KB for the same image in true
+# colour, and no visible difference at any size the site uses.
+#
+# ON A DARK GROUND the shadow leaves a faint pale halo. Every place the mark is
+# used (the rail, the footer) is a light ground. If it ever goes on the ink
+# navy, cut a version without the shadow rather than shipping this one.
+#
+# favicon.png and apple-touch-icon.png are the same castle on a white rounded
+# square, generated from the same file. If you change the mark, regenerate both
+# or the tab icon and the phone icon drift apart.
+#
+# The castle is 1.477:1, so it is sized by WIDTH and the height follows.
 def logo_mark():
-    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="512" '
-            f'height="340" decoding="async">')
+    return (f'<img class="mark" src="{ASSET["logo"]}" alt="" width="456" '
+            f'height="309" decoding="async">')
 
 
 def logo(cls="brand", href="/"):
@@ -1251,14 +1263,16 @@ def build_assets():
     # immutable for a year; the icons go to the root, which is not.
     bdir = os.path.join(HERE, "brand")
 
+    # The extension comes from the SOURCE file, it is not assumed. The mark is
+    # a png and the masthead art is svg, and both go through here.
     def art(src, name):
+        ext = os.path.splitext(src)[1].lstrip(".")
         raw = io.open(os.path.join(bdir, src), "rb").read()
         h = hashlib.md5(raw).hexdigest()[:8]
-        url = "/assets/%s.%s.svg" % (name, h)
-        io.open(os.path.join(adir, "%s.%s.svg" % (name, h)), "wb").write(raw)
-        return url
+        io.open(os.path.join(adir, "%s.%s.%s" % (name, h, ext)), "wb").write(raw)
+        return "/assets/%s.%s.%s" % (name, h, ext)
 
-    ASSET["logo"] = art("castle.svg", "logo")
+    ASSET["logo"] = art("castle.png", "logo")
     for icon in ("favicon.png", "apple-touch-icon.png"):
         io.open(os.path.join(ROOT, icon), "wb").write(
             io.open(os.path.join(bdir, icon), "rb").read())
