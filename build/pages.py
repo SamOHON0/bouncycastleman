@@ -81,7 +81,7 @@ def shelf(c):
     <div class="shelf-head">
       <span class="dot"></span>
       <h3>{c['title']}</h3>
-      <a class="all" href="/{c['slug']}/">All {len(units)}</a>
+      <a class="all" href="/{c['slug']}/">See them all</a>
       {"" if short else f'''<div class="shelf-nav">
         <button type="button" data-dir="prev" aria-label="Scroll {c['title']} left">{ico("left")}</button>
         <button type="button" data-dir="next" aria-label="Scroll {c['title']} right">{ico("right")}</button>
@@ -92,18 +92,36 @@ def shelf(c):
 """
 
 
-# The count on the home page is castles, courses, dome and marquees. Tables and
-# chairs is a hire line but it is not a "unit", and counting it would put a
-# number on the page that does not match what a customer sees in the shelves.
-HIRE_UNITS = len([u for u in D.UNITS if u["slug"] != "tables-and-chairs"])
+# THERE IS NO UNIT COUNT ON THIS SITE. There was a HIRE_UNITS constant here and
+# it fed the "19 units" cell in the home page facts strip. Adam, 3 Sep 2026:
+# "Can we please remove any reference to the specific amount of unites we have
+# (19)." The strip is gone and so is the constant. Do not reintroduce either.
 
 
 def build_home():
-    steps = "".join(
-        f'<div class="line-step" data-reveal><div class="line-n">{i+1}</div>'
-        f'<h3>{t}</h3><p>{esc(p)}</p></div>'
-        for i, (t, p) in enumerate(D.STEPS))
+    """The home page, cut down on 3 Sep 2026.
 
+    Adam's first and biggest note on the draft: "A big concern for us was that
+    we feel the home page is showing a bit too much, scrolling for quite some
+    time to get to the bottom, probably an overload of information, if we could
+    tidy it up to some extent?"
+
+    Four whole sections came out and one was halved:
+      facts strip        three stats under the hero, one of which was the unit
+                         count he separately asked to have removed
+      How it works       three numbered steps. Generic to every hire firm in
+                         the country, and step three named him
+      Out on the road    six gallery photos, all of which are on /gallery/,
+                         which the rail already links to
+      area checker       see D.AREA_OPTIONS
+      Why people ring us six bento cells down to three
+
+    What is left, in order: hero, the range shelves, the marquee band, why
+    people ring us, where we cover, reviews, FAQs, contact. Everything cut is
+    still reachable in one click from the rail or the footer.
+
+    BEFORE ADDING A SECTION HERE, take one out. He has told us once.
+    """
     whys = "".join(
         f'<li data-reveal><span class="n">{i+1:02d}</span><div><h3>{esc(h)}</h3>'
         f'<p>{esc(p)}</p></div></li>' for i, (_e, h, p) in enumerate(D.WHY))
@@ -122,9 +140,6 @@ def build_home():
         '<div class="who">Send us three and we will set them in</div></div>')
 
     towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
-    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
-    gal = "".join(f'<a href="/gallery/" data-reveal>{shot(g, "Bouncy Castle Man hire")}</a>'
-                  for g in D.GALLERY[:6])
     shelves = "".join(shelf(c) for c in D.CATEGORIES)
 
     html = head(
@@ -161,16 +176,10 @@ def build_home():
     {date_picker()}
   </div>
 </section>
-<div class="facts">
-  <div><b>{D.FOUNDED}</b><span>Family run ever since, over twenty years at it</span></div>
-  <div><b>{HIRE_UNITS} units</b><span>From a 15ft combi to a 55ft course</span></div>
-  <div><b>IIHF</b><span>Fully insured and certified</span></div>
-</div>
-
 <div class="band band-tight" id="range">
   <div class="sec-head" style="margin-bottom:0">
     <h2>The range</h2>
-    <p>Six kinds of hire. Walk sideways through any shelf, or open a category for the lot.</p>
+    <p>Walk sideways through any shelf, or open a category for the lot.</p>
   </div>
 </div>
 {shelves}
@@ -181,11 +190,6 @@ def build_home():
     "confirmations, corporate days and family parties, in any season.",
     eyebrow="The other side of the business", photo=D.IMG_MQ_TABLES)}</div>
 
-<div class="band tint">
-  <div class="sec-head"><h2>How it works</h2></div>
-  <div class="line narrow">{steps}</div>
-</div>
-
 <div class="band">
   <div class="sec-head"><h2>Why people ring us</h2></div>
   <ul class="bento">{whys}</ul>
@@ -193,30 +197,15 @@ def build_home():
 
 <div class="band areas-band">
   <div class="sec-head"><h2>Where we cover</h2>
-    <p>Tipperary and the surrounding areas. If your town is not here, ring us, we may still reach you.</p></div>
+    <p>All of Tipperary and the surrounding areas. If your town is not listed here, ring us
+    anyway, we may still reach you.</p></div>
   <div class="town-list">{towns}</div>
-  <div class="checker">
-    <h3>Check your area</h3>
-    <div class="checker-row">
-      <select id="areaSel" aria-label="Select your area">
-        <option value="">Select your area</option>{opts}
-        <option value="__other__">My area isn't listed</option>
-      </select>
-      <button class="btn btn-accent" id="areaBtn">Check</button>
-    </div>
-    <div id="areaOut" role="status"></div>
-  </div>
 </div>
 
 <div class="band">
   <div class="sec-head"><span class="eyebrow">Testimonials</span><h2>What locals say</h2>
     <p>{esc(D.REVIEWS_NOTE)}</p></div>
   <div class="revs">{revs}</div>
-</div>
-
-<div class="band tint">
-  <div class="sec-head"><h2>Out on the road</h2></div>
-  <div class="gallery">{gal}</div>
 </div>
 
 <div class="band">
@@ -243,8 +232,8 @@ def build_categories():
         elif len(units) == 1:
             travels = f"Our {c['title'].lower().rstrip('s')} travels to every town we cover."
         else:
-            travels = (f"All {len(units)} of our {c['title'].lower()} travel to every town "
-                       f"we cover.")
+            # NO COUNT HERE. This used to read "All 9 of our obstacle courses".
+            travels = (f"Our {c['title'].lower()} travel to every town we cover.")
         html = head(f"{c['title']} Hire Tipperary | {D.NAME}",
                     esc(c["intro"])[:158], f"/{c['slug']}/", c["hero"])
         html += page_hero(f"{c['title']} hire in Tipperary", esc(c["blurb"]), c["hero"],
@@ -329,7 +318,7 @@ def build_units():
     </div>
     <aside class="unit-side">
       <span class="price">{u['price']}</span>
-      <p>Ring Adam with your date and your town and he will come straight back with a price.</p>
+      <p>Ring us with your date and your town and we will come straight back with a price.</p>
       <a href="tel:{D.PHONE_TEL}" class="btn btn-accent">{ico("phone")}{D.PHONE_DISPLAY}</a>
       <a href="/contact/" class="btn btn-line">Get a price</a>
       <a href="{wa_link()}" target="_blank" rel="noopener" class="btn btn-line">WhatsApp us</a>
@@ -342,7 +331,6 @@ def build_units():
 
 # ----------------------------------------------------------- area pages -----
 def build_areas():
-    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
     towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
     rows = "".join(
         f'<div class="area-row" data-reveal><h3><a href="/{a["slug"]}/">{a["town"]}</a></h3>'
@@ -359,19 +347,9 @@ def build_areas():
 </div>
 
 <div class="band areas-band">
-  <div class="sec-head"><h2>Check your area</h2></div>
+  <div class="sec-head"><h2>The towns we cover</h2>
+    <p>If your town is not listed here, ring us anyway, we may still reach you.</p></div>
   <div class="town-list">{towns}</div>
-  <div class="checker">
-    <h3>Do we come to you?</h3>
-    <div class="checker-row">
-      <select id="areaSel" aria-label="Select your area">
-        <option value="">Select your area</option>{opts}
-        <option value="__other__">My area isn't listed</option>
-      </select>
-      <button class="btn btn-accent" id="areaBtn">Check</button>
-    </div>
-    <div id="areaOut" role="status"></div>
-  </div>
 </div>
 {contact_block()}{footer()}"""
     BUILT.append(write("areas/index.html", html))
@@ -449,26 +427,12 @@ def build_simple():
 {contact_block()}{footer()}"""
     BUILT.append(write("faqs/index.html", html))
 
-    opts = "".join(f"<option>{o}</option>" for o in D.AREA_OPTIONS)
     html = head(f"Contact | Bouncy Castle Hire Tipperary | {D.NAME}",
                 f"Call or WhatsApp {D.PHONE_DISPLAY}, or send an enquiry. Bouncy castle, "
                 "obstacle course and marquee hire across Tipperary.", "/contact/")
     html += page_hero("Contact", f"Ring or WhatsApp {D.PHONE_DISPLAY}, or send an enquiry below.",
                       D.SOON, [(None, "Contact")], cat="obstacle")
     html += f"""
-<div class="band areas-band">
-  <div class="checker" style="margin-top:0">
-    <h3>Do we come to you?</h3>
-    <div class="checker-row">
-      <select id="areaSel" aria-label="Select your area">
-        <option value="">Select your area</option>{opts}
-        <option value="__other__">My area isn't listed</option>
-      </select>
-      <button class="btn btn-accent" id="areaBtn">Check</button>
-    </div>
-    <div id="areaOut" role="status"></div>
-  </div>
-</div>
 {contact_block()}{footer()}"""
     BUILT.append(write("contact/index.html", html))
 
@@ -489,10 +453,10 @@ def build_simple():
     <p>Bookings are confirmed by phone on {D.PHONE_DISPLAY}. Prices depend on the unit, the date
     and your area, and are given on enquiry.</p>
   </div>
-  <div class="note" style="margin-top:28px"><strong>To be completed.</strong> Adam still needs to
-  supply the wording for deposits, cancellations, the weather policy, damage and the public
-  liability cover. Those sections are left out rather than guessed at, because they are
-  contractual.</div>
+  <div class="note" style="margin-top:28px"><strong>To be completed.</strong> The wording for
+  deposits, cancellations, the weather policy, damage and the public liability cover still has
+  to come from the business. Those sections are left out rather than guessed at, because they
+  are contractual.</div>
 </div>
 {contact_block()}{footer()}"""
     BUILT.append(write("hire-terms/index.html", html))
@@ -537,6 +501,12 @@ def prune():
     made.
     """
     import shutil
+    # Slugs this site USED to publish at the top level and no longer does. A
+    # directory here is deleted even though nothing in CATEGORIES names it, so
+    # the old page cannot sit in the repo serving stale content at a URL that
+    # vercel.json is trying to redirect. A physical file beats a redirect.
+    RETIRED_TOP = {"combi-castles"}
+
     built = {os.path.normpath(b) for b in BUILT}
     keep_top = {os.path.normpath(f"{c['slug']}/index.html") for c in D.CATEGORIES}
     keep_top |= {os.path.normpath(f"{a['slug']}/index.html") for a in D.AREAS}
@@ -564,6 +534,7 @@ def prune():
         idx = os.path.normpath(f"{name}/index.html")
         # Only a directory that LOOKS like one of ours and is not in this build.
         if idx not in built and (name.startswith("bouncy-castle-hire-")
+                                 or name in RETIRED_TOP
                                  or name in {"areas", "gallery", "faqs", "contact",
                                              "hire-terms"}
                                  or idx in keep_top):

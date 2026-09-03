@@ -51,17 +51,20 @@ def write(relpath, html):
 # ------------------------------------------------------------------ logo ----
 # The castle, centred above the name. Source in build/brand/castle.svg.
 #
-# It is DRAWN, not cut out of the supplied artwork. The supplied file is a
-# raster of a generated illustration: its outlines wobble, its flag is a smudge,
-# and it was exported on black, so every cut left either a dark fringe or a
-# chewed edge. Three passes of feathering, colour bleeding and contour smoothing
-# each improved it and none of them fixed it, because the ruggedness is in the
-# linework itself and no raster pass can straighten a line that was drawn
-# crooked.
+# REDRAWN 3 Sep 2026 against the new logo artwork Sam supplied. What changed
+# from the previous mark: a flag on BOTH towers rather than one, a round finial
+# on each pole, and the pennants are curved rather than flat triangles. The
+# three colours are unchanged because the new artwork uses the same ones.
 #
-# The redraw keeps the artwork's shapes and its exact three colours, so it is
-# the same mark, and being vector it is sharp at 32px and at 3000px, tints from
-# the palette, and weighs about 1KB.
+# It is DRAWN, not cut out of the artwork, and that has not changed either. The
+# supplied file is a raster of a generated illustration with soft gradients and
+# a drop shadow. A cut of it is heavy, soft at small sizes and cannot be tinted.
+# The redraw is about 1.5KB, sharp at 32px and at 3000px, and takes its colours
+# from the palette.
+#
+# brand/castle-square.svg is the same mark on a white rounded square and is the
+# source for favicon.png and apple-touch-icon.png. If you change one, rerender
+# the icons from it or the tab icon and the phone icon drift apart.
 #
 # The castle is 1.51:1, so it is sized by WIDTH and the height follows.
 def logo_mark():
@@ -729,7 +732,9 @@ h3{font-size:var(--step-1);line-height:1.18}
   .bento li:nth-child(1){grid-template-columns:1fr}}
 
 /* --------------------------------------------------------------- areas --- */
-/* Full-bleed colour band. Towns as big type, checker sitting inside it. */
+/* Full-bleed colour band, towns as big type. The area checker that used to sit
+   inside it is gone; see data.py AREA_OPTIONS for why. Its .checker, .checker-row
+   and #areaOut rules went with it. */
 .areas-band{background:var(--c-castle);color:#fff;position:relative;overflow:hidden}
 .areas-band::after{content:"";position:absolute;width:300px;height:300px;border-radius:50%;
   right:-110px;bottom:-140px;background:#fff;opacity:.08}
@@ -740,15 +745,6 @@ h3{font-size:var(--step-1);line-height:1.18}
   font-size:19px;transition:background .15s,transform .15s,border-color .15s}
 .town-list a:hover{background:#fff;color:var(--c-castle);border-color:#fff;
   transform:translateY(-3px)}
-.checker{margin-top:30px;background:rgba(255,255,255,.12);border-radius:var(--r);
-  padding:24px 26px;position:relative;z-index:1;max-width:640px}
-.checker h3{margin-bottom:12px}
-.checker-row{display:flex;gap:10px;flex-wrap:wrap}
-.checker select{flex:1;min-width:170px;padding:13px 15px;border:2px solid transparent;
-  border-radius:var(--r-sm);background:#fff;color:var(--ink);font-size:16px}
-.checker select:focus{outline:3px solid var(--accent);outline-offset:1px}
-#areaOut{margin-top:13px;font-size:15.5px;font-weight:700;min-height:22px}
-
 /* Areas index: full-width rows with a rule, not a card grid. */
 .area-rows{display:grid;gap:0}
 .area-row{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.4fr);gap:24px;
@@ -1211,19 +1207,6 @@ if (dField) {
     dField.value = q;
     dField.closest('form').scrollIntoView({ block: 'center' });
   }
-}
-
-const areaBtn = document.getElementById('areaBtn');
-if (areaBtn) {
-  areaBtn.addEventListener('click', () => {
-    const v = document.getElementById('areaSel').value, r = document.getElementById('areaOut');
-    if (!v) { r.textContent = 'Pick your area first.'; return; }
-    if (v === '__other__') {
-      r.innerHTML = 'Not listed? <a href="tel:PHONE_TEL" style="text-decoration:underline">Give us a call</a>, we may still reach you.';
-    } else {
-      r.textContent = 'Yes, we cover ' + v + '. Send us your date for a price.';
-    }
-  });
 }
 
 /* FAQ */

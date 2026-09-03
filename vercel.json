@@ -18,6 +18,16 @@
       "permanent": true
     },
     {
+      "source": "/combi-castles",
+      "destination": "/bouncy-castles/",
+      "permanent": true
+    },
+    {
+      "source": "/combi-castles/",
+      "destination": "/bouncy-castles/",
+      "permanent": true
+    },
+    {
       "source": "/disco_dome",
       "destination": "/disco-dome/",
       "permanent": true

@@ -156,19 +156,6 @@ if (dField) {
   }
 }
 
-const areaBtn = document.getElementById('areaBtn');
-if (areaBtn) {
-  areaBtn.addEventListener('click', () => {
-    const v = document.getElementById('areaSel').value, r = document.getElementById('areaOut');
-    if (!v) { r.textContent = 'Pick your area first.'; return; }
-    if (v === '__other__') {
-      r.innerHTML = 'Not listed? <a href="tel:0879005391" style="text-decoration:underline">Give us a call</a>, we may still reach you.';
-    } else {
-      r.textContent = 'Yes, we cover ' + v + '. Send us your date for a price.';
-    }
-  });
-}
-
 /* FAQ */
 document.querySelectorAll('.faq-q').forEach(q => q.addEventListener('click', () => {
   const item = q.parentElement, a = item.querySelector('.faq-a'),

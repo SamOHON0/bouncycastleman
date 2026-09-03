@@ -6,13 +6,31 @@ Source: bouncycastleman.com (the old site) scraped 20 Aug 2026, plus the demo
 approved by the client at bouncycastleman.vercel.app. Adam Garrett is the
 contact (086 194 5789); Mike Garrett handed the job over on 12 Aug.
 
+CLIENT FEEDBACK, 3 Sep 2026 (Adam, after reviewing the first draft). Six
+changes, all applied in this pass:
+  1. Home page was too long. Four sections cut, see pages.py build_home.
+  2. Kiddies Bouncer removed. "We no longer have it." Gone from UNITS.
+  3. NO UNIT COUNTS ANYWHERE. "Remove any reference to the specific amount of
+     units we have." The facts strip, the WHY cell and the two category intros
+     all carried one. DO NOT PUT A COUNT BACK ON THIS SITE.
+  4. NO OWNER NAME IN CONTACT COPY. "Remove any reference of my name regarding
+     call backs and getting in contact." Every "Ring Adam" is now "Ring us".
+  5. The area checker is gone. The town list plus one line saying to ring if
+     your town is not listed is what he asked for and all he wants.
+  6. The first hero slide showed a castle they no longer have. That photo,
+     castle-outdoor.jpg, is off the site entirely.
+
+WITH THE KIDDIES BOUNCER GONE the old Bouncy Castles category had nothing in
+it. The combi castles moved into it rather than the category being dropped:
+a combi IS a bouncy castle to whoever is booking, the business is called
+Bouncy Castle Man, and /bouncy-castles/ is the page the search term lands on.
+/combi-castles/ redirects to it.
+
 TODOs Adam must supply, all marked below:
   - the real Formspree form ID
   - a business email address (the old site publishes none)
   - confirmation of the delivery areas and any prices he wants shown
   - real reviews (the three here are placeholders and are marked as such)
-  - a photo of the Kiddies Bouncer, and its size and age range. It is the only
-    unit left without a photo and the only one whose specs we do not have.
   - whether he still has the FOUR UNITS REMOVED on 2 Sep. See the note above
     the UNITS list. They come back the moment he says he has them.
 
@@ -22,7 +40,8 @@ hotlinks files.secure.website any more, so nothing breaks at the DNS cutover.
 
 SITE = "https://bouncycastleman.com"
 NAME = "Bouncy Castle Man"
-OWNER = "Adam"
+OWNER = "Adam"                                    # NOT RENDERED. Adam asked for his
+                                                  # name off the contact copy, 3 Sep.
 PHONE_DISPLAY = "087 900 5391"
 PHONE_TEL = "0879005391"
 PHONE_INTL = "+353879005391"
@@ -64,7 +83,11 @@ IMG_COMBI_MINECRAFT = _U + "combi-minecraft.jpg"     # Minecraft Castle 17x19
 IMG_COMBI_COCOMELON = _U + "combi-cocomelon.jpg"     # Cocomelon Castle 17x19
 IMG_COMBI_MINIONS   = _U + "combi-minions.jpg"       # Minions Combi 17x19
 IMG_COMBI_CRAYOLA   = _U + "combi-crayola.jpg"       # Crayola Playland 15x15
-IMG_CASTLE_OUTDOOR  = _U + "castle-outdoor.jpg"      # old site's Combi tile
+# RETIRED 3 Sep 2026. castle-outdoor.jpg was the first hero slide and the
+# Bouncy Castles category hero. Adam: "Under the calendar the first image is
+# of a castle, we no longer have this castle so it can be removed." It is a
+# photo of a unit that is no longer in the fleet, so it is off the site, not
+# moved to the gallery. DO NOT REINSTATE IT.
 IMG_OBS_MAX         = _U + "obs-adrenaline-max.jpg"  # Adrenaline Max 55ft
 IMG_OBS_ZONE        = _U + "obs-adrenaline-zone.jpg" # Adrenaline Zone 55ft
 IMG_OBS_LIZARD      = _U + "obs-red-lizard.jpg"      # Red Lizard 50ft
@@ -133,24 +156,32 @@ IMG_MQ_INSIDE = _MQ + "marquee-inside.jpg"           # INTERIOR, empty and brigh
 # branded "photo coming soon" tile rather than a broken image.
 SOON = "__SOON__"
 
-HERO_MAIN = IMG_CASTLE_OUTDOOR
+HERO_MAIN = IMG_OBS_MAX
 
 # The hero photo is a SLIDESHOW.
-# ORDER MATTERS. The first slide is the first thing anyone sees. The headline
-# above it says bouncy castles, so a bouncy castle goes first, and it is the
-# one outdoor castle photo they have: turrets, a slide, grass, a marquee in the
-# background doing the cross sell for free.
-# The rest alternate sides of the business: marquee, course, combi, marquee,
-# course, dome. Four of the seven are outdoors. The two marquees are in here on
-# purpose, because Adam said that side of the business was being lost.
-# Every one of these is now a LOCAL file. The old hotlinks are gone.
+# ORDER MATTERS. The first slide is the first thing anyone sees.
+#
+# It used to open on castle-outdoor.jpg. Adam killed that on 3 Sep: it is a
+# unit they no longer have. The replacement opener is the Adrenaline Max,
+# which is the best photograph on the whole site and the only one that is
+# outdoors, landscape, in daylight AND has their own branded van in the frame
+# with the phone number on the side.
+#
+# EVERY REMAINING CASTLE PHOTO IS A SUPPLIER WAREHOUSE SHOT, taken on a
+# concrete floor under strip lights, several with Indigo Inflatables' label
+# visible on the unit. They are fine on a unit card where the job is to show
+# what the thing looks like. They are not a hero. That is why an obstacle
+# course opens a page headed "bouncy castle hire", and it stays that way until
+# Adam sends a phone photo of a castle on grass.
+#
+# The rest alternate sides of the business. The two marquees are in here on
+# purpose, because Adam said that side was being lost.
 HERO_SLIDES = [
-    (IMG_CASTLE_OUTDOOR,  "Bouncy Castle",            "Rain cover included"),
-    (IMG_MQ_ASTRO,        "Marquee",                  "20 to 100 people"),
     (IMG_OBS_MAX,         "Adrenaline Max",           "55ft"),
+    (IMG_MQ_ASTRO,        "Marquee",                  "20 to 100 people"),
     (IMG_COMBI_JUNGLE,    "Jungle Castle",            "15x15ft"),
-    (IMG_MQ_PAIR,         "Marquees",                 "Two on site"),
     (IMG_OBS_BLUEYELLOW,  "Blue and Yellow Obstacle", "50ft"),
+    (IMG_MQ_PAIR,         "Marquees",                 "Two on site"),
     (IMG_DISCO,           "Disco Dome",               "Lights and sound"),
 ]
 HERO_IMG = HERO_SLIDES[0][0]
@@ -164,8 +195,11 @@ IMG_AREAS = IMG_OBS_ORANGEGREEN
 # all of it. Almost every hire firm in the trade does deliver and set up, which
 # is exactly why it was easy to write and easy to miss.
 # Ask Adam and put the real wording here.
-DELIVERY_TERMS = ("Ring Adam on " + PHONE_DISPLAY + " and he will go through how the hire "
-                  "works, what is included and what he needs from you on the day.")
+# NO OWNER NAME. Adam, 3 Sep: "Can we remove any reference of my name regarding
+# calls backs and getting in contact." Every one of these used to say "Ring
+# Adam". They say "Ring us" now. Keep it that way.
+DELIVERY_TERMS = ("Ring us on " + PHONE_DISPLAY + " and we will go through how the hire "
+                  "works, what is included and what we need from you on the day.")
 
 # ONE LINE, because one line is all their site supports. The supervision rule
 # and the setup requirements (flat clear surface, blower, power supply) were
@@ -177,48 +211,48 @@ SAFETY = [
 
 # ------------------------------------------------------------- categories ----
 # ORDER IS LOAD BEARING AND IT IS DELIBERATE. This one list drives the rail, the
-# six shelves on the home page, the footer range list and the sitemap, so
-# reordering here reorders the whole site at once.
+# shelves on the home page, the footer range list and the sitemap, so reordering
+# here reorders the whole site at once.
 #
-# Obstacle courses lead. They are the strongest thing this business has to show:
-# ten units against two for bouncy castles, and nine of the ten have a real
-# photo. Bouncy castles led until 2 Sep and opened the page with two "photo
-# coming soon" tiles, which is the worst possible first impression on a site
-# whose whole job is to look like a going concern.
+# FIVE CATEGORIES SINCE 3 SEP, not six. Adam removed the Kiddies Bouncer, which
+# was the only unit left in Bouncy Castles, and killed the one photo that
+# category had. Rather than drop the page, the combi castles moved into it and
+# /combi-castles/ now redirects to /bouncy-castles/.
 #
-# Bouncy castles sit third rather than last on purpose. The business is called
-# Bouncy Castle Man and the h1 says bouncy castle hire, so burying the category
-# entirely would read as a mistake. Third is far enough down that the empty
-# tiles are not the opening shot, and near enough that the promise is kept.
-# Combi castles at two also covers the intent: a combi IS a bouncy castle to
-# whoever is booking, and that shelf has seven units and five photos.
+# Why that way round and not the other:
+#   - the business is called Bouncy Castle Man and the h1 says bouncy castle
+#     hire, so a site with no bouncy castles page reads as a mistake
+#   - "bouncy castle hire tipperary" is the search term the whole site is built
+#     to win, and /bouncy-castles/ is where it lands
+#   - a combi IS a bouncy castle to whoever is booking. It is a bouncing area
+#     with a slide attached, not a different product
+#   - the old site's own /bouncy_castles path redirects here, so nothing that is
+#     already indexed or linked goes anywhere unexpected
 #
-# MOVE BOUNCY CASTLES BACK UP as soon as Adam sends photos of the Standard Arch
-# Castle and the Kiddies Bouncer. The reason it is down here is missing photos,
-# not merit.
+# Bouncy castles lead now. Five units, every one with a photo. They opened with
+# two "photo coming soon" tiles before 2 Sep, which is why obstacle courses were
+# put in front; that reason is gone.
+#
+# NO COUNTS IN ANY INTRO. Adam, 3 Sep: "Can we please remove any reference to
+# the specific amount of units we have." The obstacle intro said nine and the
+# combi intro said five. Both are now described rather than counted.
 #
 # `k` is currently read by nothing. Kept in step with the order anyway so it
 # does not start lying to the next person who greps for it.
 CATEGORIES = [
-    dict(slug="obstacle-courses", cat="obstacle", k="k1", title="Obstacle Courses",
+    dict(slug="bouncy-castles", cat="castle", k="k1", title="Bouncy Castles",
+         hero=IMG_COMBI_JUNGLE,
+         blurb="A full bouncing area with a slide built in, most with a basketball ring.",
+         intro="Our bouncy castles are combi units: a full bouncing area and a slide in the "
+               "one castle, and most have a basketball ring inside. They run from 15ft up to "
+               "19ft, and every one has a full rain cover."),
+    dict(slug="obstacle-courses", cat="obstacle", k="k2", title="Obstacle Courses",
          hero=IMG_OBS_BLUEYELLOW,
          blurb="30ft up to 55ft, with rock climbs, tunnels and slides.",
-         intro="Nine obstacle courses in the range, from a 30ft block run for younger "
-               "children up to the 55ft high adrenaline units with double rock climbs and "
-               "extra high slides. Every course has a full rain cover."),
-    dict(slug="combi-castles", cat="combi", k="k2", title="Combi Castles",
-         hero=IMG_COMBI_JUNGLE,
-         blurb="Bounce area and a built in slide, most with a basketball ring.",
-         intro="Combi castles give you a full bouncing area and a slide in the one unit, and "
-               "most have a basketball ring inside. Five of them in the range, from 15ft up "
-               "to 19ft, every one with a full rain cover."),
-    dict(slug="bouncy-castles", cat="castle", k="k3", title="Bouncy Castles",
-         hero=IMG_CASTLE_OUTDOOR,
-         blurb="A smaller bouncer for younger children.",
-         intro="The kiddies bouncer is the smaller option, for younger children and toddler "
-               "parties where a full size castle is too much. Ring Adam for the size and "
-               "what ages it suits."),
-    dict(slug="disco-dome", cat="disco", k="k4", title="Disco Dome",
+         intro="Obstacle courses from a 30ft block run for younger children up to the 55ft "
+               "high adrenaline units with double rock climbs and extra high slides. Every "
+               "course has a full rain cover."),
+    dict(slug="disco-dome", cat="disco", k="k3", title="Disco Dome",
          hero=IMG_DISCO,
          blurb="Enclosed dome with disco lighting and a full sound system.",
          intro="The disco dome is an enclosed bouncing unit with disco lighting and a full "
@@ -228,13 +262,13 @@ CATEGORIES = [
     # It is NOT the old site's masthead graphic, which is the wordmark on a blue
     # ground and cropped to a 16/10 banner rendered as a zoomed fragment of the
     # word CASTLE. Never put that back.
-    dict(slug="sumo-gladiator", cat="sumo", k="k5", title="Sumo & Gladiator",
+    dict(slug="sumo-gladiator", cat="sumo", k="k4", title="Sumo & Gladiator",
          hero=IMG_GLADIATOR,
          blurb="Sumo suits and the gladiator challenge for older groups.",
-         intro="Sumo suits and the gladiator challenge are our two units for adults and "
-               "corporate days. Their old site put both under Corporate Hire, so ring Adam "
+         intro="Sumo suits and the gladiator challenge are what we hire for adults and "
+               "corporate days. Their old site put both under Corporate Hire, so ring us "
                "for numbers and availability."),
-    dict(slug="marquees", cat="marquee", k="k6", title="Marquees",
+    dict(slug="marquees", cat="marquee", k="k5", title="Marquees",
          hero=IMG_MQ_PAIR,
          blurb="Marquees in a range of sizes, with flooring, furniture, lighting and heat.",
          intro="We hire marquees in a range of sizes across Tipperary and the surrounding "
@@ -268,9 +302,11 @@ CATEGORIES = [
 # says only that it exists. It is the whole Bouncy Castles category now.
 #
 # Put any of the four back the moment Adam confirms he has it, with a photo.
-# Counts that move with them, all updated in this file: the WHY cell (nineteen),
-# the obstacle intro (nine) and the combi intro (five). HIRE_UNITS in pages.py
-# counts the list, so it follows on its own.
+# NOTHING COUNTS THEM ANY MORE. The WHY cell, the two category intros and the
+# home page facts strip all carried a number and all three are gone, because
+# Adam asked on 3 Sep for every reference to the specific amount of units to
+# come off the site. Adding a unit is now a one line change here and nowhere
+# else. Keep it that way.
 
 # ------------------------------------------------------------------ units ----
 def _u(slug, n, cat, tag, short, body, specs, img=SOON, price="Call for price", gallery=()):
@@ -279,36 +315,36 @@ def _u(slug, n, cat, tag, short, body, specs, img=SOON, price="Call for price", 
 
 
 UNITS = [
-    # ---- combi castles ----
-    _u("minions-combi-castle", "Minions Combi Castle 17 x 19ft", "combi", "17x19ft",
+    # ---- bouncy castles, all of them combi units ----
+    _u("minions-combi-castle", "Minions Combi Castle 17 x 19ft", "castle", "17x19ft",
        "Minions themed combi with a slide, basketball ring and rain cover.",
        ["A themed combi castle at 17ft by 19ft with the slide built in and a basketball ring "
         "inside. A reliable pick for younger birthday parties.",
         "Full rain cover included."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"), ("Basketball ring", "Yes"),
         ("Rain cover", "Full cover included")], img=IMG_COMBI_MINIONS),
-    _u("cocomelon-castle", "Cocomelon Castle 17 x 19ft", "combi", "17x19ft",
+    _u("cocomelon-castle", "Cocomelon Castle 17 x 19ft", "castle", "17x19ft",
        "Cocomelon themed unit with a large bounce area, slide and rain cover.",
        ["The Cocomelon castle suits smaller children. It has a large bouncing area with the "
         "slide built into the same unit.",
         "Rain cover included as standard."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"),
         ("Rain cover", "Full cover included")], img=IMG_COMBI_COCOMELON),
-    _u("minecraft-castle", "Minecraft Castle 17 x 19ft", "combi", "17x19ft",
+    _u("minecraft-castle", "Minecraft Castle 17 x 19ft", "castle", "17x19ft",
        "Minecraft themed combi with a large bounce area, slide and rain cover.",
        ["A Minecraft themed combi at 17ft by 19ft, with a large bouncing area and a slide in "
         "the one unit.",
         "Rain cover included as standard."],
        [("Size", "17ft x 19ft"), ("Slide", "Built in"),
         ("Rain cover", "Full cover included")], img=IMG_COMBI_MINECRAFT),
-    _u("crayola-playland", "Crayola Playland 15 x 15ft", "combi", "15x15ft",
+    _u("crayola-playland", "Crayola Playland 15 x 15ft", "castle", "15x15ft",
        "Bright Crayola themed unit with an internal slide and rain cover.",
        ["The Crayola Playland is a 15ft by 15ft unit with the slide inside rather than on the "
         "outside, which suits smaller gardens and younger children.",
         "Rain cover included."],
        [("Size", "15ft x 15ft"), ("Slide", "Internal"),
         ("Rain cover", "Included")], img=IMG_COMBI_CRAYOLA),
-    _u("jungle-castle", "Jungle Castle 15 x 15ft", "combi", "Up to 8 yrs",
+    _u("jungle-castle", "Jungle Castle 15 x 15ft", "castle", "Up to 8 yrs",
        "Jungle themed unit with a large bounce area and slide, suited to under eights.",
        ["The Jungle Castle is a 15ft by 15ft unit with a large bouncing area and a slide, and "
         "it is sized for children up to about eight years old.",
@@ -316,31 +352,15 @@ UNITS = [
        [("Size", "15ft x 15ft"), ("Slide", "Built in"), ("Ages", "Up to 8 years"),
         ("Rain cover", "Included")], img=IMG_COMBI_JUNGLE),
 
-    # ---- bouncy castles ----
-    # THE ONLY UNIT ON THIS SITE WITHOUT PUBLISHED SPECS. Audited 2 Sep against
-    # every page of bouncycastleman.com: 22 of the 23 units are there with their
-    # sizes and features written out, and this one is not. It appears once, in
-    # the home page range list, as the words "Kiddies Bouncers" and nothing else.
-    #
-    # So the NAME is theirs and everything else was ours. It used to say "our
-    # smallest unit" (a claim about a fleet we have not seen), "sized for
-    # toddlers and pre school age children" (an inference off the word kiddies)
-    # and carry specs for who it suits and a rain cover (asserted, not
-    # published). All four are gone. What is left says only that the unit
-    # exists, which is the part their site actually supports.
-    #
-    # Get the size, the age range and whether it has a rain cover from Adam and
-    # put them back. Do not infer them from the name a second time.
-    _u("kiddies-bouncer", "Kiddies Bouncer", "castle", "Ring us",
-       "A smaller bouncer for younger children. Ring us for the size.",
-       ["The kiddies bouncer is the smaller option for younger children.",
-        "Ring Adam for the size, what ages it suits and availability for your date."],
-       []),
+    # THE KIDDIES BOUNCER WAS HERE AND IT IS GONE. Adam, 3 Sep 2026: "You can
+    # remove the section about the kiddies bouncer as we no longer have it."
+    # It was the last unit in the old Bouncy Castles category, which is why
+    # that category is now the combis. Do not put it back.
 
     # ---- obstacle courses ----
     _u("adrenaline-max", "Adrenaline Max 55 x 15ft", "obstacle", "55ft",
        "High adrenaline 55ft course with an extra high slide and double rock climb.",
-       ["The Adrenaline Max is one of the two biggest units we run. At 55ft by 15ft it has an "
+       ["The Adrenaline Max is one of the biggest units we run. At 55ft by 15ft it has an "
         "extra high slide, a double rock climb, biff and bash, tunnels and bash pillars.",
         "Their own listing calls it a high adrenaline unit. Full rain cover included."],
        [("Size", "55ft x 15ft"), ("Slide", "Extra high"), ("Rock climb", "Double"),
@@ -423,7 +443,7 @@ UNITS = [
     _u("sumo-suits", "Sumo Suits", "sumo", "Groups",
        "Adult size padded sumo suits, with the mat and two helmets.",
        ["A set of padded sumo suits, adult size, with the sumo mat and two helmets.",
-        "Their corporate page is where these live, so ring Adam for numbers and availability."],
+        "Their corporate page is where these live, so ring us for numbers and availability."],
        # "Adult supervision required" and "Teenagers" were ours. Their corporate
        # page gives the size, the mat, the two helmets and the words "We
        # specialize in corporate hire", and nothing else. Corporate stays
@@ -437,7 +457,7 @@ UNITS = [
        "Head to head gladiator duel platform, 5m by 5m, for adults and corporate days.",
        ["The gladiator challenge is a head to head duel on a raised platform with padded "
         "poles. Two go up, one comes down.",
-        "5m by 5m. Ring Adam for numbers and availability."],
+        "5m by 5m. Ring us for numbers and availability."],
        [("Size", "5m x 5m"), ("Format", "Head to head"),
         ("Suits", "Adults and corporate days")], img=IMG_GLADIATOR),
 
@@ -449,7 +469,7 @@ UNITS = [
         "events.",
         "A marquee can go out on its own, or with flooring, tables, chairs, lighting and "
         "heating.",
-        "Communions, confirmations, corporate days, birthdays and family parties. Ring Adam "
+        "Communions, confirmations, corporate days, birthdays and family parties. Ring us "
         "with your date and the numbers you are expecting and we will size it for you."],
        [("Sizes", "A range, sized to your numbers"), ("Numbers", "20 to 100 people"),
         ("Flooring", "Available"),
@@ -506,8 +526,8 @@ AREAS = [
          nearby="Ardfinnan, Kilsheelan and Fethard",
          copy=["We cover Clonmel and out through Ardfinnan, Kilsheelan and Fethard, with "
                "bouncy castles, combi castles and the full run of obstacle courses.",
-               "Back garden birthdays, school sports days and community fun days. Ring Adam "
-               "with your date and he will tell you what is free."]),
+               "Back garden birthdays, school sports days and community fun days. Ring us "
+               "with your date and we will tell you what is free."]),
     dict(slug="bouncy-castle-hire-thurles", town="Thurles", county="Co Tipperary",
          nearby="Holycross, Littleton and Two Mile Borris",
          copy=["Thurles is home ground. We are based here, so it is the shortest run we do.",
@@ -560,13 +580,23 @@ REDIRECTS = [
     ("/index", "/"),
     ("/obstacle_courses", "/obstacle-courses/"),
     ("/bouncy_castles", "/bouncy-castles/"),
+    # The combis moved into /bouncy-castles/ on 3 Sep when the Kiddies Bouncer
+    # came off and left that category empty. This keeps every link we have
+    # already sent Adam, and anything Google picked up off the draft, alive.
+    ("/combi-castles", "/bouncy-castles/"),
+    ("/combi-castles/", "/bouncy-castles/"),
     ("/disco_dome", "/disco-dome/"),
     ("/marquees", "/marquees/"),
     ("/gallery", "/gallery/"),
     ("/contact", "/contact/"),
 ]
 
-AREA_OPTIONS = [a["town"] for a in AREAS] + ["Littleton", "Borrisokane", "Newport"]
+# AREA_OPTIONS FED THE AREA CHECKER, WHICH IS GONE. Adam, 3 Sep: "We also
+# don't see the benefit of the 'Do we come to you' box where you select your
+# town. Once the areas are mentioned and also mentioning if your area is not
+# listed please still call as we may reach you is sufficient." The town list
+# and that one line are what is on the site now, on the home page, the areas
+# page and the contact page. Do not rebuild the picker.
 
 # ------------------------------------------------------------------- misc ----
 # Step three used to be "We deliver and set up", describing a drop, a safety
@@ -574,14 +604,26 @@ AREA_OPTIONS = [a["town"] for a in AREAS] + ["Littleton", "Borrisokane", "Newpor
 # What is left describes only the enquiry, which is the part we can stand over,
 # because it is the thing this website actually does.
 STEPS = [
-    ("Pick your unit", "Have a look through the range and note the one you want, or ring Adam "
+    ("Pick your unit", "Have a look through the range and note the one you want, or ring us "
                        "and he will talk you through what suits the space and the ages."),
     ("Send us the date", "Your date, your town and the ages of the children is all we need. "
                          "Ring, WhatsApp or use the form."),
-    ("Adam comes back to you", "He confirms what is free on your date and what it costs. "
-                               "Nothing is booked until the two of you have spoken."),
+    ("We come back to you", "We confirm what is free on your date and what it costs. "
+                            "Nothing is booked until we have spoken."),
 ]
 
+# THREE CELLS, NOT SIX. Adam's first note on 3 Sep was that the home page shows
+# too much and scrolls too long, and this bento was six cells of it. What is
+# left is the three things a person actually weighs before ringing a hire firm:
+# are they real, are they insured, and does rain cancel it.
+#
+# The three that went:
+#   "Nineteen units in the range"      a COUNT. Adam asked for every count off
+#                                      the site. Do not put one back.
+#   "Quality, service and punctuality" their own words, but it is a slogan and
+#                                      it sat beside two hard facts
+#   "Every kind of day"                a list of occasions, already covered by
+#                                      the copy on the area and category pages
 WHY = [
     # The old site says "Established in 2001", "Family Run Business" and "20+
     # Years Experience". It says nothing about the phone number never changing,
@@ -590,30 +632,12 @@ WHY = [
     ("\U0001F3F0", "Family run since " + FOUNDED,
      "Over twenty years hiring castles and courses across Tipperary, and still the same "
      "family running it."),
-    ("\U0001F6E1️", "Fully insured and IIHF certified",
+    ("\U0001F6E1\ufe0f", "Fully insured and IIHF certified",
      "We are fully insured and certified with the Irish Inflatable Hirers Federation, so "
      "schools and committees can book with confidence."),
-    # Was "Tipperary's biggest selection", which we could not source and which is
-    # a claim about competitors. The count is a fact about their own catalogue.
-    ("\U0001F4CF", "Nineteen units in the range",
-     "From a 30ft block run up to the 55ft high adrenaline courses, plus combis, disco dome, "
-     "sumo suits and marquees."),
-    # "Every castle and course" is not quite true any more. Their listings name a
-    # rain cover on nearly all of them, but the Kiddies Bouncer has no published
-    # spec at all, so "every" was reaching one unit further than the source.
-    ("☔", "Rain covers on the range",
+    ("\u2614", "Rain covers on the range",
      "Their listings name a rain cover on castles, combis and courses alike, so an Irish "
      "forecast does not cancel the party."),
-    # Was "Delivered, set up and collected. You do not lift a thing." Nothing on
-    # their site or in an email says they deliver, so it is gone. This replaces
-    # it with their own sentence, verbatim from bouncycastleman.com:
-    # "We promise quality, top class service and punctuality."
-    ("\U0001F44D", "Quality, service and punctuality",
-     "Their own promise, and the reason most of the work comes back around again through the "
-     "same schools, clubs and families."),
-    ("\U0001F389", "Every kind of day",
-     "Birthdays, communions, confirmations, school sports days, corporate events, carnivals "
-     "and community fun days."),
 ]
 
 # TODO: placeholders. Replace with Adam's real reviews before go-live.
@@ -637,8 +661,8 @@ REVIEWS_NOTE = ("This is where three of your reviews will go. Send us the three 
 
 FAQS = [
     ("What can I hire?",
-     "Bouncy castles, combi castles with slides, obstacle courses from 30ft up to 55ft, a "
-     "disco dome, sumo suits, the gladiator challenge and marquees."),
+     "Bouncy castles with built in slides, obstacle courses from 30ft up to 55ft, a disco "
+     "dome, sumo suits, the gladiator challenge and marquees."),
     ("What areas do you cover?",
      "We cover Tipperary and the surrounding areas, including Clonmel, Thurles, Nenagh, "
      "Cashel, Roscrea, Tipperary Town, Templemore, Cahir and Carrick on Suir. If your town is "
@@ -658,7 +682,7 @@ FAQS = [
 # five different inflatables the same caption, so on a unit page one of them
 # would be making a claim we cannot stand over. In a gallery no photo claims to
 # be a particular unit, which is exactly what these are good for.
-GALLERY = [IMG_MQ_ASTRO, IMG_CASTLE_OUTDOOR, IMG_MQ_TABLES, IMG_OBS_BLUEYELLOW,
+GALLERY = [IMG_MQ_ASTRO, IMG_MQ_TABLES, IMG_OBS_BLUEYELLOW,
            IMG_MQ_LONG, IMG_OBS_MAX, IMG_MQ_INSIDE, IMG_OBS_MAX_BLUE,
            IMG_MQ_STONE, IMG_OBS_MAX_TEAL, IMG_MQ_FLOOR, IMG_OBS_MAX_RED,
            IMG_MQ_PAIR, IMG_OBS_BOOSTER_2, IMG_MQ_TREE, IMG_OBS_BOOSTER_IN,
