@@ -686,12 +686,19 @@ h3{font-size:var(--step-1);line-height:1.18}
    than as short. auto-flow row so the cards lay out normally, and a max so two
    cards do not stretch to 700px each. */
 .track.short{grid-auto-flow:row;overflow-x:visible;scroll-snap-type:none;
-  /* 360px MAX, not 1fr. With 1fr the disco dome's single card stretched to
-     744px, which looks more broken than the gap it was fixing. Capped, the
-     cards stay the size cards are everywhere else on the page and just sit
-     left, which is what a short row is supposed to look like. */
-  grid-template-columns:repeat(auto-fit,minmax(232px,360px));
-  max-width:840px}
+  /* THE CAP IS ON THE TRACK, NOT THE COLUMN. It used to be
+     minmax(232px,360px), which reads as "232 minimum, 360 maximum" and is not
+     how auto-fit counts: Chrome packs the tracks at the MAX, so an 840px box
+     fitted two 360s and sent a third card onto its own row. The folded disco
+     and sumo shelf is exactly three cards and it wrapped 2 + 1, which is worse
+     than the empty track the fold was meant to fix.
+     minmax(232px,1fr) counts at the minimum and then stretches, which is the
+     behaviour the old rule was reaching for. --smax caps the whole track so a
+     short row still does not span the column: pages.py sets it per shelf from
+     the number of cards, about 360px a card at two and 300 at three. Without
+     it, 1fr is exactly the bug the 360 was added to fix. */
+  grid-template-columns:repeat(auto-fit,minmax(232px,1fr));
+  max-width:var(--smax,840px)}
 @media(max-width:560px){.track{grid-auto-columns:minmax(210px,74%)}
   .track.short{grid-template-columns:1fr;max-width:none}}
 

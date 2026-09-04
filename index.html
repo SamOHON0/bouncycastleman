@@ -20,7 +20,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Figtree:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/assets/styles.387d3796.css">
+<link rel="stylesheet" href="/assets/styles.73248e88.css">
 <script>document.documentElement.className+=" js"</script>
 </head>
 <body>
@@ -85,9 +85,9 @@
 
   <section class="shelf" data-shelf data-reveal data-cat="castle" aria-label="Bouncy Castles">
     <div class="shelf-head">
-      <span class="dot"></span>
+      <span class="dot" data-cat="castle"></span>
       <h3>Bouncy Castles</h3>
-      <a class="all" href="/bouncy-castles/">See them all</a>
+      <a class="all" data-cat="castle" href="/bouncy-castles/">See them all</a>
       <div class="shelf-nav">
         <button type="button" data-dir="prev" aria-label="Scroll Bouncy Castles left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
         <button type="button" data-dir="next" aria-label="Scroll Bouncy Castles right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
@@ -128,9 +128,9 @@
 
   <section class="shelf" data-shelf data-reveal data-cat="obstacle" aria-label="Obstacle Courses">
     <div class="shelf-head">
-      <span class="dot"></span>
+      <span class="dot" data-cat="obstacle"></span>
       <h3>Obstacle Courses</h3>
-      <a class="all" href="/obstacle-courses/">See them all</a>
+      <a class="all" data-cat="obstacle" href="/obstacle-courses/">See them all</a>
       <div class="shelf-nav">
         <button type="button" data-dir="prev" aria-label="Scroll Obstacle Courses left"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg></button>
         <button type="button" data-dir="next" aria-label="Scroll Obstacle Courses right"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg></button>
@@ -193,30 +193,20 @@
 </div>
   </section>
 
-  <section class="shelf" data-shelf data-reveal data-cat="disco" aria-label="Disco Dome">
+  <section class="shelf" data-shelf data-reveal data-cat="disco" aria-label="Disco Dome, Sumo &amp; Gladiator">
     <div class="shelf-head">
-      <span class="dot"></span>
-      <h3>Disco Dome</h3>
-      <a class="all" href="/disco-dome/">See them all</a>
+      <span class="dot" data-cat="disco"></span><span class="dot" data-cat="sumo"></span>
+      <h3>Disco Dome, Sumo &amp; Gladiator</h3>
+      <a class="all" data-cat="disco" href="/disco-dome/">Disco Dome</a><a class="all" data-cat="sumo" href="/sumo-gladiator/">Sumo &amp; Gladiator</a>
       
     </div>
-    <div class="track short">      <a class="card" href="/hire/disco-dome/" data-cat="disco">
+    <div class="track short" style="--smax:1020px">      <a class="card" href="/hire/disco-dome/" data-cat="disco">
         <span class="pic" style="--ratio:4/3"><span class="card-tag">17x19ft</span><img src="/images/units/disco-dome.jpg" alt="Disco Dome 17 x 19ft" loading="lazy"></span>
         <h3>Disco Dome 17 x 19ft</h3>
         <p>Enclosed dome with disco lighting and a full surround sound system.</p>
         <div class="card-foot"><span class="price">Call for price</span><span class="card-cta">View</span></div>
       </a>
-</div>
-  </section>
-
-  <section class="shelf" data-shelf data-reveal data-cat="sumo" aria-label="Sumo & Gladiator">
-    <div class="shelf-head">
-      <span class="dot"></span>
-      <h3>Sumo & Gladiator</h3>
-      <a class="all" href="/sumo-gladiator/">See them all</a>
-      
-    </div>
-    <div class="track short">      <a class="card" href="/hire/sumo-suits/" data-cat="sumo">
+      <a class="card" href="/hire/sumo-suits/" data-cat="sumo">
         <span class="pic" style="--ratio:4/3"><span class="card-tag">Groups</span><img src="/images/units/sumo-suit.jpg" alt="Sumo Suits" loading="lazy"></span>
         <h3>Sumo Suits</h3>
         <p>Adult size padded sumo suits, with the mat and two helmets.</p>
@@ -233,12 +223,12 @@
 
   <section class="shelf" data-shelf data-reveal data-cat="marquee" aria-label="Marquees">
     <div class="shelf-head">
-      <span class="dot"></span>
+      <span class="dot" data-cat="marquee"></span>
       <h3>Marquees</h3>
-      <a class="all" href="/marquees/">See them all</a>
+      <a class="all" data-cat="marquee" href="/marquees/">See them all</a>
       
     </div>
-    <div class="track short">      <a class="card" href="/hire/marquee-hire/" data-cat="marquee">
+    <div class="track short" style="--smax:824px">      <a class="card" href="/hire/marquee-hire/" data-cat="marquee">
         <span class="pic" style="--ratio:4/3"><span class="card-tag">All seasons</span><img src="/images/marquees/marquee-long-grass.jpg" alt="Marquee Hire" loading="lazy"></span>
         <h3>Marquee Hire</h3>
         <p>Marquees in a range of sizes, with flooring, furniture, lighting and heating.</p>

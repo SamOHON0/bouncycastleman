@@ -61,33 +61,63 @@ def faq_markup():
 
 
 # ---------------------------------------------------------------- home ------
-def shelf(c):
-    """One category as a horizontal scroll shelf. Replaces the old tile grid
-    plus filtered card grid: the range is browsed by walking sideways through
-    the category you actually want."""
-    units = [u for u in D.UNITS if u["cat"] == c["cat"]]
+def shelf(*cats):
+    """One shelf on the home page. Usually one category, sometimes two.
+
+    Replaces the old tile grid plus filtered card grid: the range is browsed by
+    walking sideways through the category you actually want.
+
+    TAKES *cats, NOT ONE CATEGORY, because Disco Dome (one unit) and
+    Sumo & Gladiator (two) share a shelf. See D.HOME_SHELVES for why. A folded
+    shelf gets a colour dot and a page link PER CATEGORY, so both pages stay
+    linked from the home page and neither colour goes missing from the system.
+    The cards carry their own data-cat either way, so card accents are right
+    without this function doing anything about them.
+    """
+    keys = [c["cat"] for c in cats]
+    units = [u for u in D.UNITS if u["cat"] in set(keys)]
     cards = "".join(card(u) for u in units)
-    # A SHELF WITH ONE OR TWO UNITS IS NOT A SHELF, IT IS A ROW.
+    label = ", ".join(c["title"] for c in cats)
+
+    # A SHELF WITH THREE UNITS OR FEWER IS NOT A SHELF, IT IS A ROW.
     # The track sizes columns at a fixed 268px max, which is right when six
     # cards run off the edge and wrong when two sit in a 1600px band with half
-    # the screen empty beside them. Bouncy Castles has two units and the disco
-    # dome has one, and both looked broken rather than short.
-    # Under three, the track stops being a scroller and becomes a plain grid
-    # whose cards share the width. Capped at 3 because four already fills a
-    # desktop row and a full-width four would look stretched.
-    short = " short" if len(units) < 3 else ""
+    # the screen empty beside them.
+    # At or under three, the track stops being a scroller and becomes a plain
+    # grid whose cards share the width. Three rather than the old two because
+    # the folded disco and sumo shelf is exactly three, and .track.short caps
+    # at 840px, which is three cards at the width cards are everywhere else.
+    # Four would wrap and is better left as a scroller.
+    short = " short" if len(units) < 4 else ""
+    # How wide a short row is allowed to get. The track stretches its cards to
+    # fill whatever it is given, so this is what stops three cards spanning the
+    # whole content column and looking like a different component from the
+    # scrolling shelves above them. Roughly 360px a card at two and 300 at
+    # three, plus the track's own left and right gutters at desktop.
+    smax = 88 + len(units) * (300 if len(units) > 2 else 360) + (len(units) - 1) * 16
+    style = f' style="--smax:{smax}px"' if short else ""
+
+    dots = "".join(f'<span class="dot" data-cat="{c["cat"]}"></span>' for c in cats)
+    # One link per category. On a single shelf this reads "See them all"; on a
+    # folded one the pages have to be named apart or the two links are
+    # indistinguishable.
+    links = "".join(
+        f'<a class="all" data-cat="{c["cat"]}" href="/{c["slug"]}/">'
+        f'{esc("See them all" if len(cats) == 1 else c["title"])}</a>'
+        for c in cats)
+
     return f"""
-  <section class="shelf" data-shelf data-reveal data-cat="{c['cat']}" aria-label="{c['title']}">
+  <section class="shelf" data-shelf data-reveal data-cat="{keys[0]}" aria-label="{esc(label)}">
     <div class="shelf-head">
-      <span class="dot"></span>
-      <h3>{c['title']}</h3>
-      <a class="all" href="/{c['slug']}/">See them all</a>
+      {dots}
+      <h3>{esc(label)}</h3>
+      {links}
       {"" if short else f'''<div class="shelf-nav">
-        <button type="button" data-dir="prev" aria-label="Scroll {c['title']} left">{ico("left")}</button>
-        <button type="button" data-dir="next" aria-label="Scroll {c['title']} right">{ico("right")}</button>
+        <button type="button" data-dir="prev" aria-label="Scroll {esc(label)} left">{ico("left")}</button>
+        <button type="button" data-dir="next" aria-label="Scroll {esc(label)} right">{ico("right")}</button>
       </div>'''}
     </div>
-    <div class="track{short}">{cards}</div>
+    <div class="track{short}"{style}>{cards}</div>
   </section>
 """
 
@@ -140,7 +170,17 @@ def build_home():
         '<div class="who">Send us three and we will set them in</div></div>')
 
     towns = "".join(f'<a href="/{a["slug"]}/">{a["town"]}</a>' for a in D.AREAS)
-    shelves = "".join(shelf(c) for c in D.CATEGORIES)
+    # HOME_SHELVES groups the categories; it does not define them. Assert the
+    # two lists still describe the same set, so adding a category and
+    # forgetting the grouping fails the build rather than silently dropping the
+    # category off the home page.
+    by_cat = {c["cat"]: c for c in D.CATEGORIES}
+    grouped = [k for g in D.HOME_SHELVES for k in g]
+    assert sorted(grouped) == sorted(by_cat), (
+        "HOME_SHELVES and CATEGORIES disagree: %s vs %s"
+        % (sorted(grouped), sorted(by_cat)))
+    assert len(grouped) == len(set(grouped)), "a category is on two home shelves"
+    shelves = "".join(shelf(*[by_cat[k] for k in g]) for g in D.HOME_SHELVES)
 
     html = head(
         "Bouncy Castle Hire Tipperary | Obstacle Courses, Combi Castles &amp; Marquees | " + D.NAME,

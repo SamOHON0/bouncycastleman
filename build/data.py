@@ -278,6 +278,32 @@ CATEGORIES = [
                "tables and chairs on their own as well."),
 ]
 
+# ------------------------------------------------------- home page shelves ---
+# HOW THE HOME PAGE GROUPS THE CATEGORIES INTO SHELVES. This is the ONLY thing
+# it controls. The rail, the category pages, their URLs and the sitemap all
+# still treat the five categories above as five separate things.
+#
+# Disco Dome is one unit and Sumo & Gladiator is two. On their own that was two
+# headings, two rules of whitespace and two mostly empty tracks for three cards
+# between them, on a page whose one piece of client feedback was that it scrolls
+# too long. Folded together they are one row of three, which is what they are.
+#
+# They pair honestly rather than conveniently: the dome, the sumo suits and the
+# gladiator platform are the units people hire for teenagers, adults and work
+# days, as against the castles and courses that go to children's parties. Both
+# category pages are still linked from the shelf head, one link each, and each
+# keeps its own colour dot so the colour system does not start lying.
+#
+# EVERY CATEGORY MUST APPEAR HERE EXACTLY ONCE. pages.py asserts it, so adding a
+# category and forgetting this list fails the build instead of quietly dropping
+# the category off the home page.
+HOME_SHELVES = [
+    ["castle"],
+    ["obstacle"],
+    ["disco", "sumo"],
+    ["marquee"],
+]
+
 # ---- FOUR UNITS WERE REMOVED ON 2 SEP. DO NOT PUT THEM BACK WITHOUT ADAM. ----
 #
 #   Large Combi Castle 19 x 19ft
